@@ -5,7 +5,7 @@ const RegisterForm: React.FC = () => {
   const initialValues = {
     login: "",
     password: "",
-    secret: "",
+    codePass: "",
   };
   const hideShowPassword = () => {
     setShow(!show);
