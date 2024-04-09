@@ -5,6 +5,8 @@ import { IoMdLogIn } from "react-icons/io";
 import { MdDoneOutline, MdAccessibilityNew } from "react-icons/md";
 import { GrClose } from "react-icons/gr";
 import { FaAngleUp } from "react-icons/fa";
+import { GiSteeringWheel } from "react-icons/gi";
+import { TbCarTurbine } from "react-icons/tb";
 import { theme } from "theme/theme";
 
 interface CustomIconProps {
@@ -13,7 +15,7 @@ interface CustomIconProps {
   color?: string;
 }
 
-const defaultSize = window.devicePixelRatio > 1 ? "30" : "25";
+const defaultSize = window.devicePixelRatio > 1 ? "34" : "30";
 const defaultColor = theme.colors.accent;
 
 const CustomIcon: React.FC<CustomIconProps> = ({ icon: Icon, size, color }) => {
@@ -33,6 +35,14 @@ const IconWrapper: React.FC<{
 
 const HomeIcon: React.FC<{ size?: string; color?: string }> = (props) => (
   <IconWrapper icon={AiOutlineHome} {...props} />
+);
+
+const SteeringIcon: React.FC<{ size?: string; color?: string }> = (props) => (
+  <IconWrapper icon={GiSteeringWheel} {...props} />
+);
+
+const TurbineIcon: React.FC<{ size?: string; color?: string }> = (props) => (
+  <IconWrapper icon={TbCarTurbine} {...props} />
 );
 
 const SigInIcon: React.FC<{ size?: string; color?: string }> = (props) => (
@@ -69,6 +79,8 @@ const TopIcon: React.FC<{ size?: string; color?: string }> = (props) => (
 
 export {
   HomeIcon,
+  SteeringIcon,
+  TurbineIcon,
   SigInIcon,
   LoginIcon,
   DeleteIcon,

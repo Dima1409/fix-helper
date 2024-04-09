@@ -5,6 +5,7 @@ import { refreshUser } from "../redux/auth/operations";
 import { useDispatch } from "react-redux";
 import Routs from "components/Routs";
 import SharedLayout from "components/SharedLayout/SharedLayout";
+import SearchForm from "components/SearchForm";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
@@ -60,6 +61,32 @@ const App: React.FC = () => {
                 )}
                 redirectTo="/"
               ></Routs.RestrictedRoute>
+            }
+          ></Route>
+          <Route
+            path="steering"
+            element={
+              <Routs.PrivateRoute
+                component={() => (
+                  <LazyPage>
+                    <SearchForm />
+                  </LazyPage>
+                )}
+                redirectTo="/"
+              />
+            }
+          ></Route>
+          <Route
+            path="turbine"
+            element={
+              <Routs.PrivateRoute
+                component={() => (
+                  <LazyPage>
+                    <SearchForm />
+                  </LazyPage>
+                )}
+                redirectTo="/"
+              />
             }
           ></Route>
         </Route>

@@ -1,6 +1,12 @@
 import { Outlet } from "react-router-dom";
 import useAuth from "hooks/useAuth";
-import { HomeIcon, SigInIcon, LoginIcon } from "components/Icons/Icons";
+import {
+  HomeIcon,
+  SteeringIcon,
+  TurbineIcon,
+  SigInIcon,
+  LoginIcon,
+} from "components/Icons/Icons";
 import { NavList, Link, NavListItem } from "./SharedLayout.styled";
 import { theme } from "theme/theme";
 
@@ -41,6 +47,18 @@ const SharedLayout: React.FC = () => {
               <Link to="/">
                 <HomeIcon color={theme.colors.light} />
                 Головна
+              </Link>
+            </NavListItem>
+            <NavListItem>
+              <Link to="/steering">
+                <SteeringIcon color={theme.colors.light} />
+                Кермові рейки
+              </Link>
+            </NavListItem>
+            <NavListItem>
+              <Link to="/turbine">
+                <TurbineIcon color={theme.colors.light} />
+                Турбіни
               </Link>
             </NavListItem>
           </>
