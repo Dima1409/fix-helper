@@ -10,7 +10,7 @@ const FormLogin = styled(Form)`
   padding: 20px 8px;
   border-radius: ${theme.radii.small};
   ${theme.mq.tablet} {
-    width: 480px;
+    width: 560px;
     margin: 0 auto;
   }
 `;
@@ -22,6 +22,7 @@ const FormLabel = styled.label`
   font-size: ${theme.fontSizes.small};
   margin-bottom: 20px;
   ${theme.mq.tablet} {
+    width: 300px;
     font-size: ${theme.fontSizes.normal};
     margin-bottom: 40px;
   }
@@ -45,6 +46,9 @@ const FormInput = styled(Field)`
   &.error {
     border-color: ${theme.colors.invalid};
   }
+  ${theme.mq.tablet} {
+    width: 100%;
+  }
 `;
 
 const ButtonShow = styled.button`
@@ -61,6 +65,10 @@ const ButtonShow = styled.button`
   top: 0;
   &:hover {
     cursor: pointer;
+  }
+  ${theme.mq.tablet} {
+    left: 92%;
+    top: 2%;
   }
 `;
 

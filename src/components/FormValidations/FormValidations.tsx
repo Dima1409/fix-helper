@@ -25,7 +25,7 @@ const validationRegister = yup.object().shape({
     .required("Поле пароль обов'язкове"),
   codePass: yup
     .string()
-    .matches(codePassPattern, "Введіть від 6 до 20 символів")
+    .matches(codePassPattern, "Від 6 до 20 символів + літери")
     .required("Поле код-секрет обов'язкове"),
 });
 
