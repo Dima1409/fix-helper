@@ -9,7 +9,6 @@ import { LogOutIcon } from "components/Icons/Icons";
 const UserMenu: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const { isLoggedIn, user } = useAuth();
-  console.log(user);
 
   const handleLogOut = async () => {
     const shouldLogout = window.confirm("Вийти з облікового запису?");

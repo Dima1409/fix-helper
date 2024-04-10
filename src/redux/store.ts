@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/slice";
+import { rackReducer } from "./rack/slice";
 
 const authPersistConfig = {
   key: "g-author",
@@ -20,6 +21,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
+  rack: rackReducer,
 });
 
 export const store = configureStore({
