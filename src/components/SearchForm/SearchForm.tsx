@@ -22,8 +22,8 @@ const SearchForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      dispatchTyped(getByName());
       setSearchData(initialValues);
+      dispatchTyped(getByName({ name: searchData.searchValue }));
     } catch (error) {
       console.log(error);
     }
