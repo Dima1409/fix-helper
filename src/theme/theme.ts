@@ -8,6 +8,7 @@ const theme = {
   colors: {
     accent: "#78b5f0",
     accentActive: "#083ac4",
+    textColor: "#071745;",
     background: "#d8f0f0",
     incomeHeader: "#095a16",
     expensesHeader: "#bc5915",

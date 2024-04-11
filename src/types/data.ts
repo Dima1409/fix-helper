@@ -1,6 +1,9 @@
-export interface ISearchRack {
-  _id: string;
-  type: string;
+export interface Rack {
+  id?: string;
   name: string;
-  photo: string;
+  type: string;
+  kit: string;
+  application: string;
+  oem: string;
+  image: string;
 }

@@ -5,39 +5,30 @@ import {
   createNewRack,
   deleteRack,
 } from "./operations";
+import { Rack } from "types/data";
 
-interface Racks {
-  id?: string;
-  name: string;
-  type: string;
-  kit: string;
-  application: string;
-  oem: string;
-  image: string;
-}
-
-interface RacksState {
-  racks: Racks[];
+interface RackState {
+  rack: Rack[];
   isLoading: boolean;
   error: string | null;
 }
 
-const initialState: RacksState = {
-  racks: [],
+const initialState: RackState = {
+  rack: [],
   isLoading: false,
   error: null,
 };
 
-const handlePending = (state: RacksState) => {
+const handlePending = (state: RackState) => {
   state.isLoading = true;
 };
-const handleRejected = (state: RacksState, action: any) => {
+const handleRejected = (state: RackState, action: any) => {
   state.isLoading = false;
   state.error = action.payload;
 };
 
 const RackSlice = createSlice({
-  name: "racks",
+  name: "rack",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -52,37 +43,37 @@ const RackSlice = createSlice({
       .addCase(deleteRack.rejected, handleRejected)
       .addCase(
         getAllRacks.fulfilled,
-        (state: RacksState, action: PayloadAction<Racks[]>) => {
+        (state: RackState, action: PayloadAction<Rack[]>) => {
           state.isLoading = false;
           state.error = null;
-          state.racks = action.payload;
+          state.rack = action.payload;
         }
       )
       .addCase(
         getByName.fulfilled,
-        (state: RacksState, action: PayloadAction<Racks[]>) => {
+        (state: RackState, action: PayloadAction<Rack[]>) => {
           state.isLoading = false;
           state.error = null;
-          state.racks = action.payload;
+          state.rack = action.payload;
         }
       )
       .addCase(
         createNewRack.fulfilled,
-        (state: RacksState, action: PayloadAction<Racks>) => {
+        (state: RackState, action: PayloadAction<Rack>) => {
           state.isLoading = false;
           state.error = null;
-          state.racks.push(action.payload);
+          state.rack.push(action.payload);
         }
       )
       .addCase(
         deleteRack.fulfilled,
-        (state: RacksState, action: PayloadAction<Racks>) => {
+        (state: RackState, action: PayloadAction<Rack>) => {
           state.isLoading = false;
           state.error = null;
-          const index = state.racks.findIndex(
+          const index = state.rack.findIndex(
             (rack) => rack.id === action.payload.id
           );
-          state.racks.splice(index, 1);
+          state.rack.splice(index, 1);
         }
       );
   },

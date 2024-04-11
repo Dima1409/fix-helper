@@ -1,4 +1,4 @@
-const selectRacks = (state: any) => state.wallets.wallets;
-const selectLoading = (state: any) => state.wallets.isLoading;
-const selectError = (state: any) => state.wallets.error;
-export { selectRacks, selectLoading, selectError };
+const selectRack = (state: any) => state.rack.rack;
+const selectLoading = (state: any) => state.rack.isLoading;
+const selectError = (state: any) => state.rack.error;
+export { selectRack, selectLoading, selectError };

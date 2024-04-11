@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "services/AxiosConfig";
 
-interface Racks {
+interface Rack {
   id?: string;
   name: string;
   type: string;
@@ -25,18 +25,6 @@ const getAllRacks = createAsyncThunk("rack/getAll", async (_, thunkAPI) => {
   }
 });
 
-// const getByName = createAsyncThunk(
-//   "rack/getByName",
-//   async (credentials: Racks, thunkAPI) => {
-//     try {
-//       const response = await API.get("/rack/getByName", credentials);
-//       return response.data.data.result;
-//     } catch (error: any) {
-//       throw thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
 const getByName = createAsyncThunk(
   "rack/getByName",
   async (payload: GetByNamePayload, thunkAPI) => {
@@ -55,7 +43,7 @@ const getByName = createAsyncThunk(
 
 const createNewRack = createAsyncThunk(
   "/rack/new",
-  async (credentials: Racks, thunkAPI) => {
+  async (credentials: Rack, thunkAPI) => {
     try {
       const response = await API.post("/rack/new", credentials);
       return response.data.data.result;
@@ -67,7 +55,7 @@ const createNewRack = createAsyncThunk(
 
 const deleteRack = createAsyncThunk(
   "/rack/delete",
-  async (credentials: Racks, thunkAPI) => {
+  async (credentials: Rack, thunkAPI) => {
     try {
       const response = await API.delete(`/rack/${credentials}`);
       return response.data.data;

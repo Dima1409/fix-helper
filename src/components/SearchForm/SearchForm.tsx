@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { getByName } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import RackInfo from "components/RackInfo";
 
 const SearchForm: React.FC = () => {
   const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
@@ -23,28 +24,31 @@ const SearchForm: React.FC = () => {
     e.preventDefault();
     try {
       setSearchData(initialValues);
-      dispatchTyped(getByName({ name: searchData.searchValue }));
+      dispatchTyped(getByName({ name: searchData.searchValue.toUpperCase() }));
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Label htmlFor="searchInput">
-        <Input
-          id="searchInput"
-          name="searchValue"
-          onChange={handleInputChange}
-          value={searchData.searchValue}
-          type="text"
-          placeholder="Введіть номер агрегату"
-        ></Input>
-      </Label>
-      <ButtonSearch type="submit" disabled={searchData.searchValue === ""}>
-        пошук
-      </ButtonSearch>
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Label htmlFor="searchInput">
+          <Input
+            id="searchInput"
+            name="searchValue"
+            onChange={handleInputChange}
+            value={searchData.searchValue}
+            type="text"
+            placeholder="Введіть номер агрегату"
+          ></Input>
+        </Label>
+        <ButtonSearch type="submit" disabled={searchData.searchValue === ""}>
+          пошук
+        </ButtonSearch>
+      </Form>
+      <RackInfo />
+    </>
   );
 };
 

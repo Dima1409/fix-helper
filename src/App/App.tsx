@@ -5,12 +5,13 @@ import { refreshUser } from "../redux/auth/operations";
 import { useDispatch } from "react-redux";
 import Routs from "components/Routs";
 import SharedLayout from "components/SharedLayout/SharedLayout";
-import SearchForm from "components/SearchForm";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const RegisterPage = lazy(() => import("../pages/RegisterPage"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
+const SteeringPage = lazy(() => import("../pages/SteeringPage"));
+const TurbinePage = lazy(() => import("../pages/TurbinePage"));
 
 const LoadingFallback: React.FC = () => <div>loading...</div>;
 
@@ -69,7 +70,7 @@ const App: React.FC = () => {
               <Routs.PrivateRoute
                 component={() => (
                   <LazyPage>
-                    <SearchForm />
+                    <SteeringPage />
                   </LazyPage>
                 )}
                 redirectTo="/"
@@ -82,7 +83,7 @@ const App: React.FC = () => {
               <Routs.PrivateRoute
                 component={() => (
                   <LazyPage>
-                    <SearchForm />
+                    <TurbinePage />
                   </LazyPage>
                 )}
                 redirectTo="/"
