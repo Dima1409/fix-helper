@@ -24,10 +24,23 @@ const SearchForm: React.FC = () => {
     e.preventDefault();
     try {
       setSearchData(initialValues);
-      dispatchTyped(getByName({ name: searchData.searchValue.toUpperCase() }));
+      const searchValue = searchData.searchValue.trim().toUpperCase();
+      const isNumeric = searchValue.length > 5;
+
+      const queryParams = {
+        [isNumeric ? "oem" : "name"]: searchValue,
+      };
+
+      dispatchTyped(getByName(queryParams));
     } catch (error) {
       console.log(error);
     }
+    // try {
+    //   setSearchData(initialValues);
+    //   dispatchTyped(getByName({ name: searchData.searchValue.toUpperCase() }));
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (

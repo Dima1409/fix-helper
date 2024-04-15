@@ -1,5 +1,6 @@
 import { IconType } from "react-icons";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { CiCirclePlus } from "react-icons/ci";
 import { AiTwotoneEdit, AiOutlineLogout, AiOutlineHome } from "react-icons/ai";
 import { IoMdLogIn } from "react-icons/io";
 import { MdDoneOutline, MdAccessibilityNew } from "react-icons/md";
@@ -45,6 +46,10 @@ const TurbineIcon: React.FC<{ size?: string; color?: string }> = (props) => (
   <IconWrapper icon={TbCarTurbine} {...props} />
 );
 
+const PlusIcon: React.FC<{ size?: string; color?: string }> = (props) => (
+  <IconWrapper icon={CiCirclePlus} {...props} />
+);
+
 const SigInIcon: React.FC<{ size?: string; color?: string }> = (props) => (
   <IconWrapper icon={MdAccessibilityNew} {...props} />
 );
@@ -81,6 +86,7 @@ export {
   HomeIcon,
   SteeringIcon,
   TurbineIcon,
+  PlusIcon,
   SigInIcon,
   LoginIcon,
   DeleteIcon,

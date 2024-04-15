@@ -23,9 +23,32 @@ const NameOfProperty = styled.p`
 `;
 
 const InfoOfProperty = styled.span`
+  position: relative;
   color: ${theme.colors.textColor};
   font-weight: 400;
   font-size: ${theme.fontSizes.small};
 `;
 
-export { Wrapper, WrapperHeader, NameOfProperty, InfoOfProperty };
+const MoreButton = styled.button`
+  position: absolute;
+  width: 80px;
+  left: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: none;
+  border-radius: ${theme.radii.normal};
+  border: none;
+  background-color: ${theme.colors.accent};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: ${theme.transitions.durations.default};
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    background-color: ${theme.colors.accentActive};
+    color: ${theme.colors.light};
+  }
+`;
+
+export { Wrapper, WrapperHeader, NameOfProperty, InfoOfProperty, MoreButton };

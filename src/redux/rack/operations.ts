@@ -12,7 +12,8 @@ interface Rack {
 }
 
 interface GetByNamePayload {
-  name: string;
+  name?: string;
+  oem?: string;
 }
 
 const getAllRacks = createAsyncThunk("rack/getAll", async (_, thunkAPI) => {
@@ -29,9 +30,18 @@ const getByName = createAsyncThunk(
   "rack/getByName",
   async (payload: GetByNamePayload, thunkAPI) => {
     try {
-      console.log("name", payload.name);
+      const params: { name?: string; oem?: string } = {};
+      if (payload.name) {
+        params.name = payload.name;
+      }
+      if (payload.oem) {
+        params.oem = payload.oem;
+      }
+
+      console.log("params", params);
+
       const response = await API.get("/rack/getByName", {
-        params: { name: payload.name },
+        params: params,
       });
       console.log("response", response.data.data.result);
       return response.data.data.result;
