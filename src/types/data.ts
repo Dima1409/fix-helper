@@ -11,7 +11,15 @@ export interface Rack {
       description?: string;
     }[];
   };
-  more: string;
+  more: {
+    name: string;
+    property: {
+      id: string;
+      art: string;
+      quantity: string;
+      description?: string;
+    }[];
+  };
   application: string;
   oem: string;
   image: string;

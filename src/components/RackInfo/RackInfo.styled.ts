@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   width: 300px;
   ${theme.mq.tablet} {
-    width: 600px;
+    width: 760px;
   }
 `;
 

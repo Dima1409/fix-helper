@@ -21,7 +21,6 @@ const RackInfo: React.FC = () => {
   const { rack }: { rack: Rack } = useRack();
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  console.log(rack);
   const { application, kit, more, name, oem, type } = rack;
   if (!application || !name) {
     return null;
@@ -45,7 +44,7 @@ const RackInfo: React.FC = () => {
         Тип: <InfoOfProperty>{type}</InfoOfProperty>
       </NameOfProperty>
       <NameOfProperty>
-        Базовий ремкомплект:{" "}
+        Базовий РМК:{" "}
         <InfoOfProperty>
           {kit.name}
 
@@ -62,7 +61,7 @@ const RackInfo: React.FC = () => {
       <NameOfProperty>
         Додаткові запчастини:{" "}
         <InfoOfProperty>
-          {more}
+          {more.name}
 
           <MoreButton
             onClick={() => {
@@ -75,8 +74,7 @@ const RackInfo: React.FC = () => {
         </InfoOfProperty>
       </NameOfProperty>
       <NameOfProperty>
-        Застосування до автомобілів:{" "}
-        <InfoOfProperty>{renderedApplication}</InfoOfProperty>
+        Застосування: <InfoOfProperty>{renderedApplication}</InfoOfProperty>
       </NameOfProperty>
       <NameOfProperty>
         Оригінальні номери: <InfoOfProperty>{oem}</InfoOfProperty>
@@ -111,7 +109,28 @@ const RackInfo: React.FC = () => {
               </StyledTable>
             </>
           )}
-          {showMore && <>Додаткові запчастини</>}
+          {showMore && (
+            <>
+              <StyledTable>
+                <thead>
+                  <tr>
+                    <StyledTh>Артикул</StyledTh>
+                    <StyledTh>Кількість</StyledTh>
+                    <StyledTh>Опис</StyledTh>
+                  </tr>
+                </thead>
+                <tbody>
+                  {more.property.map(({ id, art, quantity, description }) => (
+                    <tr key={id}>
+                      <StyledTd>{art}</StyledTd>
+                      <StyledTd>{quantity}</StyledTd>
+                      <StyledTd>{description}</StyledTd>
+                    </tr>
+                  ))}
+                </tbody>
+              </StyledTable>
+            </>
+          )}
         </Modal>
       )}
     </Wrapper>

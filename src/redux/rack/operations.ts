@@ -19,7 +19,6 @@ interface GetByNamePayload {
 const getAllRacks = createAsyncThunk("rack/getAll", async (_, thunkAPI) => {
   try {
     const response = await API.get("/rack/getAll");
-    console.log("response", response);
     return response.data.data.result;
   } catch (error: any) {
     throw thunkAPI.rejectWithValue(error.message);
@@ -37,13 +36,9 @@ const getByName = createAsyncThunk(
       if (payload.oem) {
         params.oem = payload.oem;
       }
-
-      console.log("params", params);
-
       const response = await API.get("/rack/getByName", {
         params: params,
       });
-      console.log("response", response.data.data.result);
       return response.data.data.result;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error.message);
