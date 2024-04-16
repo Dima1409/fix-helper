@@ -20,6 +20,7 @@ const NameOfProperty = styled.p`
   font-size: ${theme.fontSizes.bold};
   font-weight: 500;
   word-wrap: break-word;
+  margin-bottom: 8px;
 `;
 
 const InfoOfProperty = styled.span`
@@ -31,12 +32,13 @@ const InfoOfProperty = styled.span`
 
 const MoreButton = styled.button`
   position: absolute;
-  width: 80px;
   left: 110%;
   top: 50%;
+  width: 30px;
+  height: 30px;
   transform: translateY(-50%);
   background-color: none;
-  border-radius: ${theme.radii.normal};
+  border-radius: ${theme.radii.small};
   border: none;
   background-color: ${theme.colors.accent};
   display: flex;
@@ -51,4 +53,35 @@ const MoreButton = styled.button`
   }
 `;
 
-export { Wrapper, WrapperHeader, NameOfProperty, InfoOfProperty, MoreButton };
+const StyledTable = styled.table`
+  border-collapse: collapse;
+  width: 100%;
+`;
+
+const StyledTh = styled.th`
+  border: 1px solid ${theme.colors.light};
+  padding: 8px;
+  text-align: center;
+  color: ${theme.colors.accentActive};
+`;
+
+const StyledTd = styled.td`
+  border: 1px solid ${theme.colors.light};
+  padding: 8px;
+  text-align: center;
+  font-size: ${theme.fontSizes.extraSmall};
+  ${theme.mq.tablet} {
+    font-size: ${theme.fontSizes.small};
+  }
+`;
+
+export {
+  Wrapper,
+  WrapperHeader,
+  NameOfProperty,
+  InfoOfProperty,
+  MoreButton,
+  StyledTable,
+  StyledTh,
+  StyledTd,
+};

@@ -1,5 +1,6 @@
 import useRack from "hooks/useRack";
 import { Rack } from "types/data";
+import React, { useState } from "react";
 import useToggle from "hooks/useToggle";
 import Modal from "components/Modal";
 import {
@@ -8,6 +9,9 @@ import {
   NameOfProperty,
   InfoOfProperty,
   MoreButton,
+  StyledTable,
+  StyledTh,
+  StyledTd,
 } from "./RackInfo.styled";
 import { PlusIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
@@ -15,11 +19,22 @@ import { theme } from "theme/theme";
 const RackInfo: React.FC = () => {
   const { isOpen, close, toggle } = useToggle();
   const { rack }: { rack: Rack } = useRack();
+  const [showKit, setShowKit] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   console.log(rack);
-  const { application, kit, name, oem, type } = rack;
+  const { application, kit, more, name, oem, type } = rack;
   if (!application || !name) {
     return null;
   }
+
+  const renderedApplication = application.split(",").map((item, index) => (
+    <React.Fragment key={index}>
+      {index === 0 ? <br /> : null}
+      {item.trim()}
+      <br />
+    </React.Fragment>
+  ));
+
   return (
     <Wrapper>
       <WrapperHeader>Результат пошуку:</WrapperHeader>
@@ -30,17 +45,38 @@ const RackInfo: React.FC = () => {
         Тип: <InfoOfProperty>{type}</InfoOfProperty>
       </NameOfProperty>
       <NameOfProperty>
-        Ремкомплект:{" "}
+        Базовий ремкомплект:{" "}
         <InfoOfProperty>
-          {kit}
+          {kit.name}
 
-          <MoreButton onClick={() => toggle()}>
+          <MoreButton
+            onClick={() => {
+              setShowKit(true);
+              toggle();
+            }}
+          >
             <PlusIcon color={theme.colors.light} />
           </MoreButton>
         </InfoOfProperty>
       </NameOfProperty>
       <NameOfProperty>
-        Застосування: <InfoOfProperty>{application}</InfoOfProperty>
+        Додаткові запчастини:{" "}
+        <InfoOfProperty>
+          {more}
+
+          <MoreButton
+            onClick={() => {
+              setShowMore(true);
+              toggle();
+            }}
+          >
+            <PlusIcon color={theme.colors.light} />
+          </MoreButton>
+        </InfoOfProperty>
+      </NameOfProperty>
+      <NameOfProperty>
+        Застосування до автомобілів:{" "}
+        <InfoOfProperty>{renderedApplication}</InfoOfProperty>
       </NameOfProperty>
       <NameOfProperty>
         Оригінальні номери: <InfoOfProperty>{oem}</InfoOfProperty>
@@ -48,10 +84,34 @@ const RackInfo: React.FC = () => {
       {isOpen && (
         <Modal
           onClick={() => {
+            setShowKit(false);
+            setShowMore(false);
             close();
           }}
         >
-          рмк рейки
+          {showKit && (
+            <>
+              <StyledTable>
+                <thead>
+                  <tr>
+                    <StyledTh>Артикул</StyledTh>
+                    <StyledTh>Кількість</StyledTh>
+                    <StyledTh>Опис</StyledTh>
+                  </tr>
+                </thead>
+                <tbody>
+                  {kit.property.map(({ id, art, quantity, description }) => (
+                    <tr key={id}>
+                      <StyledTd>{art}</StyledTd>
+                      <StyledTd>{quantity}</StyledTd>
+                      <StyledTd>{description}</StyledTd>
+                    </tr>
+                  ))}
+                </tbody>
+              </StyledTable>
+            </>
+          )}
+          {showMore && <>Додаткові запчастини</>}
         </Modal>
       )}
     </Wrapper>

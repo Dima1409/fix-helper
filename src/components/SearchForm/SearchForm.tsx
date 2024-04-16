@@ -35,12 +35,6 @@ const SearchForm: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-    // try {
-    //   setSearchData(initialValues);
-    //   dispatchTyped(getByName({ name: searchData.searchValue.toUpperCase() }));
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   return (
