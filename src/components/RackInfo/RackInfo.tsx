@@ -1,8 +1,10 @@
 import useRack from "hooks/useRack";
+import useAuth from "hooks/useAuth";
 import { Rack } from "types/data";
 import React, { useState } from "react";
 import useToggle from "hooks/useToggle";
 import Modal from "components/Modal";
+import AddForm from "components/AddForm";
 import {
   Wrapper,
   WrapperHeader,
@@ -18,7 +20,9 @@ import { theme } from "theme/theme";
 
 const RackInfo: React.FC = () => {
   const { isOpen, close, toggle } = useToggle();
+  const { user } = useAuth();
   const { rack }: { rack: Rack } = useRack();
+  const [showForm, setShowForm] = useState(false);
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { application, kit, more, name, oem, type } = rack;
@@ -39,6 +43,17 @@ const RackInfo: React.FC = () => {
       <WrapperHeader>Результат пошуку:</WrapperHeader>
       <NameOfProperty>
         Артикул: <InfoOfProperty>{name}</InfoOfProperty>
+        {user.role === "admin" && (
+          <button
+            onClick={() => {
+              setShowForm(true);
+              toggle();
+            }}
+          >
+            Додати новий агрегат
+          </button>
+        )}
+        {user.role === "user" && <span>Тільки читання</span>}
       </NameOfProperty>
       <NameOfProperty>
         Тип: <InfoOfProperty>{type}</InfoOfProperty>
@@ -84,6 +99,7 @@ const RackInfo: React.FC = () => {
           onClick={() => {
             setShowKit(false);
             setShowMore(false);
+            setShowForm(false);
             close();
           }}
         >
@@ -131,6 +147,7 @@ const RackInfo: React.FC = () => {
               </StyledTable>
             </>
           )}
+          {showForm && <AddForm />}
         </Modal>
       )}
     </Wrapper>
