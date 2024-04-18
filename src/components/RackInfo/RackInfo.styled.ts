@@ -21,7 +21,7 @@ const ButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const NameOfProperty = styled.p`
+const NameOfProperty = styled.div`
   color: ${theme.colors.dark};
   font-size: ${theme.fontSizes.normal};
   word-wrap: break-word;
@@ -78,21 +78,30 @@ const AddNewButton = styled.button`
 
 const StyledTable = styled.table`
   border-collapse: collapse;
-  width: 100%;
+  position: 0;
+  margin: 0 auto;
+  width: auto;
+  font-size: ${theme.fontSizes.smallest};
+  overflow-x: auto;
+  ${theme.mq.tablet} {
+    font-size: ${theme.fontSizes.small};
+  }
 `;
 
 const StyledTh = styled.th`
   border: 1px solid ${theme.colors.light};
-  padding: 8px;
+  padding: 2px;
   text-align: center;
   color: ${theme.colors.accentActive};
+  white-space: nowrap;
 `;
 
 const StyledTd = styled.td`
   border: 1px solid ${theme.colors.light};
-  padding: 8px;
+  padding: 2px;
   text-align: center;
-  font-size: ${theme.fontSizes.extraSmall};
+  font-size: ${theme.fontSizes.smallest};
+  white-space: nowrap;
   ${theme.mq.tablet} {
     font-size: ${theme.fontSizes.small};
   }

@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import { FormEvent, ChangeEvent } from "react";
+import { createNewRack } from "../../redux/rack/operations";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { Rack, Property } from "types/data";
 import {
   Form,
   WrapperForm,
@@ -15,27 +19,6 @@ import {
   AddButton,
   ButtonSubmit,
 } from "./AddForm.styled";
-
-interface Property {
-  art: string;
-  quantity: string;
-  description: string;
-}
-
-interface FormData {
-  name: string;
-  type: string;
-  kit: {
-    name: string;
-    property: Property[];
-  };
-  more: {
-    name: string;
-    property: Property[];
-  };
-  application: string;
-  oem: string;
-}
 
 const initialState = {
   name: "",
@@ -53,7 +36,8 @@ const initialState = {
 };
 
 const AddForm: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>(initialState);
+  const [formData, setFormData] = useState<Rack>(initialState);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -122,6 +106,7 @@ const AddForm: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(createNewRack(formData));
     console.log(formData);
   };
 

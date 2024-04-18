@@ -24,6 +24,7 @@ const Modal = styled.div`
   margin: 10px;
   overflow-y: auto;
   ${theme.mq.tablet} {
+    position: relative;
     width: 500px;
     padding: 55px 40px;
     margin: 40px;
@@ -42,6 +43,13 @@ const ButtonClose = styled.button`
   right: 15px;
   transition: 0.3s;
   z-index: 1300;
+  ${theme.mq.tablet} {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 12px;
+    right: 12px;
+  }
   &:hover {
     cursor: pointer;
     box-shadow: 0 0 5px ${theme.colors.accentActive};

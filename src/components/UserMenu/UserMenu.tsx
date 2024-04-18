@@ -22,7 +22,8 @@ const UserMenu: React.FC = () => {
       {isLoggedIn && (
         <UserWrapper>
           <User>{user.name},</User>
-          <Role>{user.role}</Role>
+          {user.role === "user" && <Role>Користувач</Role>}
+          {user.role === "admin" && <Role>Адміністратор</Role>}
           <Logout onClick={handleLogOut}>
             <LogOutIcon color={theme.colors.red} />
           </Logout>

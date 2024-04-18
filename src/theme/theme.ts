@@ -29,6 +29,7 @@ const theme = {
     open_sans: "'Open Sans', sans-serif",
   },
   fontSizes: {
+    smallest: "7px",
     extraSmall: "12px",
     small: "14px",
     normal: "16px",

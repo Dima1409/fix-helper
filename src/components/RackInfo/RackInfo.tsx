@@ -56,7 +56,6 @@ const RackInfo: React.FC = () => {
               Додати агрегат
             </AddNewButton>
           )}
-          {user.role === "user" && <span>Тільки читання</span>}
         </ButtonWrapper>
       </NameOfProperty>
       <NameOfProperty>
@@ -111,7 +110,7 @@ const RackInfo: React.FC = () => {
                 <thead>
                   <tr>
                     <StyledTh>Артикул</StyledTh>
-                    <StyledTh>Кількість</StyledTh>
+                    <StyledTh>Шт</StyledTh>
                     <StyledTh>Опис</StyledTh>
                   </tr>
                 </thead>
@@ -133,7 +132,7 @@ const RackInfo: React.FC = () => {
                 <thead>
                   <tr>
                     <StyledTh>Артикул</StyledTh>
-                    <StyledTh>Кількість</StyledTh>
+                    <StyledTh>Шт</StyledTh>
                     <StyledTh>Опис</StyledTh>
                   </tr>
                 </thead>

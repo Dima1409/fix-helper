@@ -1,15 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "services/AxiosConfig";
-
-interface Rack {
-  id?: string;
-  name: string;
-  type: string;
-  kit: string;
-  application: string;
-  oem: string;
-  image: string;
-}
+import { Rack } from "types/data";
 
 interface GetByNamePayload {
   name?: string;

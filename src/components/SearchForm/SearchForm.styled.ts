@@ -17,6 +17,9 @@ const Form = styled.form`
 const Label = styled.label`
   font-family: ${theme.fonts.merriweather};
   width: 120px;
+  ${theme.mq.tablet} {
+    width: 300px;
+  }
 `;
 const Input = styled.input`
   font-family: ${theme.fonts.comfortaa};
@@ -46,13 +49,16 @@ const ButtonSearch = styled.button`
   opacity: 0.5;
   transition: 0.25s;
   min-height: 20px;
-  min-width: 80px;
+  width: 80px;
   &:enabled {
     opacity: 1;
     background-color: ${theme.colors.accent};
   }
   &:hover {
     cursor: pointer;
+  }
+  ${theme.mq.tablet} {
+    width: 140px;
   }
 `;
 
