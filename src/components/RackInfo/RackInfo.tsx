@@ -10,7 +10,9 @@ import {
   WrapperHeader,
   NameOfProperty,
   InfoOfProperty,
+  ButtonWrapper,
   MoreButton,
+  AddNewButton,
   StyledTable,
   StyledTh,
   StyledTd,
@@ -42,27 +44,29 @@ const RackInfo: React.FC = () => {
     <Wrapper>
       <WrapperHeader>Результат пошуку:</WrapperHeader>
       <NameOfProperty>
-        Артикул: <InfoOfProperty>{name}</InfoOfProperty>
-        {user.role === "admin" && (
-          <button
-            onClick={() => {
-              setShowForm(true);
-              toggle();
-            }}
-          >
-            Додати новий агрегат
-          </button>
-        )}
-        {user.role === "user" && <span>Тільки читання</span>}
+        <ButtonWrapper>
+          Артикул: <InfoOfProperty>{name}</InfoOfProperty>
+          {user.role === "admin" && (
+            <AddNewButton
+              onClick={() => {
+                setShowForm(true);
+                toggle();
+              }}
+            >
+              Додати агрегат
+            </AddNewButton>
+          )}
+          {user.role === "user" && <span>Тільки читання</span>}
+        </ButtonWrapper>
       </NameOfProperty>
       <NameOfProperty>
-        Тип: <InfoOfProperty>{type}</InfoOfProperty>
+        <ButtonWrapper>
+          Тип: <InfoOfProperty>Агрегат з {type}</InfoOfProperty>
+        </ButtonWrapper>
       </NameOfProperty>
       <NameOfProperty>
-        Базовий РМК:{" "}
-        <InfoOfProperty>
-          {kit.name}
-
+        <ButtonWrapper>
+          Базовий РМК: <InfoOfProperty>{kit.name}</InfoOfProperty>
           <MoreButton
             onClick={() => {
               setShowKit(true);
@@ -71,13 +75,11 @@ const RackInfo: React.FC = () => {
           >
             <PlusIcon color={theme.colors.light} />
           </MoreButton>
-        </InfoOfProperty>
+        </ButtonWrapper>
       </NameOfProperty>
       <NameOfProperty>
-        Додаткові запчастини:{" "}
-        <InfoOfProperty>
-          {more.name}
-
+        <ButtonWrapper>
+          Додатково: <InfoOfProperty>{more.name}</InfoOfProperty>{" "}
           <MoreButton
             onClick={() => {
               setShowMore(true);
@@ -86,7 +88,7 @@ const RackInfo: React.FC = () => {
           >
             <PlusIcon color={theme.colors.light} />
           </MoreButton>
-        </InfoOfProperty>
+        </ButtonWrapper>
       </NameOfProperty>
       <NameOfProperty>
         Застосування: <InfoOfProperty>{renderedApplication}</InfoOfProperty>

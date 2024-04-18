@@ -20,7 +20,7 @@ const Modal = styled.div`
   background-color: ${theme.colors.accent};
   padding: 50px 30px;
   border-radius: ${theme.radii.normal};
-  max-width: calc(100vw - 20px);
+  max-width: calc(100vw - 70px);
   max-height: calc(100vh - 20px);
   margin: 10px;
   ${theme.mq.tablet} {

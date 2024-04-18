@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import { FormEvent, ChangeEvent } from "react";
-import { LabelForm, InputForm, SelectForm, TextAreaForm } from "./AddForm.styled";
+import {
+  Form,
+  WrapperForm,
+  WrapperProperty,
+  WrapperBaseKit,
+  LabelForm,
+  LabelFormProperty,
+  InputForm,
+  InputProperty,
+  SelectForm,
+  TextAreaForm,
+  AddButton,
+  ButtonSubmit,
+} from "./AddForm.styled";
 
 interface Property {
   art: string;
@@ -77,19 +90,19 @@ const AddForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <Form onSubmit={handleSubmit}>
+      <WrapperForm>
         <LabelForm htmlFor="name">Name:</LabelForm>
         <InputForm
           type="text"
-          placeholder="AU209"
+          placeholder="Наприклад, AU209"
           id="name"
           name="name"
           value={formData.name}
           onChange={handleChange}
         />
-      </div>
-      <div>
+      </WrapperForm>
+      <WrapperForm>
         <LabelForm htmlFor="type">Type:</LabelForm>
         <SelectForm
           id="type"
@@ -98,62 +111,78 @@ const AddForm: React.FC = () => {
           onChange={handleChange}
         >
           <option value="" disabled>
-            Select Type
+            Тип агрегату
           </option>
           <option value="ГПК">ГПК</option>
           <option value="МПК">МПК</option>
           <option value="ЕПК">ЕПК</option>
         </SelectForm>
-      </div>
-      <div>
-        <LabelForm htmlFor="kitName">Назва РМК:</LabelForm>
-        <InputForm
-          type="text"
-          id="kitName"
-          name="kitName"
-          value={formData.kit.name}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              kit: { ...formData.kit, name: e.target.value },
-            })
-          }
-        />
-      </div>
-      {formData.kit.property.map((item, index) => (
-        <div key={index}>
-          <LabelForm htmlFor={`art-${index}`}>Арт:</LabelForm>
+      </WrapperForm>
+      <WrapperBaseKit>
+        <WrapperForm>
+          <LabelForm htmlFor="kitName">РМК:</LabelForm>
           <InputForm
             type="text"
-            id={`art-${index}`}
-            name={`art-${index}`}
-            value={item.art}
-            onChange={(e) => handleKitChange(index, "art", e.target.value)}
-          />
-          <LabelForm htmlFor={`quantity-${index}`}>Шт:</LabelForm>
-          <InputForm
-            type="text"
-            id={`quantity-${index}`}
-            name={`quantity-${index}`}
-            value={item.quantity}
-            onChange={(e) => handleKitChange(index, "quantity", e.target.value)}
-          />
-          <LabelForm htmlFor={`description-${index}`}>Коментар:</LabelForm>
-          <InputForm
-            type="text"
-            id={`description-${index}`}
-            name={`description-${index}`}
-            value={item.description}
+            id="kitName"
+            name="kitName"
+            placeholder="Наприклад, AU209KIT"
+            value={formData.kit.name}
             onChange={(e) =>
-              handleKitChange(index, "description", e.target.value)
+              setFormData({
+                ...formData,
+                kit: { ...formData.kit, name: e.target.value },
+              })
             }
           />
-        </div>
-      ))}
-      <button type="button" onClick={addProperty}>
-        Add Property
-      </button>
-      <div></div>
+        </WrapperForm>
+        {formData.kit.property.map((item, index) => (
+          <WrapperForm key={index}>
+            <WrapperProperty>
+              <LabelFormProperty htmlFor={`art-${index}`}>
+                Арт:
+              </LabelFormProperty>
+              <InputProperty
+                type="text"
+                id={`art-${index}`}
+                name={`art-${index}`}
+                value={item.art}
+                onChange={(e) => handleKitChange(index, "art", e.target.value)}
+              />
+            </WrapperProperty>
+            <WrapperProperty>
+              <LabelFormProperty htmlFor={`quantity-${index}`}>
+                Шт:
+              </LabelFormProperty>
+              <InputProperty
+                type="text"
+                id={`quantity-${index}`}
+                name={`quantity-${index}`}
+                value={item.quantity}
+                onChange={(e) =>
+                  handleKitChange(index, "quantity", e.target.value)
+                }
+              />
+            </WrapperProperty>
+            <WrapperProperty>
+              <LabelFormProperty htmlFor={`description-${index}`}>
+                Коментар:
+              </LabelFormProperty>
+              <TextAreaForm
+                id={`description-${index}`}
+                name={`description-${index}`}
+                value={item.description}
+                onChange={(e) =>
+                  handleKitChange(index, "description", e.target.value)
+                }
+              />
+            </WrapperProperty>
+          </WrapperForm>
+        ))}
+        <AddButton type="button" onClick={addProperty}>
+          Додати запчастину
+        </AddButton>
+      </WrapperBaseKit>
+
       <div>
         <LabelForm htmlFor="more">More:</LabelForm>
         <textarea
@@ -181,8 +210,8 @@ const AddForm: React.FC = () => {
           onChange={handleChange}
         ></textarea>
       </div>
-      <button type="submit">Submit</button>
-    </form>
+      <ButtonSubmit type="submit">Зберегти</ButtonSubmit>
+    </Form>
   );
 };
 

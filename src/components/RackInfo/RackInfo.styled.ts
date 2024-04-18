@@ -3,41 +3,45 @@ import { theme } from "theme/theme";
 
 const Wrapper = styled.div`
   margin: 0 auto;
-  width: 300px;
+  width: 260px;
   ${theme.mq.tablet} {
     width: 760px;
   }
 `;
 
 const WrapperHeader = styled.h2`
-  color: ${theme.colors.accentActive};
+  color: ${theme.colors.valid};
   text-align: center;
   font-size: ${theme.fontSizes.extraBold};
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const NameOfProperty = styled.p`
-  color: ${theme.colors.accentActive};
-  font-size: ${theme.fontSizes.bold};
-  font-weight: 500;
+  color: ${theme.colors.dark};
+  font-size: ${theme.fontSizes.normal};
   word-wrap: break-word;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 `;
 
 const InfoOfProperty = styled.span`
-  position: relative;
-  color: ${theme.colors.textColor};
+  color: ${theme.colors.accentActive};
   font-weight: 400;
   font-size: ${theme.fontSizes.small};
+  ${theme.mq.tablet} {
+    margin-left: auto;
+  }
 `;
 
 const MoreButton = styled.button`
-  position: absolute;
-  left: 110%;
-  top: 50%;
   width: 30px;
   height: 30px;
-  transform: translateY(-50%);
   background-color: none;
+  margin-left: 10px;
   border-radius: ${theme.radii.small};
   border: none;
   background-color: ${theme.colors.accent};
@@ -45,6 +49,25 @@ const MoreButton = styled.button`
   justify-content: center;
   align-items: center;
   transition: ${theme.transitions.durations.default};
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    background-color: ${theme.colors.accentActive};
+    color: ${theme.colors.light};
+  }
+`;
+
+const AddNewButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  margin-left: 10px;
+  border-radius: ${theme.radii.small};
+  background-color: ${theme.colors.accent};
+  color: ${theme.colors.light};
+  padding: 8px;
   &:hover,
   &:focus {
     cursor: pointer;
@@ -80,7 +103,9 @@ export {
   WrapperHeader,
   NameOfProperty,
   InfoOfProperty,
+  ButtonWrapper,
   MoreButton,
+  AddNewButton,
   StyledTable,
   StyledTh,
   StyledTd,

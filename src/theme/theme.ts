@@ -47,7 +47,7 @@ const theme = {
   },
   radii: {
     none: "0",
-    small: "10px",
+    small: "6px",
     normal: "20px",
     round: "50%",
   },

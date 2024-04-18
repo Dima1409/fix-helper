@@ -47,7 +47,7 @@ const SearchForm: React.FC = () => {
             onChange={handleInputChange}
             value={searchData.searchValue}
             type="text"
-            placeholder="Введіть номер агрегату"
+            placeholder="Номер агрегату"
           ></Input>
         </Label>
         <ButtonSearch type="submit" disabled={searchData.searchValue === ""}>

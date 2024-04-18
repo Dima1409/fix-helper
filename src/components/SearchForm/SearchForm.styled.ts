@@ -7,7 +7,7 @@ const Form = styled.form`
   padding: 20px 10px;
   border-radius: 10px;
   margin: 0 auto;
-  width: 300px;
+  width: 230px;
   background-color: ${theme.colors.accentActive};
   ${theme.mq.tablet} {
     width: 560px;
@@ -16,7 +16,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   font-family: ${theme.fonts.merriweather};
-  width: 180px;
+  width: 120px;
 `;
 const Input = styled.input`
   font-family: ${theme.fonts.comfortaa};
@@ -39,7 +39,6 @@ const ButtonSearch = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
   border: none;
   border-radius: ${theme.radii.small};
   font-size: ${theme.fontSizes.bold};
