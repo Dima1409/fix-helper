@@ -23,7 +23,7 @@ const Input = styled.input`
   min-height: 40px;
   border: none;
   outline: none;
-  border-radius: ${theme.radii.normal};
+  border-radius: ${theme.radii.small};
   width: 100%;
   padding-left: 10px;
   color: ${theme.colors.accentActive};

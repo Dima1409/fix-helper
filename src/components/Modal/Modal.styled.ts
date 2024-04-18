@@ -16,13 +16,13 @@ const Overlay = styled.div`
 `;
 
 const Modal = styled.div`
-  position: relative;
   background-color: ${theme.colors.accent};
   padding: 50px 30px;
-  border-radius: ${theme.radii.normal};
+  border-radius: ${theme.radii.small};
   max-width: calc(100vw - 70px);
-  max-height: calc(100vh - 20px);
+  max-height: calc(100vh - 120px);
   margin: 10px;
+  overflow-y: auto;
   ${theme.mq.tablet} {
     width: 500px;
     padding: 55px 40px;
@@ -30,17 +30,18 @@ const Modal = styled.div`
   }
 `;
 const ButtonClose = styled.button`
-  position: absolute;
+  position: fixed;
   border: none;
   border-radius: ${theme.radii.small};
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
-  top: 12px;
-  right: 12px;
+  width: 20px;
+  height: 20px;
+  top: 15px;
+  right: 15px;
   transition: 0.3s;
+  z-index: 1300;
   &:hover {
     cursor: pointer;
     box-shadow: 0 0 5px ${theme.colors.accentActive};

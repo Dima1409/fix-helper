@@ -1,7 +1,5 @@
-import SearchForm from "components/SearchForm";
-
 const TurbinePage: React.FC = () => {
-  return <SearchForm />;
+  return <div>Пошук турбін</div>;
 };
 
 export default TurbinePage;

@@ -16,6 +16,7 @@ const WrapperBaseKit = styled.div`
   border: ${theme.borders.normal} ${theme.colors.light};
   border-radius: ${theme.radii.small};
   padding: 2px;
+  margin-bottom: 10px;
 `;
 
 const LabelForm = styled.label`
@@ -71,6 +72,10 @@ const TextAreaForm = styled.textarea`
   }
 `;
 
+const TextAreaSpec = styled(TextAreaForm)`
+  width: 200px;
+`;
+
 const AddButton = styled.button`
   display: flex;
   justify-content: center;
@@ -90,7 +95,7 @@ const AddButton = styled.button`
 `;
 
 const ButtonSubmit = styled(AddButton)`
-  margin: 0 auto;
+  margin: 10px auto;
   padding: 10px 20px;
   background-color: ${theme.colors.valid};
 `;
@@ -106,6 +111,7 @@ export {
   InputProperty,
   SelectForm,
   TextAreaForm,
+  TextAreaSpec,
   AddButton,
   ButtonSubmit,
 };
