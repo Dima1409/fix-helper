@@ -62,4 +62,47 @@ const ButtonSearch = styled.button`
   }
 `;
 
-export { Form, Label, Input, ButtonSearch };
+const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ShowAll = styled(ButtonSearch)`
+  width: 150px;
+  padding: 4px 10px;
+  margin: 10px;
+  &:hover {
+    box-shadow: 0 0 5px ${theme.colors.accentActive};
+  }
+`;
+
+const HeaderNames = styled.h2`
+  color: ${theme.colors.accentActive};
+`;
+
+const NamesList = styled.li`
+  color: ${theme.colors.accent};
+  text-align: center;
+  margin: 1px;
+  width: 60px;
+  border: ${theme.borders.normal} ${theme.colors.accent};
+  border-radius: ${theme.radii.small};
+  transition: ${theme.transitions.durations.default};
+  &:hover {
+    cursor: pointer;
+    color: ${theme.colors.accentActive};
+    transform: translateX(10%);
+  }
+`;
+
+export {
+  Form,
+  Label,
+  Input,
+  ButtonSearch,
+  ShowAll,
+  ButtonsWrapper,
+  HeaderNames,
+  NamesList,
+};

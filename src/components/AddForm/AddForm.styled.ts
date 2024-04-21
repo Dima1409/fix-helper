@@ -74,6 +74,11 @@ const TextAreaForm = styled.textarea`
 
 const TextAreaSpec = styled(TextAreaForm)`
   width: 200px;
+  min-height: 60px;
+  ${theme.mq.tablet} {
+    width: 450px;
+    min-height: 90px;
+  }
 `;
 
 const AddButton = styled.button`

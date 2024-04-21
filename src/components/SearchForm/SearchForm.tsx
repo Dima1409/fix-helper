@@ -1,9 +1,20 @@
-import { Form, Label, Input, ButtonSearch } from "./SearchForm.styled";
+import {
+  Form,
+  Label,
+  Input,
+  ButtonSearch,
+  ShowAll,
+  ButtonsWrapper,
+  HeaderNames,
+  NamesList,
+} from "./SearchForm.styled";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { getByName } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import RackInfo from "components/RackInfo";
+import { getAllRacks } from "../../redux/rack/operations";
+import { Rack } from "types/data";
 
 const SearchForm: React.FC = () => {
   const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
@@ -11,6 +22,7 @@ const SearchForm: React.FC = () => {
     searchValue: "",
   };
   const [searchData, setSearchData] = useState(initialValues);
+  const [allRacks, setAllRacks] = useState<Rack[]>([]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -37,6 +49,33 @@ const SearchForm: React.FC = () => {
     }
   };
 
+  const organizeRacksByAlphabet = (): { [key: string]: Rack[] } => {
+    const alphabetizedRacks: { [key: string]: Rack[] } = {};
+
+    allRacks.forEach((rack: Rack) => {
+      const firstLetter = rack.name.charAt(0).toUpperCase();
+      if (!alphabetizedRacks[firstLetter]) {
+        alphabetizedRacks[firstLetter] = [];
+      }
+      alphabetizedRacks[firstLetter].push(rack);
+    });
+
+    return alphabetizedRacks;
+  };
+
+  const organizedRacks: { [key: string]: Rack[] } = organizeRacksByAlphabet();
+
+  const getAll = async () => {
+    let res;
+    res = dispatchTyped(getAllRacks());
+    setAllRacks((await res).payload);
+  };
+
+  const getByNameMore = async (elem: Rack) => {
+    setAllRacks([]);
+    dispatchTyped(getByName({ name: elem.name }));
+  };
+
   return (
     <>
       <Form onSubmit={handleSubmit}>
@@ -54,6 +93,28 @@ const SearchForm: React.FC = () => {
           пошук
         </ButtonSearch>
       </Form>
+      <ButtonsWrapper>
+        {allRacks.length === 0 && (
+          <ShowAll onClick={() => getAll()}>Показати всі</ShowAll>
+        )}
+        {allRacks.length > 0 && (
+          <ShowAll onClick={() => setAllRacks([])}>Сховати всі</ShowAll>
+        )}
+      </ButtonsWrapper>
+
+      {Object.keys(organizedRacks).map((letter: string) => (
+        <div key={letter}>
+          <HeaderNames>{letter}</HeaderNames>
+          <ul>
+            {organizedRacks[letter].map((rack) => (
+              <NamesList onClick={() => getByNameMore(rack)} key={rack.id}>
+                {rack.name}
+              </NamesList>
+            ))}
+          </ul>
+        </div>
+      ))}
+
       <RackInfo />
     </>
   );

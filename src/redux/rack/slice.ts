@@ -62,7 +62,6 @@ const RackSlice = createSlice({
         (state: RackState, action: PayloadAction<Rack>) => {
           state.isLoading = false;
           state.error = null;
-          state.rack.push(action.payload);
         }
       )
       .addCase(

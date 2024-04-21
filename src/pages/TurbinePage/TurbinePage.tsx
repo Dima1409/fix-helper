@@ -1,5 +1,5 @@
 const TurbinePage: React.FC = () => {
-  return <div>Пошук турбін</div>;
+  return <div>Сторінка в розробці...</div>;
 };
 
 export default TurbinePage;

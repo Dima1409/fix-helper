@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormEvent, ChangeEvent } from "react";
 import { createNewRack } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
@@ -38,6 +38,16 @@ const initialState = {
 const AddForm: React.FC = () => {
   const [formData, setFormData] = useState<Rack>(initialState);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  useEffect(() => {
+    const updatedKitName = formData.name.toUpperCase() + "KIT";
+    const updatedMore = formData.name.toUpperCase() + "SPEC";
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      kit: { ...prevFormData.kit, name: updatedKitName },
+      more: { ...prevFormData.more, name: updatedMore },
+    }));
+  }, [formData.name]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -107,7 +117,6 @@ const AddForm: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(createNewRack(formData));
-    console.log(formData);
   };
 
   return (
@@ -119,7 +128,7 @@ const AddForm: React.FC = () => {
           placeholder="Наприклад, AU209"
           id="name"
           name="name"
-          value={formData.name}
+          value={formData.name.toUpperCase()}
           onChange={handleChange}
         />
       </WrapperForm>
@@ -128,7 +137,7 @@ const AddForm: React.FC = () => {
         <SelectForm
           id="type"
           name="type"
-          value={formData.type}
+          value={formData.type.toUpperCase()}
           onChange={handleChange}
         >
           <option value="" disabled>
@@ -166,7 +175,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`art-${index}`}
                 name={`art-${index}`}
-                value={item.art}
+                value={item.art.toUpperCase()}
                 onChange={(e) => handleKitChange(index, "art", e.target.value)}
               />
             </WrapperProperty>
@@ -178,7 +187,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`quantity-${index}`}
                 name={`quantity-${index}`}
-                value={item.quantity}
+                value={item.quantity.toUpperCase()}
                 onChange={(e) =>
                   handleKitChange(index, "quantity", e.target.value)
                 }
@@ -231,7 +240,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`art-${index}`}
                 name={`art-${index}`}
-                value={item.art}
+                value={item.art.toUpperCase()}
                 onChange={(e) => handleSpecChange(index, "art", e.target.value)}
               />
             </WrapperProperty>
@@ -243,7 +252,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`quantity-${index}`}
                 name={`quantity-${index}`}
-                value={item.quantity}
+                value={item.quantity.toUpperCase()}
                 onChange={(e) =>
                   handleSpecChange(index, "quantity", e.target.value)
                 }
