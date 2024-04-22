@@ -4,6 +4,7 @@ import {
   Input,
   ButtonSearch,
   ShowAll,
+  AddNewButton,
   ButtonsWrapper,
   HeaderNames,
   NamesList,
@@ -11,12 +12,19 @@ import {
 import { ChangeEvent, FormEvent, useState } from "react";
 import { getByName } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
+import useAuth from "hooks/useAuth";
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import useToggle from "hooks/useToggle";
 import RackInfo from "components/RackInfo";
 import { getAllRacks } from "../../redux/rack/operations";
 import { Rack } from "types/data";
+import Modal from "components/Modal";
+import AddForm from "components/AddForm";
 
 const SearchForm: React.FC = () => {
+  const { user } = useAuth();
+  const [showForm, setShowForm] = useState(false);
+  const { isOpen, close, toggle } = useToggle();
   const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
   const initialValues = {
     searchValue: "",
@@ -100,7 +108,27 @@ const SearchForm: React.FC = () => {
         {allRacks.length > 0 && (
           <ShowAll onClick={() => setAllRacks([])}>Сховати всі</ShowAll>
         )}
+        {user.role === "admin" && (
+          <AddNewButton
+            onClick={() => {
+              setShowForm(true);
+              toggle();
+            }}
+          >
+            Додати
+          </AddNewButton>
+        )}
       </ButtonsWrapper>
+      {isOpen && (
+        <Modal
+          onClick={() => {
+            setShowForm(false);
+            close();
+          }}
+        >
+          {showForm && <AddForm />}
+        </Modal>
+      )}
 
       {Object.keys(organizedRacks).map((letter: string) => (
         <div key={letter}>

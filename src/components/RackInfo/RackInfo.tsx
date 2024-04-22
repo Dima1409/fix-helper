@@ -1,10 +1,8 @@
 import useRack from "hooks/useRack";
-import useAuth from "hooks/useAuth";
 import { Rack } from "types/data";
 import React, { useState } from "react";
 import useToggle from "hooks/useToggle";
 import Modal from "components/Modal";
-import AddForm from "components/AddForm";
 import {
   Wrapper,
   WrapperHeader,
@@ -12,7 +10,6 @@ import {
   InfoOfProperty,
   ButtonWrapper,
   MoreButton,
-  AddNewButton,
   StyledTable,
   StyledTh,
   StyledTd,
@@ -22,9 +19,7 @@ import { theme } from "theme/theme";
 
 const RackInfo: React.FC = () => {
   const { isOpen, close, toggle } = useToggle();
-  const { user } = useAuth();
   const { rack }: { rack: Rack } = useRack();
-  const [showForm, setShowForm] = useState(false);
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { application, kit, more, name, oem, type } = rack;
@@ -46,16 +41,6 @@ const RackInfo: React.FC = () => {
       <NameOfProperty>
         <ButtonWrapper>
           Артикул: <InfoOfProperty>{name}</InfoOfProperty>
-          {user.role === "admin" && (
-            <AddNewButton
-              onClick={() => {
-                setShowForm(true);
-                toggle();
-              }}
-            >
-              Додати агрегат
-            </AddNewButton>
-          )}
         </ButtonWrapper>
       </NameOfProperty>
       <NameOfProperty>
@@ -100,7 +85,6 @@ const RackInfo: React.FC = () => {
           onClick={() => {
             setShowKit(false);
             setShowMore(false);
-            setShowForm(false);
             close();
           }}
         >
@@ -148,7 +132,6 @@ const RackInfo: React.FC = () => {
               </StyledTable>
             </>
           )}
-          {showForm && <AddForm />}
         </Modal>
       )}
     </Wrapper>

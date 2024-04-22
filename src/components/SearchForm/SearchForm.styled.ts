@@ -69,10 +69,32 @@ const ButtonsWrapper = styled.div`
 `;
 
 const ShowAll = styled(ButtonSearch)`
-  width: 150px;
-  padding: 4px 10px;
+  width: 170px;
+  padding: 8px 10px;
   margin: 10px;
+  font-size: ${theme.fontSizes.small};
   &:hover {
+    box-shadow: 0 0 5px ${theme.colors.accentActive};
+    color: ${theme.colors.light};
+  }
+`;
+
+const AddNewButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  margin-left: 10px;
+  font-size: ${theme.fontSizes.small};
+  border-radius: ${theme.radii.small};
+  background-color: ${theme.colors.accent};
+  color: ${theme.colors.light};
+  padding: 8px 10px;
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    color: ${theme.colors.light};
     box-shadow: 0 0 5px ${theme.colors.accentActive};
   }
 `;
@@ -102,6 +124,7 @@ export {
   Input,
   ButtonSearch,
   ShowAll,
+  AddNewButton,
   ButtonsWrapper,
   HeaderNames,
   NamesList,

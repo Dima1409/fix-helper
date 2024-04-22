@@ -31,9 +31,15 @@ const LabelFormProperty = styled(LabelForm)`
 const InputForm = styled.input`
   text-align: center;
   padding: 4px;
-  border: none;
+  border: ${theme.borders.normal} transparent;
   outline: none;
   border-radius: ${theme.radii.small};
+  &:valid {
+    border-color: ${theme.colors.valid};
+  }
+  &:invalid {
+    border-color: ${theme.colors.invalid};
+  }
 `;
 
 const InputProperty = styled(InputForm)`
@@ -59,25 +65,12 @@ const SelectForm = styled.select`
   border-radius: ${theme.radii.small};
 `;
 
-const TextAreaForm = styled.textarea`
+const InputSpec = styled(InputForm)`
   width: 100px;
-  border: none;
-  padding: 2px 6px;
-  outline: none;
-  margin: 2px;
-  border-radius: ${theme.radii.small};
-  resize: none;
+  min-height: 40px;
   ${theme.mq.tablet} {
-    width: 200px;
-  }
-`;
-
-const TextAreaSpec = styled(TextAreaForm)`
-  width: 200px;
-  min-height: 60px;
-  ${theme.mq.tablet} {
-    width: 450px;
-    min-height: 90px;
+    width: 260px;
+    min-height: 60px;
   }
 `;
 
@@ -91,12 +84,20 @@ const AddButton = styled.button`
   background-color: ${theme.colors.accentActive};
   color: ${theme.colors.light};
   padding: 6px 8px;
-  &:hover,
-  &:focus {
+  transition: ${theme.transitions.durations.default};
+  &:disabled {
+    background-color: ${theme.colors.expensesHeader};
+  }
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
     cursor: pointer;
-    background-color: ${theme.colors.accentActive};
+    box-shadow: 0 0 6px ${theme.colors.accentActive};
     color: ${theme.colors.light};
   }
+`;
+
+const DeleteButton = styled(AddButton)`
+  background-color: ${theme.colors.darkRed};
 `;
 
 const ButtonSubmit = styled(AddButton)`
@@ -115,8 +116,8 @@ export {
   InputForm,
   InputProperty,
   SelectForm,
-  TextAreaForm,
-  TextAreaSpec,
+  InputSpec,
   AddButton,
+  DeleteButton,
   ButtonSubmit,
 };

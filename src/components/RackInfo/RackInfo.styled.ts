@@ -57,25 +57,6 @@ const MoreButton = styled.button`
   }
 `;
 
-const AddNewButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  outline: none;
-  margin-left: 10px;
-  border-radius: ${theme.radii.small};
-  background-color: ${theme.colors.accent};
-  color: ${theme.colors.light};
-  padding: 8px;
-  &:hover,
-  &:focus {
-    cursor: pointer;
-    background-color: ${theme.colors.accentActive};
-    color: ${theme.colors.light};
-  }
-`;
-
 const StyledTable = styled.table`
   border-collapse: collapse;
   position: 0;
@@ -99,11 +80,12 @@ const StyledTh = styled.th`
 const StyledTd = styled.td`
   border: 1px solid ${theme.colors.light};
   padding: 2px;
+  color: ${theme.colors.textColor};
   text-align: center;
   font-size: ${theme.fontSizes.smallest};
   white-space: nowrap;
   ${theme.mq.tablet} {
-    font-size: ${theme.fontSizes.small};
+    font-size: ${theme.fontSizes.normal};
   }
 `;
 
@@ -114,7 +96,6 @@ export {
   InfoOfProperty,
   ButtonWrapper,
   MoreButton,
-  AddNewButton,
   StyledTable,
   StyledTh,
   StyledTd,

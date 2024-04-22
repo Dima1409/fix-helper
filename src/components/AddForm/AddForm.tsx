@@ -14,11 +14,21 @@ import {
   InputForm,
   InputProperty,
   SelectForm,
-  TextAreaForm,
-  TextAreaSpec,
   AddButton,
+  DeleteButton,
   ButtonSubmit,
+  InputSpec,
 } from "./AddForm.styled";
+import {
+  steeringRackPattern,
+  rackKitPattern,
+  rackMorePattern,
+  artPattern,
+  quantityPattern,
+  commentPattern,
+  oemPattern,
+  applicationPattern,
+} from "utils/patterns";
 
 const initialState = {
   name: "",
@@ -89,29 +99,55 @@ const AddForm: React.FC = () => {
   };
 
   const addProperty = () => {
-    setFormData({
-      ...formData,
-      kit: {
-        ...formData.kit,
-        property: [
-          ...formData.kit.property,
-          { art: "", quantity: "", description: "" },
-        ],
-      },
-    });
+    const { property } = formData.kit;
+    const isValid = property.every((item) => artPattern.test(item.art));
+    if (isValid) {
+      setFormData({
+        ...formData,
+        kit: {
+          ...formData.kit,
+          property: [...property, { art: "", quantity: "", description: "" }],
+        },
+      });
+    }
   };
 
   const addSpecProperty = () => {
-    setFormData({
-      ...formData,
-      more: {
-        ...formData.more,
-        property: [
-          ...formData.more.property,
-          { art: "", quantity: "", description: "" },
-        ],
-      },
-    });
+    const { property } = formData.more;
+    const isValid = property.every((item) => artPattern.test(item.art));
+    if (isValid) {
+      setFormData({
+        ...formData,
+        more: {
+          ...formData.more,
+          property: [...property, { art: "", quantity: "", description: "" }],
+        },
+      });
+    }
+  };
+
+  const deleteProperty = (index: number, isKit: boolean) => {
+    if (isKit) {
+      const updatedKit = [...formData.kit.property];
+      updatedKit.splice(index, 1);
+      setFormData({
+        ...formData,
+        kit: {
+          ...formData.kit,
+          property: updatedKit,
+        },
+      });
+    } else {
+      const updatedSpec = [...formData.more.property];
+      updatedSpec.splice(index, 1);
+      setFormData({
+        ...formData,
+        more: {
+          ...formData.more,
+          property: updatedSpec,
+        },
+      });
+    }
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -130,6 +166,7 @@ const AddForm: React.FC = () => {
           name="name"
           value={formData.name.toUpperCase()}
           onChange={handleChange}
+          pattern={steeringRackPattern.source}
         />
       </WrapperForm>
       <WrapperForm>
@@ -157,6 +194,7 @@ const AddForm: React.FC = () => {
             name="kitName"
             placeholder="Приклад, AU209KIT"
             value={formData.kit.name}
+            pattern={rackKitPattern.source}
             onChange={(e) =>
               setFormData({
                 ...formData,
@@ -175,6 +213,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`art-${index}`}
                 name={`art-${index}`}
+                pattern={artPattern.source}
                 value={item.art.toUpperCase()}
                 onChange={(e) => handleKitChange(index, "art", e.target.value)}
               />
@@ -187,6 +226,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`quantity-${index}`}
                 name={`quantity-${index}`}
+                pattern={quantityPattern.source}
                 value={item.quantity.toUpperCase()}
                 onChange={(e) =>
                   handleKitChange(index, "quantity", e.target.value)
@@ -197,15 +237,23 @@ const AddForm: React.FC = () => {
               <LabelFormProperty htmlFor={`description-${index}`}>
                 Коментар:
               </LabelFormProperty>
-              <TextAreaForm
+              <InputSpec
+                type="text"
                 id={`description-${index}`}
                 name={`description-${index}`}
                 value={item.description}
+                pattern={commentPattern.source}
                 onChange={(e) =>
                   handleKitChange(index, "description", e.target.value)
                 }
               />
             </WrapperProperty>
+            <DeleteButton
+              type="button"
+              onClick={() => deleteProperty(index, true)}
+            >
+              x
+            </DeleteButton>
           </WrapperForm>
         ))}
         <AddButton type="button" onClick={addProperty}>
@@ -222,6 +270,7 @@ const AddForm: React.FC = () => {
             name="more"
             placeholder="Приклад, AU209SPEC"
             value={formData.more.name}
+            pattern={rackMorePattern.source}
             onChange={(e) =>
               setFormData({
                 ...formData,
@@ -240,6 +289,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`art-${index}`}
                 name={`art-${index}`}
+                pattern={artPattern.source}
                 value={item.art.toUpperCase()}
                 onChange={(e) => handleSpecChange(index, "art", e.target.value)}
               />
@@ -252,6 +302,7 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`quantity-${index}`}
                 name={`quantity-${index}`}
+                pattern={quantityPattern.source}
                 value={item.quantity.toUpperCase()}
                 onChange={(e) =>
                   handleSpecChange(index, "quantity", e.target.value)
@@ -262,15 +313,23 @@ const AddForm: React.FC = () => {
               <LabelFormProperty htmlFor={`description-${index}`}>
                 Коментар:
               </LabelFormProperty>
-              <TextAreaForm
+              <InputSpec
+                type="text"
                 id={`description-${index}`}
                 name={`description-${index}`}
                 value={item.description}
+                pattern={commentPattern.source}
                 onChange={(e) =>
                   handleSpecChange(index, "description", e.target.value)
                 }
               />
             </WrapperProperty>
+            <DeleteButton
+              type="button"
+              onClick={() => deleteProperty(index, false)}
+            >
+              x
+            </DeleteButton>
           </WrapperForm>
         ))}
         <AddButton type="button" onClick={addSpecProperty}>
@@ -280,23 +339,42 @@ const AddForm: React.FC = () => {
 
       <WrapperProperty>
         <LabelForm htmlFor="application">Застосування:</LabelForm>
-        <TextAreaSpec
+        <InputSpec
+          type="text"
           id="application"
           name="application"
           value={formData.application}
           onChange={handleChange}
-        ></TextAreaSpec>
+          pattern={applicationPattern.source}
+        ></InputSpec>
       </WrapperProperty>
       <WrapperProperty>
         <LabelForm htmlFor="oem">OEM:</LabelForm>
-        <TextAreaSpec
+        <InputSpec
+          type="text"
           id="oem"
           name="oem"
           value={formData.oem}
           onChange={handleChange}
-        ></TextAreaSpec>
+          pattern={oemPattern.source}
+        ></InputSpec>
       </WrapperProperty>
-      <ButtonSubmit type="submit">Зберегти</ButtonSubmit>
+      <ButtonSubmit
+        disabled={
+          !steeringRackPattern.test(formData.name) ||
+          !oemPattern.test(formData.oem) ||
+          !applicationPattern.test(formData.application) ||
+          formData.name === "" ||
+          formData.kit.property.length === 0 ||
+          formData.more.property.length === 0 ||
+          formData.oem === "" ||
+          formData.application === "" ||
+          formData.type === ""
+        }
+        type="submit"
+      >
+        Зберегти
+      </ButtonSubmit>
     </Form>
   );
 };
