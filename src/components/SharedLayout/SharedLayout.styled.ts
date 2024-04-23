@@ -40,8 +40,10 @@ const Link = styled(NavLink)`
   min-height: 30px;
   color: ${theme.colors.light};
   border-radius: ${theme.radii.small};
-  &:hover {
+  transition: ${theme.transitions.durations.default};
+  &:hover:not(:active) {
     cursor: pointer;
+    box-shadow: 0 0 10px ${theme.colors.accentActive};
   }
   &.active {
     background-color: ${theme.colors.accentActive};

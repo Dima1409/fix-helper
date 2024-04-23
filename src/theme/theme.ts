@@ -14,6 +14,7 @@ const theme = {
     expensesHeader: "#bc5915",
     mainBg: "#ecfcfc",
     spinner: "#54aff0",
+    disabled: "#c4c7cb",
     red: "#eac3a9",
     green: "#ccfcd4",
     dark: "#0c0d0d",
@@ -29,7 +30,7 @@ const theme = {
     open_sans: "'Open Sans', sans-serif",
   },
   fontSizes: {
-    smallest: "7px",
+    smallest: "10px",
     extraSmall: "12px",
     small: "14px",
     normal: "16px",

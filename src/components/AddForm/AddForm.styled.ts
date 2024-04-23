@@ -6,6 +6,7 @@ const Form = styled.form`
 `;
 
 const WrapperForm = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,6 +47,15 @@ const InputProperty = styled(InputForm)`
   width: 40px;
   margin: 2px;
   font-size: ${theme.fontSizes.extraSmall};
+  &::placeholder {
+    font-size: ${theme.fontSizes.smallest};
+  }
+  &:valid {
+    border-color: ${theme.colors.valid};
+  }
+  &:invalid {
+    border-color: ${theme.colors.invalid};
+  }
   ${theme.mq.tablet} {
     width: 80px;
   }
@@ -60,17 +70,31 @@ const WrapperProperty = styled.div`
 const SelectForm = styled.select`
   text-align: center;
   padding: 4px;
-  border: none;
+  border: ${theme.borders.normal} transparent;
   outline: none;
   border-radius: ${theme.radii.small};
+  &:valid {
+    border-color: ${theme.colors.valid};
+  }
+  &:invalid {
+    border-color: ${theme.colors.invalid};
+  }
 `;
 
 const InputSpec = styled(InputForm)`
   width: 100px;
   min-height: 40px;
   ${theme.mq.tablet} {
-    width: 260px;
+    width: 230px;
     min-height: 60px;
+    margin-right: 25px;
+  }
+`;
+
+const InputMore = styled(InputSpec)`
+  ${theme.mq.tablet} {
+    width: 450px;
+    min-height: 80px;
   }
 `;
 
@@ -86,7 +110,7 @@ const AddButton = styled.button`
   padding: 6px 8px;
   transition: ${theme.transitions.durations.default};
   &:disabled {
-    background-color: ${theme.colors.expensesHeader};
+    background-color: ${theme.colors.disabled};
   }
   &:hover:not(:disabled),
   &:focus:not(:disabled) {
@@ -97,7 +121,14 @@ const AddButton = styled.button`
 `;
 
 const DeleteButton = styled(AddButton)`
+  position: absolute;
   background-color: ${theme.colors.darkRed};
+  top: 15px;
+  right: 0;
+  ${theme.mq.tablet} {
+    right: 0;
+    top: 20%;
+  }
 `;
 
 const ButtonSubmit = styled(AddButton)`
@@ -117,6 +148,7 @@ export {
   InputProperty,
   SelectForm,
   InputSpec,
+  InputMore,
   AddButton,
   DeleteButton,
   ButtonSubmit,

@@ -5,12 +5,11 @@ const codePassPattern = /^(?!.*\s)(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d-]{6,20}$/;
 const steeringRackPattern = /^[a-zA-Z]{2}\d{3}$/;
 const rackKitPattern = /^[a-zA-Z]{2}\d{3}[kK][iI][tT]$/;
 const rackMorePattern = /^[a-zA-Z]{2}\d{3}[sS][pP][eE][cC]$/;
-const artPattern = /^[a-zA-Z0-9-]{3,20}$/;
-const quantityPattern = /^[a-zA-Z0-9-]{1,2}$/;
-const commentPattern = /^[a-zA-Z0-9-ґҐєЄіІїЇґҐєЄіІїЇ]{8,90}$/;
-const applicationPattern = /^[a-zA-Z0-9\s\-,.\u0400-\u04FF]{8,400}$/;
-const oemPattern = /^[a-zA-Z0-9\s\-,.\u0400-\u04FF]{8,800}$/;
-
+const artPattern = /^.{3,25}$/;
+const quantityPattern = /^[a-zA-Z0-9-]{1,3}$/;
+const commentPattern = /^.{8,90}$/;
+const applicationPattern = /^.{8,800}$/;
+const oemPattern = /^.{8,1400}$/;
 export {
   namePattern,
   passwordPattern,

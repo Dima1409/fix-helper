@@ -18,14 +18,13 @@ import {
   DeleteButton,
   ButtonSubmit,
   InputSpec,
+  InputMore,
 } from "./AddForm.styled";
 import {
   steeringRackPattern,
   rackKitPattern,
   rackMorePattern,
   artPattern,
-  quantityPattern,
-  commentPattern,
   oemPattern,
   applicationPattern,
 } from "utils/patterns";
@@ -150,9 +149,16 @@ const AddForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(createNewRack(formData));
+    const response = await dispatch(createNewRack(formData));
+    if (
+      response.payload.response.data.message ===
+      `Rack ${formData.name} already exists`
+    ) {
+      return alert(`Aртикул ${formData.name} вже існує`);
+    }
+    await dispatch(createNewRack(formData));
   };
 
   return (
@@ -167,6 +173,7 @@ const AddForm: React.FC = () => {
           value={formData.name.toUpperCase()}
           onChange={handleChange}
           pattern={steeringRackPattern.source}
+          required
         />
       </WrapperForm>
       <WrapperForm>
@@ -176,6 +183,7 @@ const AddForm: React.FC = () => {
           name="type"
           value={formData.type.toUpperCase()}
           onChange={handleChange}
+          required
         >
           <option value="" disabled>
             Тип агрегату
@@ -213,7 +221,10 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`art-${index}`}
                 name={`art-${index}`}
-                pattern={artPattern.source}
+                placeholder="до 25 символів"
+                minLength={3}
+                maxLength={25}
+                required
                 value={item.art.toUpperCase()}
                 onChange={(e) => handleKitChange(index, "art", e.target.value)}
               />
@@ -226,8 +237,11 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`quantity-${index}`}
                 name={`quantity-${index}`}
-                pattern={quantityPattern.source}
+                minLength={1}
+                maxLength={3}
+                placeholder="до 3 символів"
                 value={item.quantity.toUpperCase()}
+                required
                 onChange={(e) =>
                   handleKitChange(index, "quantity", e.target.value)
                 }
@@ -242,7 +256,10 @@ const AddForm: React.FC = () => {
                 id={`description-${index}`}
                 name={`description-${index}`}
                 value={item.description}
-                pattern={commentPattern.source}
+                minLength={8}
+                maxLength={90}
+                placeholder="від 8 до 90 символів"
+                required
                 onChange={(e) =>
                   handleKitChange(index, "description", e.target.value)
                 }
@@ -271,6 +288,7 @@ const AddForm: React.FC = () => {
             placeholder="Приклад, AU209SPEC"
             value={formData.more.name}
             pattern={rackMorePattern.source}
+            required
             onChange={(e) =>
               setFormData({
                 ...formData,
@@ -289,7 +307,10 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`art-${index}`}
                 name={`art-${index}`}
-                pattern={artPattern.source}
+                minLength={3}
+                maxLength={25}
+                placeholder="до 25 символів"
+                required
                 value={item.art.toUpperCase()}
                 onChange={(e) => handleSpecChange(index, "art", e.target.value)}
               />
@@ -302,7 +323,10 @@ const AddForm: React.FC = () => {
                 type="text"
                 id={`quantity-${index}`}
                 name={`quantity-${index}`}
-                pattern={quantityPattern.source}
+                placeholder="до 3 символів"
+                minLength={1}
+                maxLength={3}
+                required
                 value={item.quantity.toUpperCase()}
                 onChange={(e) =>
                   handleSpecChange(index, "quantity", e.target.value)
@@ -318,7 +342,10 @@ const AddForm: React.FC = () => {
                 id={`description-${index}`}
                 name={`description-${index}`}
                 value={item.description}
-                pattern={commentPattern.source}
+                placeholder="від 8 до 90 символів"
+                required
+                minLength={8}
+                maxLength={90}
                 onChange={(e) =>
                   handleSpecChange(index, "description", e.target.value)
                 }
@@ -339,25 +366,29 @@ const AddForm: React.FC = () => {
 
       <WrapperProperty>
         <LabelForm htmlFor="application">Застосування:</LabelForm>
-        <InputSpec
+        <InputMore
           type="text"
           id="application"
           name="application"
           value={formData.application}
+          placeholder="від 8 до 800 символів"
+          required
           onChange={handleChange}
           pattern={applicationPattern.source}
-        ></InputSpec>
+        ></InputMore>
       </WrapperProperty>
       <WrapperProperty>
         <LabelForm htmlFor="oem">OEM:</LabelForm>
-        <InputSpec
+        <InputMore
           type="text"
           id="oem"
           name="oem"
           value={formData.oem}
+          required
+          placeholder="від 8 до 1400 символів"
           onChange={handleChange}
           pattern={oemPattern.source}
-        ></InputSpec>
+        ></InputMore>
       </WrapperProperty>
       <ButtonSubmit
         disabled={

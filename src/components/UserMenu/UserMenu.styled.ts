@@ -14,7 +14,6 @@ const User = styled.p`
   font-size: ${theme.fontSizes.small};
   font-family: ${theme.fonts.merriweather};
   font-weight: ${theme.fontWeight.bold};
-  text-transform: uppercase;
   margin-left: auto;
   margin-right: 10px;
   ${theme.mq.tablet} {
