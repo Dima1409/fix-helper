@@ -4,6 +4,7 @@ import { createNewRack } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Rack, Property } from "types/data";
+import { ToastContainer } from "react-toastify";
 import {
   Form,
   WrapperForm,
@@ -28,6 +29,7 @@ import {
   oemPattern,
   applicationPattern,
 } from "utils/patterns";
+import Notification from "components/Notify";
 
 const initialState = {
   name: "",
@@ -47,6 +49,8 @@ const initialState = {
 const AddForm: React.FC = () => {
   const [formData, setFormData] = useState<Rack>(initialState);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const [result, setResult] = useState<string>("");
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     const updatedKitName = formData.name.toUpperCase() + "KIT";
@@ -63,6 +67,7 @@ const AddForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setFormSubmitted(false);
   };
 
   const handleKitChange = (
@@ -151,18 +156,49 @@ const AddForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await dispatch(createNewRack(formData));
-    if (
-      response.payload.response.data.message ===
-      `Rack ${formData.name} already exists`
-    ) {
-      return alert(`Aртикул ${formData.name} вже існує`);
-    }
-    await dispatch(createNewRack(formData));
+    await dispatch(createNewRack(formData)).then((res) => {
+      if (res.payload._id) {
+        setResult("success");
+        setFormSubmitted(true);
+        return;
+      }
+      if (
+        res.payload.response.data.message ===
+        `Rack ${formData.name} already exists`
+      ) {
+        setResult("conflict");
+        setFormSubmitted(true);
+        return;
+      } else {
+        setResult("error");
+        setFormSubmitted(true);
+        return;
+      }
+    });
   };
 
   return (
     <Form onSubmit={handleSubmit}>
+      {formSubmitted && (
+        <>
+          {result === "success" && (
+            <Notification
+              type="success"
+              message={`Збережено новий артикул ${formData.name}`}
+            />
+          )}
+          {result === "conflict" && (
+            <Notification
+              type="error"
+              message={`Артикул ${formData.name} уже існує`}
+            />
+          )}
+          {result === "error" && (
+            <Notification type="error" message={`Помилка збереження`} />
+          )}
+        </>
+      )}
+      <ToastContainer position="top-center" />
       <WrapperForm>
         <LabelForm htmlFor="name">Артикул:</LabelForm>
         <InputForm
@@ -248,6 +284,50 @@ const AddForm: React.FC = () => {
               />
             </WrapperProperty>
             <WrapperProperty>
+              <LabelForm htmlFor={`description-${index}`}>Опис:</LabelForm>
+              <SelectForm
+                id={`description-${index}`}
+                name={`description-${index}`}
+                value={item.description}
+                onChange={(e) =>
+                  handleKitChange(index, "description", e.target.value)
+                }
+                required
+              >
+                <option value="" disabled>
+                  Виберіть зі списку
+                </option>
+                <option value="Верхній сальник розподільника">
+                  Верхній сальник розподільника
+                </option>
+                <option value={item.description}>Власний варіант</option>
+                <option value="Нижній сальник розподільника">
+                  Нижній сальник розподільника
+                </option>
+                <option value="Силовий сальник(однакові)">
+                  Силовий сальник(однакові)
+                </option>
+                <option value="Силовий сальник на втулку">
+                  Силовий сальник на втулку
+                </option>
+                <option value="Силовий сальник в корпус">
+                  Силовий сальник в корпус
+                </option>
+                <option value="Верхній пильник">Верхній пильник</option>
+                <option value="Гумове кільна на бокову втулку">
+                  Гумове кільна на бокову втулку
+                </option>
+                <option value="Гумове кільце на верхню втулку">
+                  Гумове кільце на верхню втулку
+                </option>
+                <option value="Гумове кільце під кришку">
+                  Гумове кільце під кришку
+                </option>
+                <option value="Гумове кільце на трубки">
+                  Гумове кільце на трубки
+                </option>
+              </SelectForm>
+
               <LabelFormProperty htmlFor={`description-${index}`}>
                 Коментар:
               </LabelFormProperty>

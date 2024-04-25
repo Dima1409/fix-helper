@@ -73,6 +73,8 @@ const SelectForm = styled.select`
   border: ${theme.borders.normal} transparent;
   outline: none;
   border-radius: ${theme.radii.small};
+  max-width: 200px;
+  margin-right: 30px;
   &:valid {
     border-color: ${theme.colors.valid};
   }
@@ -83,10 +85,10 @@ const SelectForm = styled.select`
 
 const InputSpec = styled(InputForm)`
   width: 100px;
-  min-height: 40px;
+  min-height: 20px;
   ${theme.mq.tablet} {
     width: 230px;
-    min-height: 60px;
+    min-height: 30px;
     margin-right: 25px;
   }
 `;
