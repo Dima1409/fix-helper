@@ -1,12 +1,12 @@
 export interface Property {
-  id?: string;
+  _id?: string;
   art: string;
   quantity: string;
   description: string;
 }
 
 export interface Rack {
-  id?: string;
+  _id?: string;
   name: string;
   type: string;
   kit: {

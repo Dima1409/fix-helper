@@ -51,7 +51,7 @@ const createNewRack = createAsyncThunk(
 
 const deleteRack = createAsyncThunk(
   "/rack/delete",
-  async (credentials: Rack, thunkAPI) => {
+  async (credentials: string, thunkAPI) => {
     try {
       const response = await API.delete(`/rack/${credentials}`);
       return response.data.data;

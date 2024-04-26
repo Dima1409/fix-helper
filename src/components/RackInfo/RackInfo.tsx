@@ -99,8 +99,8 @@ const RackInfo: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {kit.property.map(({ id, art, quantity, description }) => (
-                    <tr key={id}>
+                  {kit.property.map(({ _id, art, quantity, description }) => (
+                    <tr key={_id}>
                       <StyledTd>{art}</StyledTd>
                       <StyledTd>{quantity}</StyledTd>
                       <StyledTd>{description}</StyledTd>
@@ -121,8 +121,8 @@ const RackInfo: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {more.property.map(({ id, art, quantity, description }) => (
-                    <tr key={id}>
+                  {more.property.map(({ _id, art, quantity, description }) => (
+                    <tr key={_id}>
                       <StyledTd>{art}</StyledTd>
                       <StyledTd>{quantity}</StyledTd>
                       <StyledTd>{description}</StyledTd>

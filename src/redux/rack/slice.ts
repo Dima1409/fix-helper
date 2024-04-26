@@ -70,7 +70,7 @@ const RackSlice = createSlice({
           state.isLoading = false;
           state.error = null;
           const index = state.rack.findIndex(
-            (rack) => rack.id === action.payload.id
+            (rack) => rack._id === action.payload._id
           );
           state.rack.splice(index, 1);
         }

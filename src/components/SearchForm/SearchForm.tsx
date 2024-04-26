@@ -8,6 +8,7 @@ import {
   ButtonsWrapper,
   HeaderNames,
   NamesList,
+  ButtonDelete,
 } from "./SearchForm.styled";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { getByName } from "../../redux/rack/operations";
@@ -16,15 +17,22 @@ import useAuth from "hooks/useAuth";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import useToggle from "hooks/useToggle";
 import RackInfo from "components/RackInfo";
-import { getAllRacks } from "../../redux/rack/operations";
+import { getAllRacks, deleteRack } from "../../redux/rack/operations";
 import { Rack } from "types/data";
 import Modal from "components/Modal";
 import AddForm from "components/AddForm";
+import { DeleteIcon } from "components/Icons/Icons";
+import { theme } from "theme/theme";
+import { ToastContainer } from "react-toastify";
+import Notification from "components/Notify/Notify";
+import useRack from "hooks/useRack";
 
 const SearchForm: React.FC = () => {
   const { user } = useAuth();
+  const { isLoading } = useRack();
   const [showForm, setShowForm] = useState(false);
   const { isOpen, close, toggle } = useToggle();
+  const [deleteStatus, setDeleteStatus] = useState<string>("");
   const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
   const initialValues = {
     searchValue: "",
@@ -81,11 +89,31 @@ const SearchForm: React.FC = () => {
 
   const getByNameMore = async (elem: Rack) => {
     setAllRacks([]);
+    console.log(elem._id);
     dispatchTyped(getByName({ name: elem.name }));
+  };
+
+  const deleteRackById = async (id: string | undefined) => {
+    console.log(id);
+    if (id) {
+      dispatchTyped(deleteRack(id));
+      setDeleteStatus("success");
+      await getAll();
+    } else {
+      setDeleteStatus("error");
+      console.error("Invalid rack ID:", id);
+    }
   };
 
   return (
     <>
+      {deleteStatus === "success" && (
+        <Notification type="success" message={`Успішно видалено`} />
+      )}
+      {deleteStatus === "error" && (
+        <Notification type="error" message={`Помилка видалення`} />
+      )}
+      <ToastContainer position="top-right" />
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="searchInput">
           <Input
@@ -129,14 +157,25 @@ const SearchForm: React.FC = () => {
           {showForm && <AddForm />}
         </Modal>
       )}
-
+      {isLoading && <p>loading...</p>}
       {Object.keys(organizedRacks).map((letter: string) => (
         <div key={letter}>
           <HeaderNames>{letter}</HeaderNames>
           <ul>
             {organizedRacks[letter].map((rack) => (
-              <NamesList onClick={() => getByNameMore(rack)} key={rack.id}>
-                {rack.name}
+              <NamesList>
+                <span onClick={() => getByNameMore(rack)} key={rack._id}>
+                  {rack.name}
+                </span>
+                {user.role === "admin" && (
+                  <ButtonDelete
+                    onClick={() => {
+                      deleteRackById(rack._id);
+                    }}
+                  >
+                    <DeleteIcon color={theme.colors.darkRed} />
+                  </ButtonDelete>
+                )}
               </NamesList>
             ))}
           </ul>

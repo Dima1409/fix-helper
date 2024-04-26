@@ -104,17 +104,42 @@ const HeaderNames = styled.h2`
 `;
 
 const NamesList = styled.li`
+  position: relative;
   color: ${theme.colors.accent};
   text-align: center;
   margin: 1px;
-  width: 60px;
+  width: 60%;
+  padding: 5px 0;
   border: ${theme.borders.normal} ${theme.colors.accent};
   border-radius: ${theme.radii.small};
   transition: ${theme.transitions.durations.default};
+  ${theme.mq.tablet} {
+    width: 60px;
+  }
   &:hover {
     cursor: pointer;
     color: ${theme.colors.accentActive};
     transform: translateX(10%);
+  }
+`;
+
+const ButtonDelete = styled.button`
+  position: absolute;
+  left: 110%;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none;
+  border-radius: ${theme.radii.small};
+  margin-left: auto;
+  transition: ${theme.transitions.durations.default};
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0 4px ${theme.colors.accentActive};
   }
 `;
 
@@ -128,4 +153,5 @@ export {
   ButtonsWrapper,
   HeaderNames,
   NamesList,
+  ButtonDelete,
 };

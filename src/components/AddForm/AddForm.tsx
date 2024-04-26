@@ -198,7 +198,7 @@ const AddForm: React.FC = () => {
           )}
         </>
       )}
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-right" />
       <WrapperForm>
         <LabelForm htmlFor="name">Артикул:</LabelForm>
         <InputForm
