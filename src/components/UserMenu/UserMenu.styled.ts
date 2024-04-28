@@ -4,7 +4,8 @@ import { theme } from "theme/theme";
 const UserWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  justify-content: space-between;
+  margin: 20px auto;
   margin-bottom: 10px;
   max-width: 600px;
 `;

@@ -3,6 +3,7 @@ import useAuth from "hooks/useAuth";
 import { HeaderWelcome, Description } from "./HomePage.styled";
 import { Link } from "components/SharedLayout/SharedLayout.styled";
 import { theme } from "theme/theme";
+import Spinner from "components/Spinner";
 
 const HomePage: React.FC = () => {
   const { isLoggedIn, isRefreshing, user } = useAuth();
@@ -51,7 +52,7 @@ const HomePage: React.FC = () => {
           </>
         )
       ) : (
-        <div>loading...</div>
+        <Spinner />
       )}
     </>
   );

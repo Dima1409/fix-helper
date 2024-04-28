@@ -26,6 +26,7 @@ import { theme } from "theme/theme";
 import { ToastContainer } from "react-toastify";
 import Notification from "components/Notify/Notify";
 import useRack from "hooks/useRack";
+import Spinner from "components/Spinner";
 
 const SearchForm: React.FC = () => {
   const { user } = useAuth();
@@ -157,7 +158,7 @@ const SearchForm: React.FC = () => {
           {showForm && <AddForm />}
         </Modal>
       )}
-      {isLoading && <p>loading...</p>}
+      {isLoading && <Spinner />}
       {Object.keys(organizedRacks).map((letter: string) => (
         <div key={letter}>
           <HeaderNames>{letter}</HeaderNames>

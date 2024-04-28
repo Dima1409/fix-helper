@@ -1,5 +1,5 @@
 const TurbinePage: React.FC = () => {
-  return <div>Сторінка в розробці...</div>;
+  return <div style={{ textAlign: "center" }}>Сторінка в розробці...</div>;
 };
 
 export default TurbinePage;

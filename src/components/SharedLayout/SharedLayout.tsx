@@ -9,11 +9,12 @@ import {
 } from "components/Icons/Icons";
 import { NavList, Link, NavListItem } from "./SharedLayout.styled";
 import { theme } from "theme/theme";
+import Spinner from "components/Spinner";
 
 const SharedLayout: React.FC = () => {
   const { isLoggedIn, isRefreshing } = useAuth();
   if (isRefreshing) {
-    return <div>loading...</div>;
+    return <Spinner />;
   }
   return (
     <>
