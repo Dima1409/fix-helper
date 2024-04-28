@@ -95,10 +95,15 @@ const SearchForm: React.FC = () => {
   };
 
   const deleteRackById = async (id: string | undefined) => {
-    console.log(id);
     if (id) {
-      dispatchTyped(deleteRack(id));
-      setDeleteStatus("success");
+      await dispatchTyped(deleteRack(id)).then((res) => {
+        console.log(res);
+        if (res.meta.requestStatus === "fulfilled") {
+          setDeleteStatus("success");
+          return;
+        }
+        setDeleteStatus("error");
+      });
       await getAll();
     } else {
       setDeleteStatus("error");

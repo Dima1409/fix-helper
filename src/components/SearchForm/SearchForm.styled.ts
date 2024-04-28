@@ -47,7 +47,7 @@ const ButtonSearch = styled.button`
   font-size: ${theme.fontSizes.bold};
   color: ${theme.colors.light};
   opacity: 0.5;
-  transition: 0.25s;
+  transition: ${theme.transitions.durations.default};
   min-height: 20px;
   width: 80px;
   &:enabled {
@@ -91,6 +91,7 @@ const AddNewButton = styled.button`
   background-color: ${theme.colors.accent};
   color: ${theme.colors.light};
   padding: 8px 10px;
+  transition: ${theme.transitions.durations.default};
   &:hover,
   &:focus {
     cursor: pointer;

@@ -27,7 +27,7 @@ const RackInfo: React.FC = () => {
     return null;
   }
 
-  const renderedApplication = application.split(",").map((item, index) => (
+  const renderedApplication = application.split("\n").map((item, index) => (
     <React.Fragment key={index}>
       {index === 0 ? <br /> : null}
       {item.trim()}

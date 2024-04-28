@@ -27,13 +27,11 @@ import {
   rackKitPattern,
   rackMorePattern,
   artPattern,
-  oemPattern,
-  applicationPattern,
   quantityPattern,
   commentPattern,
 } from "utils/patterns";
 import Notification from "components/Notify";
-import PropertiesForm from "utils/addFormHelper";
+import { PropertiesForm, PropertiesFormSpec } from "utils/addFormHelper";
 
 const initialState = {
   name: "",
@@ -312,7 +310,7 @@ const AddForm: React.FC = () => {
               </SelectForm>
 
               <LabelFormProperty htmlFor={`description-${index}`}>
-                Коментар:
+                Значення:
               </LabelFormProperty>
               <InputSpec
                 type="text"
@@ -408,8 +406,30 @@ const AddForm: React.FC = () => {
               />
             </WrapperProperty>
             <WrapperProperty>
+              <LabelForm htmlFor={`description-${index}`}>Опис:</LabelForm>
+              <SelectForm
+                id={`description-${index}`}
+                name={`description-${index}`}
+                value={item.description}
+                onChange={(e) =>
+                  handleSpecChange(index, "description", e.target.value)
+                }
+                required
+              >
+                <option value="" disabled>
+                  Виберіть зі списку
+                </option>
+                {PropertiesFormSpec.map((property, idx) => (
+                  <option key={idx} value={property}>
+                    {property}
+                  </option>
+                ))}
+                <option value={item.description} disabled>
+                  Власний варіант
+                </option>
+              </SelectForm>
               <LabelFormProperty htmlFor={`description-${index}`}>
-                Коментар:
+                Значення:
               </LabelFormProperty>
               <InputSpec
                 type="text"
@@ -433,42 +453,53 @@ const AddForm: React.FC = () => {
             </DeleteButton>
           </ElemOfProperty>
         ))}
-        <AddButton type="button" onClick={addSpecProperty}>
+        <AddButton
+          type="button"
+          disabled={
+            !formData.more.property.every(
+              (item) =>
+                artPattern.test(item.art) &&
+                quantityPattern.test(item.quantity) &&
+                commentPattern.test(item.description)
+            )
+          }
+          onClick={addSpecProperty}
+        >
           Додати запчастину
         </AddButton>
       </WrapperBaseKit>
 
       <WrapperProperty>
         <LabelForm htmlFor="application">Застосування:</LabelForm>
-        <InputMore
-          type="text"
-          id="application"
-          name="application"
-          value={formData.application}
-          placeholder="від 8 до 800 символів"
-          required
-          onChange={handleChange}
-          pattern={applicationPattern.source}
-        ></InputMore>
+        <div style={{ maxHeight: "100px", overflowY: "auto" }}>
+          <InputMore
+            id="application"
+            minLength={8}
+            maxLength={800}
+            name="application"
+            value={formData.application.split("\n").join(", ")}
+            placeholder="від 8 до 800 символів"
+            required
+            onChange={handleChange}
+          ></InputMore>
+        </div>
       </WrapperProperty>
       <WrapperProperty>
         <LabelForm htmlFor="oem">OEM:</LabelForm>
         <InputMore
-          type="text"
           id="oem"
+          minLength={8}
+          maxLength={1400}
           name="oem"
           value={formData.oem}
           required
           placeholder="від 8 до 1400 символів"
           onChange={handleChange}
-          pattern={oemPattern.source}
         ></InputMore>
       </WrapperProperty>
       <ButtonSubmit
         disabled={
           !steeringRackPattern.test(formData.name) ||
-          !oemPattern.test(formData.oem) ||
-          !applicationPattern.test(formData.application) ||
           formData.name === "" ||
           formData.kit.property.length === 0 ||
           formData.more.property.length === 0 ||

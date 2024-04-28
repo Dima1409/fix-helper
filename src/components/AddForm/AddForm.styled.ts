@@ -100,11 +100,25 @@ const InputSpec = styled(InputForm)`
   ${theme.mq.tablet} {
     width: 230px;
     min-height: 30px;
-    margin-right: 25px;
   }
 `;
 
-const InputMore = styled(InputSpec)`
+const InputMore = styled.textarea`
+  border: ${theme.borders.normal} transparent;
+  outline: none;
+  border-radius: ${theme.radii.small};
+  padding: 4px;
+  white-space: pre-wrap;
+  resize: none;
+  &:valid {
+    border-color: ${theme.colors.valid};
+  }
+  &:invalid {
+    border-color: ${theme.colors.invalid};
+  }
+  &::placeholder {
+    text-align: center;
+  }
   ${theme.mq.tablet} {
     width: 450px;
     min-height: 80px;
