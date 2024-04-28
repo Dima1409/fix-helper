@@ -20,6 +20,7 @@ import {
   ButtonSubmit,
   InputSpec,
   InputMore,
+  ElemOfProperty,
 } from "./AddForm.styled";
 import {
   steeringRackPattern,
@@ -28,8 +29,11 @@ import {
   artPattern,
   oemPattern,
   applicationPattern,
+  quantityPattern,
+  commentPattern,
 } from "utils/patterns";
 import Notification from "components/Notify";
+import PropertiesForm from "utils/addFormHelper";
 
 const initialState = {
   name: "",
@@ -178,7 +182,7 @@ const AddForm: React.FC = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} autoComplete="off">
       {formSubmitted && (
         <>
           {result === "success" && (
@@ -248,7 +252,7 @@ const AddForm: React.FC = () => {
           />
         </WrapperForm>
         {formData.kit.property.map((item, index) => (
-          <WrapperForm key={index}>
+          <ElemOfProperty key={index}>
             <WrapperProperty>
               <LabelFormProperty htmlFor={`art-${index}`}>
                 Арт:
@@ -297,34 +301,13 @@ const AddForm: React.FC = () => {
                 <option value="" disabled>
                   Виберіть зі списку
                 </option>
-                <option value="Верхній сальник розподільника">
-                  Верхній сальник розподільника
-                </option>
-                <option value={item.description}>Власний варіант</option>
-                <option value="Нижній сальник розподільника">
-                  Нижній сальник розподільника
-                </option>
-                <option value="Силовий сальник(однакові)">
-                  Силовий сальник(однакові)
-                </option>
-                <option value="Силовий сальник на втулку">
-                  Силовий сальник на втулку
-                </option>
-                <option value="Силовий сальник в корпус">
-                  Силовий сальник в корпус
-                </option>
-                <option value="Верхній пильник">Верхній пильник</option>
-                <option value="Гумове кільна на бокову втулку">
-                  Гумове кільна на бокову втулку
-                </option>
-                <option value="Гумове кільце на верхню втулку">
-                  Гумове кільце на верхню втулку
-                </option>
-                <option value="Гумове кільце під кришку">
-                  Гумове кільце під кришку
-                </option>
-                <option value="Гумове кільце на трубки">
-                  Гумове кільце на трубки
+                {PropertiesForm.map((property, idx) => (
+                  <option key={idx} value={property}>
+                    {property}
+                  </option>
+                ))}
+                <option value={item.description} disabled>
+                  Власний варіант
                 </option>
               </SelectForm>
 
@@ -351,9 +334,20 @@ const AddForm: React.FC = () => {
             >
               x
             </DeleteButton>
-          </WrapperForm>
+          </ElemOfProperty>
         ))}
-        <AddButton type="button" onClick={addProperty}>
+        <AddButton
+          type="button"
+          disabled={
+            !formData.kit.property.every(
+              (item) =>
+                artPattern.test(item.art) &&
+                quantityPattern.test(item.quantity) &&
+                commentPattern.test(item.description)
+            )
+          }
+          onClick={addProperty}
+        >
           Додати запчастину
         </AddButton>
       </WrapperBaseKit>
@@ -378,7 +372,7 @@ const AddForm: React.FC = () => {
           />
         </WrapperForm>
         {formData.more.property.map((item, index) => (
-          <WrapperForm key={index}>
+          <ElemOfProperty key={index}>
             <WrapperProperty>
               <LabelFormProperty htmlFor={`art-${index}`}>
                 Арт:
@@ -437,7 +431,7 @@ const AddForm: React.FC = () => {
             >
               x
             </DeleteButton>
-          </WrapperForm>
+          </ElemOfProperty>
         ))}
         <AddButton type="button" onClick={addSpecProperty}>
           Додати запчастину

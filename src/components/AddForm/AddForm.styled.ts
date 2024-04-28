@@ -6,11 +6,22 @@ const Form = styled.form`
 `;
 
 const WrapperForm = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+const ElemOfProperty = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+  border-radius: ${theme.radii.small};
+  padding: 2px;
+  border: ${theme.borders.medium} ${theme.colors.green};
+  border-style: dotted;
 `;
 
 const WrapperBaseKit = styled.div`
@@ -129,7 +140,7 @@ const DeleteButton = styled(AddButton)`
   right: 0;
   ${theme.mq.tablet} {
     right: 0;
-    top: 20%;
+    top: 0;
   }
 `;
 
@@ -154,4 +165,5 @@ export {
   AddButton,
   DeleteButton,
   ButtonSubmit,
+  ElemOfProperty,
 };

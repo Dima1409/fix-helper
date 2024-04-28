@@ -80,10 +80,13 @@ const StyledTh = styled.th`
 const StyledTd = styled.td`
   border: 1px solid ${theme.colors.light};
   padding: 2px;
-  color: ${theme.colors.textColor};
+  color: ${theme.colors.dark};
   text-align: center;
   font-size: ${theme.fontSizes.smallest};
   white-space: nowrap;
+  &:last-child {
+    text-align: start;
+  }
   ${theme.mq.tablet} {
     font-size: ${theme.fontSizes.normal};
   }
