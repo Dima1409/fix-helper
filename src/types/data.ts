@@ -20,3 +20,18 @@ export interface Rack {
   application: string;
   oem: string;
 }
+
+export const initialState = {
+  name: "",
+  type: "",
+  kit: {
+    name: "",
+    property: [{ art: "", quantity: "", description: "" }],
+  },
+  more: {
+    name: "",
+    property: [{ art: "", quantity: "", description: "" }],
+  },
+  application: "",
+  oem: "",
+};

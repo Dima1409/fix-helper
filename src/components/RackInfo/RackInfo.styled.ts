@@ -57,6 +57,10 @@ const MoreButton = styled.button`
   }
 `;
 
+const EditButton = styled(MoreButton)`
+margin-left: 12px;
+`;
+
 const StyledTable = styled.table`
   border-collapse: collapse;
   position: 0;
@@ -99,6 +103,7 @@ export {
   InfoOfProperty,
   ButtonWrapper,
   MoreButton,
+  EditButton,
   StyledTable,
   StyledTh,
   StyledTd,

@@ -37,6 +37,18 @@ const getByName = createAsyncThunk(
   }
 );
 
+const getById = createAsyncThunk(
+  "rack/getById",
+  async (credentials: string, thunkAPI) => {
+    try {
+      const response = await API.get(`/rack/getById/${credentials}`);
+      return response.data.data;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const createNewRack = createAsyncThunk(
   "/rack/new",
   async (credentials: Rack, thunkAPI) => {
@@ -61,4 +73,4 @@ const deleteRack = createAsyncThunk(
   }
 );
 
-export { getAllRacks, getByName, createNewRack, deleteRack };
+export { getAllRacks, getByName, getById, createNewRack, deleteRack };

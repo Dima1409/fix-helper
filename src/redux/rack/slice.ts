@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   getAllRacks,
   getByName,
+  getById,
   createNewRack,
   deleteRack,
 } from "./operations";
@@ -37,8 +38,10 @@ const RackSlice = createSlice({
       .addCase(getByName.pending, handlePending)
       .addCase(createNewRack.pending, handlePending)
       .addCase(deleteRack.pending, handlePending)
+      .addCase(getById.pending, handlePending)
       .addCase(getAllRacks.rejected, handleRejected)
       .addCase(getByName.rejected, handlePending)
+      .addCase(getById.rejected, handleRejected)
       .addCase(createNewRack.rejected, handleRejected)
       .addCase(deleteRack.rejected, handleRejected)
       .addCase(
@@ -55,6 +58,14 @@ const RackSlice = createSlice({
           state.isLoading = false;
           state.error = null;
           state.rack = action.payload;
+        }
+      )
+      .addCase(
+        getById.fulfilled,
+        (state: RackState, action: PayloadAction<Rack>) => {
+          state.isLoading = false;
+          state.error = null;
+          state.rack = [action.payload];
         }
       )
       .addCase(

@@ -90,7 +90,6 @@ const SearchForm: React.FC = () => {
 
   const getByNameMore = async (elem: Rack) => {
     setAllRacks([]);
-    console.log(elem._id);
     dispatchTyped(getByName({ name: elem.name }));
   };
 

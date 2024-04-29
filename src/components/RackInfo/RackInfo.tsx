@@ -1,6 +1,8 @@
 import useRack from "hooks/useRack";
 import { Rack } from "types/data";
 import React, { useState } from "react";
+// import { useDispatch } from "react-redux";
+// import { ThunkDispatch } from "@reduxjs/toolkit";
 import useToggle from "hooks/useToggle";
 import Modal from "components/Modal";
 import {
@@ -10,16 +12,23 @@ import {
   InfoOfProperty,
   ButtonWrapper,
   MoreButton,
+  EditButton,
   StyledTable,
   StyledTh,
   StyledTd,
 } from "./RackInfo.styled";
-import { PlusIcon } from "components/Icons/Icons";
+import { EditIcon, PlusIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
+import EditForm from "components/EditForm";
+// import { initialState } from "types/data";
+// import { getById } from "../../redux/rack/operations";
 
 const RackInfo: React.FC = () => {
-  const { isOpen, close, toggle } = useToggle();
+  const { isOpen, open, close, toggle } = useToggle();
   const { rack }: { rack: Rack } = useRack();
+  // const [formData, setFormData] = useState<Rack>(initialState);
+  // const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
+  const [showForm, setShowForm] = useState(false);
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { application, kit, more, name, oem, type } = rack;
@@ -40,7 +49,16 @@ const RackInfo: React.FC = () => {
       <WrapperHeader>Результат пошуку:</WrapperHeader>
       <NameOfProperty>
         <ButtonWrapper>
-          Артикул: <InfoOfProperty>{name}</InfoOfProperty>
+          Артикул:{" "}
+          <EditButton
+            onClick={() => {
+              setShowForm(true);
+              open();
+            }}
+          >
+            <EditIcon color={theme.colors.light} />
+          </EditButton>
+          <InfoOfProperty>{name}</InfoOfProperty>
         </ButtonWrapper>
       </NameOfProperty>
       <NameOfProperty>
@@ -83,6 +101,7 @@ const RackInfo: React.FC = () => {
       {isOpen && (
         <Modal
           onClick={() => {
+            setShowForm(false);
             setShowKit(false);
             setShowMore(false);
             close();
@@ -132,6 +151,7 @@ const RackInfo: React.FC = () => {
               </StyledTable>
             </>
           )}
+          {showForm && <EditForm data={rack} />}
         </Modal>
       )}
     </Wrapper>

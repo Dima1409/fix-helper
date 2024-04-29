@@ -21,7 +21,7 @@ import {
   InputSpec,
   InputMore,
   ElemOfProperty,
-} from "./AddForm.styled";
+} from "../AddForm/AddForm.styled";
 import {
   steeringRackPattern,
   rackKitPattern,
@@ -32,23 +32,26 @@ import {
 } from "utils/patterns";
 import Notification from "components/Notify";
 import { PropertiesForm, PropertiesFormSpec } from "utils/addFormHelper";
-import { initialState } from "types/data";
 
-const AddForm: React.FC = () => {
-  const [formData, setFormData] = useState<Rack>(initialState);
+interface EditFormProps {
+  data: Rack;
+}
+
+const EditForm: React.FC<EditFormProps> = ({ data }) => {
+  const [formData, setFormData] = useState(data);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [result, setResult] = useState<string>("");
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
-    const updatedKitName = formData.name.toUpperCase() + "KIT";
-    const updatedMore = formData.name.toUpperCase() + "SPEC";
+    const updatedKitName = data.name.toUpperCase() + "KIT";
+    const updatedMore = data.name.toUpperCase() + "SPEC";
     setFormData((prevFormData) => ({
       ...prevFormData,
       kit: { ...prevFormData.kit, name: updatedKitName },
       more: { ...prevFormData.more, name: updatedMore },
     }));
-  }, [formData.name]);
+  }, [data.name]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -63,7 +66,7 @@ const AddForm: React.FC = () => {
     field: keyof Property,
     value: string
   ) => {
-    const updatedKit = [...formData.kit.property];
+    const updatedKit = [...data.kit.property];
     updatedKit[index][field] = value;
     setFormData({
       ...formData,
@@ -79,7 +82,7 @@ const AddForm: React.FC = () => {
     field: keyof Property,
     value: string
   ) => {
-    const updatedSpec = [...formData.more.property];
+    const updatedSpec = [...data.more.property];
     updatedSpec[index][field] = value;
     setFormData({
       ...formData,
@@ -501,4 +504,4 @@ const AddForm: React.FC = () => {
   );
 };
 
-export default AddForm;
+export default EditForm;
