@@ -8,8 +8,8 @@ const rackMorePattern = /^[a-zA-Z]{2}\d{3}[sS][pP][eE][cC]$/;
 const artPattern = /^.{3,25}$/;
 const quantityPattern = /^[a-zA-Z0-9-]{1,3}$/;
 const commentPattern = /^.{8,90}$/;
-const applicationPattern = /^.{8,2000}$/;
-const oemPattern = /^.{8,1400}$/;
+const applicationPattern = /^.{8,2000}$/s;
+const oemPattern = /^.{8,1400}$/s;
 export {
   namePattern,
   passwordPattern,
