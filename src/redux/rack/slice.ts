@@ -40,7 +40,7 @@ const RackSlice = createSlice({
       .addCase(deleteRack.pending, handlePending)
       .addCase(getById.pending, handlePending)
       .addCase(getAllRacks.rejected, handleRejected)
-      .addCase(getByName.rejected, handlePending)
+      .addCase(getByName.rejected, handleRejected)
       .addCase(getById.rejected, handleRejected)
       .addCase(createNewRack.rejected, handleRejected)
       .addCase(deleteRack.rejected, handleRejected)

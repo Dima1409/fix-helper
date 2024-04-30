@@ -15,6 +15,10 @@ const WrapperHeader = styled.h2`
   font-size: ${theme.fontSizes.extraBold};
 `;
 
+const WrapperHeaderError = styled(WrapperHeader)`
+color: ${theme.colors.darkRed};
+`
+
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -99,6 +103,7 @@ const StyledTd = styled.td`
 export {
   Wrapper,
   WrapperHeader,
+  WrapperHeaderError,
   NameOfProperty,
   InfoOfProperty,
   ButtonWrapper,

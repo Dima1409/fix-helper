@@ -8,6 +8,7 @@ import Modal from "components/Modal";
 import {
   Wrapper,
   WrapperHeader,
+  WrapperHeaderError,
   NameOfProperty,
   InfoOfProperty,
   ButtonWrapper,
@@ -26,6 +27,7 @@ import EditForm from "components/EditForm";
 const RackInfo: React.FC = () => {
   const { isOpen, open, close, toggle } = useToggle();
   const { rack }: { rack: Rack } = useRack();
+  const { isError } = useRack();
   // const [formData, setFormData] = useState<Rack>(initialState);
   // const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
   const [showForm, setShowForm] = useState(false);
@@ -46,113 +48,123 @@ const RackInfo: React.FC = () => {
 
   return (
     <Wrapper>
-      <WrapperHeader>Результат пошуку:</WrapperHeader>
-      <NameOfProperty>
-        <ButtonWrapper>
-          Артикул:{" "}
-          <EditButton
-            onClick={() => {
-              setShowForm(true);
-              open();
-            }}
-          >
-            <EditIcon color={theme.colors.light} />
-          </EditButton>
-          <InfoOfProperty>{name}</InfoOfProperty>
-        </ButtonWrapper>
-      </NameOfProperty>
-      <NameOfProperty>
-        <ButtonWrapper>
-          Тип: <InfoOfProperty>Агрегат з {type}</InfoOfProperty>
-        </ButtonWrapper>
-      </NameOfProperty>
-      <NameOfProperty>
-        <ButtonWrapper>
-          Базовий РМК: <InfoOfProperty>{kit.name}</InfoOfProperty>
-          <MoreButton
-            onClick={() => {
-              setShowKit(true);
-              toggle();
-            }}
-          >
-            <PlusIcon color={theme.colors.light} />
-          </MoreButton>
-        </ButtonWrapper>
-      </NameOfProperty>
-      <NameOfProperty>
-        <ButtonWrapper>
-          Додатково: <InfoOfProperty>{more.name}</InfoOfProperty>{" "}
-          <MoreButton
-            onClick={() => {
-              setShowMore(true);
-              toggle();
-            }}
-          >
-            <PlusIcon color={theme.colors.light} />
-          </MoreButton>
-        </ButtonWrapper>
-      </NameOfProperty>
-      <NameOfProperty>
-        Застосування: <InfoOfProperty>{renderedApplication}</InfoOfProperty>
-      </NameOfProperty>
-      <NameOfProperty>
-        Оригінальні номери: <InfoOfProperty>{oem}</InfoOfProperty>
-      </NameOfProperty>
-      {isOpen && (
-        <Modal
-          onClick={() => {
-            setShowForm(false);
-            setShowKit(false);
-            setShowMore(false);
-            close();
-          }}
-        >
-          {showKit && (
-            <>
-              <StyledTable>
-                <thead>
-                  <tr>
-                    <StyledTh>Артикул</StyledTh>
-                    <StyledTh>Шт</StyledTh>
-                    <StyledTh>Опис</StyledTh>
-                  </tr>
-                </thead>
-                <tbody>
-                  {kit.property.map(({ _id, art, quantity, description }) => (
-                    <tr key={_id}>
-                      <StyledTd>{art}</StyledTd>
-                      <StyledTd>{quantity}</StyledTd>
-                      <StyledTd>{description}</StyledTd>
-                    </tr>
-                  ))}
-                </tbody>
-              </StyledTable>
-            </>
+      {isError ? (
+        <WrapperHeaderError>Нічого не знайдено</WrapperHeaderError>
+      ) : (
+        <>
+          <WrapperHeader>Результат пошуку:</WrapperHeader>
+          <NameOfProperty>
+            <ButtonWrapper>
+              Артикул:{" "}
+              <EditButton
+                onClick={() => {
+                  setShowForm(true);
+                  open();
+                }}
+              >
+                <EditIcon color={theme.colors.light} />
+              </EditButton>
+              <InfoOfProperty>{name}</InfoOfProperty>
+            </ButtonWrapper>
+          </NameOfProperty>
+          <NameOfProperty>
+            <ButtonWrapper>
+              Тип: <InfoOfProperty>Агрегат з {type}</InfoOfProperty>
+            </ButtonWrapper>
+          </NameOfProperty>
+          <NameOfProperty>
+            <ButtonWrapper>
+              Базовий РМК: <InfoOfProperty>{kit.name}</InfoOfProperty>
+              <MoreButton
+                onClick={() => {
+                  setShowKit(true);
+                  toggle();
+                }}
+              >
+                <PlusIcon color={theme.colors.light} />
+              </MoreButton>
+            </ButtonWrapper>
+          </NameOfProperty>
+          <NameOfProperty>
+            <ButtonWrapper>
+              Додатково: <InfoOfProperty>{more.name}</InfoOfProperty>{" "}
+              <MoreButton
+                onClick={() => {
+                  setShowMore(true);
+                  toggle();
+                }}
+              >
+                <PlusIcon color={theme.colors.light} />
+              </MoreButton>
+            </ButtonWrapper>
+          </NameOfProperty>
+          <NameOfProperty>
+            Застосування: <InfoOfProperty>{renderedApplication}</InfoOfProperty>
+          </NameOfProperty>
+          <NameOfProperty>
+            Оригінальні номери: <InfoOfProperty>{oem}</InfoOfProperty>
+          </NameOfProperty>
+          {isOpen && (
+            <Modal
+              onClick={() => {
+                setShowForm(false);
+                setShowKit(false);
+                setShowMore(false);
+                close();
+              }}
+            >
+              {showKit && (
+                <>
+                  <StyledTable>
+                    <thead>
+                      <tr>
+                        <StyledTh>Артикул</StyledTh>
+                        <StyledTh>Шт</StyledTh>
+                        <StyledTh>Опис</StyledTh>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {kit.property.map(
+                        ({ _id, art, quantity, description }) => (
+                          <tr key={_id}>
+                            <StyledTd>{art}</StyledTd>
+                            <StyledTd>{quantity}</StyledTd>
+                            <StyledTd>{description}</StyledTd>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </StyledTable>
+                </>
+              )}
+              {showMore && (
+                <>
+                  <StyledTable>
+                    <thead>
+                      <tr>
+                        <StyledTh>Артикул</StyledTh>
+                        <StyledTh>Шт</StyledTh>
+                        <StyledTh>Опис</StyledTh>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {more.property.map(
+                        ({ _id, art, quantity, description }) => (
+                          <tr key={_id}>
+                            <StyledTd>{art}</StyledTd>
+                            <StyledTd>{quantity}</StyledTd>
+                            <StyledTd>{description}</StyledTd>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </StyledTable>
+                </>
+              )}
+              {showForm && <EditForm data={rack} />}
+            </Modal>
           )}
-          {showMore && (
-            <>
-              <StyledTable>
-                <thead>
-                  <tr>
-                    <StyledTh>Артикул</StyledTh>
-                    <StyledTh>Шт</StyledTh>
-                    <StyledTh>Опис</StyledTh>
-                  </tr>
-                </thead>
-                <tbody>
-                  {more.property.map(({ _id, art, quantity, description }) => (
-                    <tr key={_id}>
-                      <StyledTd>{art}</StyledTd>
-                      <StyledTd>{quantity}</StyledTd>
-                      <StyledTd>{description}</StyledTd>
-                    </tr>
-                  ))}
-                </tbody>
-              </StyledTable>
-            </>
-          )}
-          {showForm && <EditForm data={rack} />}
-        </Modal>
+        </>
       )}
     </Wrapper>
   );
