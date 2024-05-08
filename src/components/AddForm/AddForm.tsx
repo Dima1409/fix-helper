@@ -33,8 +33,11 @@ import {
 import Notification from "components/Notify";
 import { PropertiesForm, PropertiesFormSpec } from "utils/addFormHelper";
 import { initialState } from "types/data";
+import useRack from "hooks/useRack";
+import Spinner from "components/Spinner";
 
 const AddForm: React.FC = () => {
+  const { isLoading } = useRack();
   const [formData, setFormData] = useState<Rack>(initialState);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [result, setResult] = useState<string>("");
@@ -488,20 +491,24 @@ const AddForm: React.FC = () => {
             onChange={handleChange}
           ></InputMore>
         </WrapperProperty>
-        <ButtonSubmit
-          disabled={
-            !steeringRackPattern.test(formData.name) ||
-            formData.name === "" ||
-            formData.kit.property.length === 0 ||
-            formData.more.property.length === 0 ||
-            formData.oem === "" ||
-            formData.application === "" ||
-            formData.type === ""
-          }
-          type="submit"
-        >
-          Зберегти
-        </ButtonSubmit>
+        {isLoading ? (
+          <Spinner></Spinner>
+        ) : (
+          <ButtonSubmit
+            disabled={
+              !steeringRackPattern.test(formData.name) ||
+              formData.name === "" ||
+              formData.kit.property.length === 0 ||
+              formData.more.property.length === 0 ||
+              formData.oem === "" ||
+              formData.application === "" ||
+              formData.type === ""
+            }
+            type="submit"
+          >
+            Зберегти
+          </ButtonSubmit>
+        )}
       </Form>
     </>
   );

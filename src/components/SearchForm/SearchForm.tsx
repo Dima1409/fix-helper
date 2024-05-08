@@ -95,18 +95,21 @@ const SearchForm: React.FC = () => {
 
   const deleteRackById = async (id: string | undefined) => {
     if (id) {
-      await dispatchTyped(deleteRack(id)).then((res) => {
-        console.log(res);
-        if (res.meta.requestStatus === "fulfilled") {
-          setDeleteStatus("success");
-          return;
-        }
-        setDeleteStatus("error");
-      });
-      await getAll();
+      const confirmed = window.confirm("Видалити запис?");
+      if (confirmed) {
+        await dispatchTyped(deleteRack(id)).then((res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            setDeleteStatus("success");
+            return;
+          }
+          setDeleteStatus("error");
+        });
+        await getAll();
+      } else {
+        return;
+      }
     } else {
       setDeleteStatus("error");
-      console.error("Invalid rack ID:", id);
     }
   };
 
