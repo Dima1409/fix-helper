@@ -502,7 +502,33 @@ const AddForm: React.FC = () => {
               formData.more.property.length === 0 ||
               formData.oem === "" ||
               formData.application === "" ||
-              formData.type === ""
+              formData.type === "" ||
+              formData.application.length < 8 ||
+              formData.application.length > 800 ||
+              formData.oem.length < 8 ||
+              formData.oem.length > 1400 ||
+              formData.kit.property.every(
+                (item) =>
+                  item.art.length < 3 ||
+                  item.art.length > 25 ||
+                  item.art === "" ||
+                  item.quantity.length > 3 ||
+                  item.quantity === "" ||
+                  item.description.length < 8 ||
+                  item.description.length > 90 ||
+                  item.description === ""
+              ) ||
+              formData.more.property.every(
+                (item) =>
+                  item.art.length < 3 ||
+                  item.art.length > 25 ||
+                  item.art === "" ||
+                  item.quantity.length > 3 ||
+                  item.quantity === "" ||
+                  item.description.length < 8 ||
+                  item.description.length > 90 ||
+                  item.description === ""
+              )
             }
             type="submit"
           >

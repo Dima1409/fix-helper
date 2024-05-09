@@ -66,8 +66,11 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
     field: keyof Property,
     value: string
   ) => {
-    const updatedKit = [...data.kit.property];
-    updatedKit[index][field] = value;
+    const updatedKit = [...formData.kit.property];
+    updatedKit[index] = {
+      ...updatedKit[index],
+      [field]: value,
+    };
     setFormData({
       ...formData,
       kit: {
@@ -82,8 +85,11 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
     field: keyof Property,
     value: string
   ) => {
-    const updatedSpec = [...data.more.property];
-    updatedSpec[index][field] = value;
+    const updatedSpec = [...formData.more.property];
+    updatedSpec[index] = {
+      ...updatedSpec[index],
+      [field]: value,
+    };
     setFormData({
       ...formData,
       more: {
@@ -166,6 +172,29 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
         return;
       }
     });
+  };
+
+  const isFormChanged = () => {
+    if (
+      formData.oem === data.oem &&
+      formData.application === data.application &&
+      formData.type === data.type &&
+      formData.kit.property.every(
+        (item, index) =>
+          item.art === data.kit.property[index].art &&
+          item.quantity === data.kit.property[index].quantity &&
+          item.description === data.kit.property[index].description
+      ) &&
+      formData.more.property.every(
+        (item, index) =>
+          item.art === data.more.property[index].art &&
+          item.quantity === data.more.property[index].quantity &&
+          item.description === data.more.property[index].description
+      )
+    ) {
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -494,7 +523,34 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
           formData.more.property.length === 0 ||
           formData.oem === "" ||
           formData.application === "" ||
-          formData.type === ""
+          formData.type === "" ||
+          formData.application.length < 8 ||
+          formData.application.length > 800 ||
+          formData.oem.length < 8 ||
+          formData.oem.length > 1400 ||
+          formData.kit.property.every(
+            (item) =>
+              item.art.length < 3 ||
+              item.art.length > 25 ||
+              item.art === "" ||
+              item.quantity.length > 3 ||
+              item.quantity === "" ||
+              item.description.length < 8 ||
+              item.description.length > 90 ||
+              item.description === ""
+          ) ||
+          formData.more.property.every(
+            (item) =>
+              item.art.length < 3 ||
+              item.art.length > 25 ||
+              item.art === "" ||
+              item.quantity.length > 3 ||
+              item.quantity === "" ||
+              item.description.length < 8 ||
+              item.description.length > 90 ||
+              item.description === ""
+          ) ||
+          !isFormChanged()
         }
         type="submit"
       >
