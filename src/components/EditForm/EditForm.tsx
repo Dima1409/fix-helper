@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FormEvent, ChangeEvent } from "react";
-import { createNewRack } from "../../redux/rack/operations";
+import { updateRack } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Rack, Property } from "types/data";
@@ -153,7 +153,8 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await dispatch(createNewRack(formData)).then((res) => {
+    console.log(dispatch(updateRack(formData)));
+    await dispatch(updateRack(formData)).then((res) => {
       if (res.payload._id) {
         setResult("success");
         setFormSubmitted(true);
@@ -204,7 +205,7 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
           {result === "success" && (
             <Notification
               type="success"
-              message={`Збережено новий артикул ${formData.name}`}
+              message={`Артикул ${formData.name} відредаговано`}
             />
           )}
           {result === "conflict" && (

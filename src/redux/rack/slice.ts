@@ -4,6 +4,7 @@ import {
   getByName,
   getById,
   createNewRack,
+  updateRack,
   deleteRack,
 } from "./operations";
 import { Rack } from "types/data";
@@ -37,12 +38,14 @@ const RackSlice = createSlice({
       .addCase(getAllRacks.pending, handlePending)
       .addCase(getByName.pending, handlePending)
       .addCase(createNewRack.pending, handlePending)
+      .addCase(updateRack.pending, handlePending)
       .addCase(deleteRack.pending, handlePending)
       .addCase(getById.pending, handlePending)
       .addCase(getAllRacks.rejected, handleRejected)
       .addCase(getByName.rejected, handleRejected)
       .addCase(getById.rejected, handleRejected)
       .addCase(createNewRack.rejected, handleRejected)
+      .addCase(updateRack.rejected, handleRejected)
       .addCase(deleteRack.rejected, handleRejected)
       .addCase(
         getAllRacks.fulfilled,
@@ -68,13 +71,14 @@ const RackSlice = createSlice({
           state.rack = [action.payload];
         }
       )
-      .addCase(
-        createNewRack.fulfilled,
-        (state: RackState, action: PayloadAction<Rack>) => {
-          state.isLoading = false;
-          state.error = null;
-        }
-      )
+      .addCase(createNewRack.fulfilled, (state: RackState) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateRack.fulfilled, (state: RackState) => {
+        state.isLoading = false;
+        state.error = null;
+      })
       .addCase(
         deleteRack.fulfilled,
         (state: RackState, action: PayloadAction<Rack>) => {
