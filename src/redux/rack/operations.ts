@@ -64,11 +64,16 @@ const createNewRack = createAsyncThunk(
 const updateRack = createAsyncThunk(
   "/rack/edit",
   async (credentials: Rack, thunkAPI) => {
+    const { name, type, oem, application, kit, more } = credentials;
     try {
-      const response = await API.patch(
-        `/rack/edit/${credentials._id}`,
-        credentials
-      );
+      const response = await API.patch(`/rack/edit/${credentials._id}`, {
+        name,
+        type,
+        oem,
+        application,
+        kit,
+        more,
+      });
       return response.data.data.result;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error);

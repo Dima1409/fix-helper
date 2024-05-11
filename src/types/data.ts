@@ -19,6 +19,8 @@ export interface Rack {
   };
   application: string;
   oem: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export const initialState = {

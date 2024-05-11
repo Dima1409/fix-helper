@@ -153,7 +153,8 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(dispatch(updateRack(formData)));
+    const res = dispatch(updateRack(formData)).then();
+    console.log(res);
     await dispatch(updateRack(formData)).then((res) => {
       if (res.payload._id) {
         setResult("success");
@@ -175,28 +176,28 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
     });
   };
 
-  const isFormChanged = () => {
-    if (
-      formData.oem === data.oem &&
-      formData.application === data.application &&
-      formData.type === data.type &&
-      formData.kit.property.every(
-        (item, index) =>
-          item.art === data.kit.property[index].art &&
-          item.quantity === data.kit.property[index].quantity &&
-          item.description === data.kit.property[index].description
-      ) &&
-      formData.more.property.every(
-        (item, index) =>
-          item.art === data.more.property[index].art &&
-          item.quantity === data.more.property[index].quantity &&
-          item.description === data.more.property[index].description
-      )
-    ) {
-      return false;
-    }
-    return true;
-  };
+  // const isFormChanged = () => {
+  //   if (
+  //     formData.oem === data.oem &&
+  //     formData.application === data.application &&
+  //     formData.type === data.type &&
+  //     formData.kit.property.every(
+  //       (item, index) =>
+  //         item.art === data.kit.property[index].art &&
+  //         item.quantity === data.kit.property[index].quantity &&
+  //         item.description === data.kit.property[index].description
+  //     ) &&
+  //     formData.more.property.every(
+  //       (item, index) =>
+  //         item.art === data.more.property[index].art &&
+  //         item.quantity === data.more.property[index].quantity &&
+  //         item.description === data.more.property[index].description
+  //     )
+  //   ) {
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
@@ -550,8 +551,7 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
               item.description.length < 8 ||
               item.description.length > 90 ||
               item.description === ""
-          ) ||
-          !isFormChanged()
+          )
         }
         type="submit"
       >
