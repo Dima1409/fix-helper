@@ -16,8 +16,8 @@ const WrapperHeader = styled.h2`
 `;
 
 const WrapperHeaderError = styled(WrapperHeader)`
-color: ${theme.colors.darkRed};
-`
+  color: ${theme.colors.darkRed};
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const NameOfProperty = styled.div`
   color: ${theme.colors.dark};
   font-size: ${theme.fontSizes.normal};
   word-wrap: break-word;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
 `;
 
 const InfoOfProperty = styled.span`
@@ -62,7 +62,7 @@ const MoreButton = styled.button`
 `;
 
 const EditButton = styled(MoreButton)`
-margin-left: 12px;
+  margin-left: 12px;
 `;
 
 const StyledTable = styled.table`
@@ -100,6 +100,13 @@ const StyledTd = styled.td`
   }
 `;
 
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 export {
   Wrapper,
   WrapperHeader,
@@ -112,4 +119,5 @@ export {
   StyledTable,
   StyledTh,
   StyledTd,
+  ImageWrapper,
 };

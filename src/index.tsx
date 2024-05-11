@@ -6,6 +6,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import "./index.css";
 import App from "App/App";
 import { HashRouter } from "react-router-dom";
+import ButtonTop from "components/ButtonTop";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,6 +16,7 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <HashRouter>
+          <ButtonTop />
           <App />
         </HashRouter>
       </PersistGate>

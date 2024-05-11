@@ -1,8 +1,6 @@
 import useRack from "hooks/useRack";
 import { Rack } from "types/data";
 import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { ThunkDispatch } from "@reduxjs/toolkit";
 import useToggle from "hooks/useToggle";
 import Modal from "components/Modal";
 import {
@@ -17,23 +15,21 @@ import {
   StyledTable,
   StyledTh,
   StyledTd,
+  ImageWrapper,
 } from "./RackInfo.styled";
 import { EditIcon, PlusIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
+import rackImage from "../../images/defaultPhoto.jpeg";
 import EditForm from "components/EditForm";
-// import { initialState } from "types/data";
-// import { getById } from "../../redux/rack/operations";
 
 const RackInfo: React.FC = () => {
   const { isOpen, open, close, toggle } = useToggle();
   const { rack }: { rack: Rack } = useRack();
   const { isError } = useRack();
-  // const [formData, setFormData] = useState<Rack>(initialState);
-  // const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
   const [showForm, setShowForm] = useState(false);
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const { application, kit, more, name, oem, type } = rack;
+  const { application, kit, more, name, oem, type, image } = rack;
   if (!application || !name) {
     return null;
   }
@@ -67,6 +63,27 @@ const RackInfo: React.FC = () => {
               <InfoOfProperty>{name}</InfoOfProperty>
             </ButtonWrapper>
           </NameOfProperty>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <ImageWrapper>
+              <span>Загальне фото:</span>
+              <img
+                src={image === "" ? rackImage : null}
+                alt="rack view"
+                width={250}
+                height={250}
+              ></img>
+            </ImageWrapper>
+            <ImageWrapper>
+              <span>Центральне положення:</span>
+              <img
+                src={image === "" ? rackImage : null}
+                alt="rack view"
+                width={250}
+                height={250}
+              ></img>
+            </ImageWrapper>
+          </div>
+
           <NameOfProperty>
             <ButtonWrapper>
               Тип: <InfoOfProperty>Агрегат з {type}</InfoOfProperty>
