@@ -18,7 +18,7 @@ const User = styled.p`
   margin-left: auto;
   margin-right: 10px;
   ${theme.mq.tablet} {
-    font-size: ${theme.fontSizes.bold};
+    font-size: ${theme.fontSizes.small};
   }
 `;
 
@@ -29,7 +29,7 @@ const Role = styled.p`
   font-weight: ${theme.fontWeight.bold};
   margin-right: 10px;
   ${theme.mq.tablet} {
-    font-size: ${theme.fontSizes.bold};
+    font-size: ${theme.fontSizes.small};
   }
 `;
 

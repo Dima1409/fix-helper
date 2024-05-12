@@ -15,11 +15,13 @@ import {
   StyledTable,
   StyledTh,
   StyledTd,
+  ImagesWrapper,
   ImageWrapper,
+  PhotoTitle,
 } from "./RackInfo.styled";
 import { EditIcon, PlusIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
-import rackImage from "../../images/defaultPhoto.jpeg";
+import rackImage from "../../images/defaultPhoto.jpg";
 import EditForm from "components/EditForm";
 
 const RackInfo: React.FC = () => {
@@ -29,7 +31,16 @@ const RackInfo: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const { application, kit, more, name, oem, type, image } = rack;
+  const {
+    application,
+    kit,
+    more,
+    name,
+    oem,
+    type,
+    mainImage,
+    mainImageCenter,
+  } = rack;
   if (!application || !name) {
     return null;
   }
@@ -63,26 +74,24 @@ const RackInfo: React.FC = () => {
               <InfoOfProperty>{name}</InfoOfProperty>
             </ButtonWrapper>
           </NameOfProperty>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <ImagesWrapper>
             <ImageWrapper>
-              <span>Загальне фото:</span>
+              <PhotoTitle>Загальне фото:</PhotoTitle>
               <img
-                src={image === "" ? rackImage : null}
+                src={mainImage === "" ? rackImage : mainImage}
                 alt="rack view"
-                width={250}
-                height={250}
+                width={300}
               ></img>
             </ImageWrapper>
             <ImageWrapper>
-              <span>Центральне положення:</span>
+              <PhotoTitle>Центральне положення:</PhotoTitle>
               <img
-                src={image === "" ? rackImage : null}
+                src={mainImageCenter === "" ? rackImage : mainImageCenter}
                 alt="rack view"
-                width={250}
-                height={250}
+                width={300}
               ></img>
             </ImageWrapper>
-          </div>
+          </ImagesWrapper>
 
           <NameOfProperty>
             <ButtonWrapper>

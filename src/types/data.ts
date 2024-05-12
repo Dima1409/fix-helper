@@ -19,7 +19,10 @@ export interface Rack {
   };
   application: string;
   oem: string;
-  image: string;
+  mainImage?: string;
+  mainImageId?: string;
+  mainImageCenter?: string;
+  mainImageCenterId?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -37,5 +40,8 @@ export const initialState = {
   },
   application: "",
   oem: "",
-  image: "",
+  mainImage: "",
+  mainImageCenter: "",
+  mainImageId: "",
+  mainImageCenterId: "",
 };

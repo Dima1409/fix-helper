@@ -56,6 +56,7 @@ const ButtonSearch = styled.button`
   }
   &:hover {
     cursor: pointer;
+    box-shadow: 0 0 10px ${theme.colors.accent};
   }
   ${theme.mq.tablet} {
     width: 140px;

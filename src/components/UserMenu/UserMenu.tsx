@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { theme } from "theme/theme";
 import { LogOutIcon } from "components/Icons/Icons";
+import logoImage from "../../images/logo.png";
 
 const UserMenu: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -21,6 +22,7 @@ const UserMenu: React.FC = () => {
     <>
       {isLoggedIn && (
         <UserWrapper>
+          <img src={logoImage} alt="main logo"></img>
           <User>{user.name},</User>
           {user.role === "user" && <Role>(Користувач)</Role>}
           {user.role === "admin" && <Role>(Адміністратор)</Role>}

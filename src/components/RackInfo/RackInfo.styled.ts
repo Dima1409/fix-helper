@@ -100,11 +100,25 @@ const StyledTd = styled.td`
   }
 `;
 
+const PhotoTitle = styled.h3`
+  margin-bottom: 10px;
+`;
+
+const ImagesWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  ${theme.mq.tablet} {
+    flex-direction: row;
+  }
+`;
+
 const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 20px;
 `;
 
 export {
@@ -119,5 +133,7 @@ export {
   StyledTable,
   StyledTh,
   StyledTd,
+  ImagesWrapper,
   ImageWrapper,
+  PhotoTitle,
 };
