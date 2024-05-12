@@ -5,30 +5,38 @@ const UserWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
   margin: 20px auto;
   margin-bottom: 10px;
   max-width: 600px;
+  ${theme.mq.tablet} {
+    flex-direction: row;
+  }
 `;
 
-const User = styled.p`
+const User = styled.span`
   color: ${theme.colors.accent};
-  font-size: ${theme.fontSizes.small};
+  font-size: ${theme.fontSizes.extraSmall};
   font-family: ${theme.fonts.merriweather};
   font-weight: ${theme.fontWeight.bold};
-  margin-left: auto;
-  margin-right: 10px;
+  margin-top: 10px;
   ${theme.mq.tablet} {
+    margin-top: 0;
+    margin-right: 10px;
+    margin-left: auto;
     font-size: ${theme.fontSizes.small};
   }
 `;
 
-const Role = styled.p`
+const Role = styled.span`
   color: ${theme.colors.accent};
-  font-size: ${theme.fontSizes.small};
+  font-size: ${theme.fontSizes.extraSmall};
   font-family: ${theme.fonts.merriweather};
   font-weight: ${theme.fontWeight.bold};
-  margin-right: 10px;
+  margin-bottom: 10px;
   ${theme.mq.tablet} {
+    margin-bottom: 0;
+    margin-right: 10px;
     font-size: ${theme.fontSizes.small};
   }
 `;

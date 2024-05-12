@@ -65,6 +65,12 @@ const EditButton = styled(MoreButton)`
   margin-left: 12px;
 `;
 
+const EditPhoto = styled(MoreButton)`
+  position: absolute;
+  right: 10px;
+  top: 40px;
+`;
+
 const StyledTable = styled.table`
   border-collapse: collapse;
   position: 0;
@@ -114,6 +120,11 @@ const ImagesWrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
+  position: relative;
+  border: ${theme.borders.normal} ${theme.colors.accent};
+  border-radius: ${theme.radii.normal};
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,6 +140,7 @@ export {
   InfoOfProperty,
   ButtonWrapper,
   MoreButton,
+  EditPhoto,
   EditButton,
   StyledTable,
   StyledTh,

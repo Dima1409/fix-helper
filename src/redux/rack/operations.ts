@@ -81,6 +81,22 @@ const updateRack = createAsyncThunk(
   }
 );
 
+const updateMainImage = createAsyncThunk(
+  "/rack/mainPhoto",
+  async (credentials: Rack, thunkAPI) => {
+    const { mainImage } = credentials;
+    try {
+      const response = await API.patch(`/rack/mainPhoto/${credentials._id}`, {
+        mainImage,
+      });
+      console.log(response.data)
+      return response.data.data.result;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const deleteRack = createAsyncThunk(
   "/rack/delete",
   async (credentials: string, thunkAPI) => {
@@ -100,4 +116,5 @@ export {
   createNewRack,
   updateRack,
   deleteRack,
+  updateMainImage,
 };

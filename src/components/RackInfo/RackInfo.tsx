@@ -1,6 +1,6 @@
 import useRack from "hooks/useRack";
 import { Rack } from "types/data";
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import useToggle from "hooks/useToggle";
 import Modal from "components/Modal";
 import {
@@ -11,6 +11,7 @@ import {
   InfoOfProperty,
   ButtonWrapper,
   MoreButton,
+  EditPhoto,
   EditButton,
   StyledTable,
   StyledTh,
@@ -21,16 +22,23 @@ import {
 } from "./RackInfo.styled";
 import { EditIcon, PlusIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
-import rackImage from "../../images/defaultPhoto.jpg";
+import defaultImage from "../../images/defaultPhoto.jpg";
 import EditForm from "components/EditForm";
+import { getAllRacks, updateMainImage } from "../../redux/rack/operations";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import Avatar from "react-avatar-edit";
+import useAuth from "hooks/useAuth";
 
 const RackInfo: React.FC = () => {
   const { isOpen, open, close, toggle } = useToggle();
   const { rack }: { rack: Rack } = useRack();
   const { isError } = useRack();
+  const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     application,
     kit,
@@ -41,6 +49,8 @@ const RackInfo: React.FC = () => {
     mainImage,
     mainImageCenter,
   } = rack;
+  const [rackImage, setRackImage] = useState<string>("");
+  const [showAvatarInfo, setShowAvatarInfo] = useState(false);
   if (!application || !name) {
     return null;
   }
@@ -53,6 +63,45 @@ const RackInfo: React.FC = () => {
     </React.Fragment>
   ));
 
+  const imageExtensions = ["png", "jpg", "jpeg", "webp"];
+
+  const onBeforeFileLoad = (elem: ChangeEvent<HTMLInputElement>) => {
+    if (elem.target.files && elem.target.files[0].size > 50 * 1024) {
+      alert("Максимум 50 kB!");
+      elem.target.value = "";
+    }
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) {
+      return;
+    }
+
+    const splitToFindExtension = e.target.value.split(".");
+    const fileExtension = splitToFindExtension[splitToFindExtension.length - 1];
+
+    if (!imageExtensions.includes(fileExtension)) {
+      window.alert("Avatar should be an image: png, jpg, jpeg, webp");
+      return;
+    }
+
+    const imgFile = files[0];
+    console.log("imgFile", imgFile);
+
+    if (imgFile) {
+      setRackImage(imgFile.name);
+      const updatedRack = { ...rack, mainImage: rackImage };
+      try {
+        await dispatch(updateMainImage(updatedRack));
+        dispatch(getAllRacks());
+        close();
+      } catch (error) {
+        console.error("Error updating main image:", error);
+      }
+    }
+  };
+
   return (
     <Wrapper>
       {isError ? (
@@ -63,14 +112,16 @@ const RackInfo: React.FC = () => {
           <NameOfProperty>
             <ButtonWrapper>
               Артикул:{" "}
-              <EditButton
-                onClick={() => {
-                  setShowForm(true);
-                  open();
-                }}
-              >
-                <EditIcon color={theme.colors.light} />
-              </EditButton>
+              {user.role === "admin" && (
+                <EditButton
+                  onClick={() => {
+                    setShowForm(true);
+                    open();
+                  }}
+                >
+                  <EditIcon color={theme.colors.light} />
+                </EditButton>
+              )}
               <InfoOfProperty>{name}</InfoOfProperty>
             </ButtonWrapper>
           </NameOfProperty>
@@ -78,18 +129,40 @@ const RackInfo: React.FC = () => {
             <ImageWrapper>
               <PhotoTitle>Загальне фото:</PhotoTitle>
               <img
-                src={mainImage === "" ? rackImage : mainImage}
+                src={mainImage === "" ? defaultImage : mainImage}
                 alt="rack view"
                 width={300}
               ></img>
+              {user.role === "admin" && (
+                <EditPhoto
+                  type="button"
+                  onClick={() => {
+                    setShowAvatarInfo(true);
+                    toggle();
+                  }}
+                >
+                  <EditIcon color={theme.colors.transfers} />
+                </EditPhoto>
+              )}
             </ImageWrapper>
             <ImageWrapper>
               <PhotoTitle>Центральне положення:</PhotoTitle>
               <img
-                src={mainImageCenter === "" ? rackImage : mainImageCenter}
+                src={mainImageCenter === "" ? defaultImage : mainImageCenter}
                 alt="rack view"
                 width={300}
               ></img>
+              {user.role === "admin" && (
+                <EditPhoto
+                  type="button"
+                  onClick={() => {
+                    setShowAvatarInfo(true);
+                    toggle();
+                  }}
+                >
+                  <EditIcon color={theme.colors.transfers} />
+                </EditPhoto>
+              )}
             </ImageWrapper>
           </ImagesWrapper>
 
@@ -133,6 +206,7 @@ const RackInfo: React.FC = () => {
           {isOpen && (
             <Modal
               onClick={() => {
+                setShowAvatarInfo(false);
                 setShowForm(false);
                 setShowKit(false);
                 setShowMore(false);
@@ -186,6 +260,19 @@ const RackInfo: React.FC = () => {
                     </tbody>
                   </StyledTable>
                 </>
+              )}
+              {showAvatarInfo && (
+                <ImagesWrapper onChange={handleFileChange}>
+                  <Avatar
+                    width={240}
+                    height={180}
+                    exportSize={10}
+                    onBeforeFileLoad={onBeforeFileLoad}
+                    mimeTypes="image/jpeg, image/png, image/jpg, image/webp"
+                    label="Виберіть новий файл"
+                  />
+                  <p>*максимум 50kB</p>
+                </ImagesWrapper>
               )}
               {showForm && <EditForm data={rack} />}
             </Modal>
