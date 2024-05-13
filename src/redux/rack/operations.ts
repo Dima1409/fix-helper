@@ -84,13 +84,22 @@ const updateRack = createAsyncThunk(
 const updateMainImage = createAsyncThunk(
   "/rack/mainPhoto",
   async (credentials: Rack, thunkAPI) => {
-    const { mainImage } = credentials;
+    console.log("credentials", credentials);
+    const { imgFile } = credentials;
     try {
-      const response = await API.patch(`/rack/mainPhoto/${credentials._id}`, {
-        mainImage,
-      });
-      console.log(response.data)
-      return response.data.data.result;
+      const config = {
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const response = await API.patch(
+        `/rack/mainPhoto/${credentials._id}`,
+        { mainImage: imgFile },
+        config
+      );
+      console.log(response.data);
+      return response.data;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error);
     }

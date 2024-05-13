@@ -49,7 +49,6 @@ const RackInfo: React.FC = () => {
     mainImage,
     mainImageCenter,
   } = rack;
-  const [rackImage, setRackImage] = useState<string>("");
   const [showAvatarInfo, setShowAvatarInfo] = useState(false);
   if (!application || !name) {
     return null;
@@ -74,6 +73,7 @@ const RackInfo: React.FC = () => {
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+    console.log("files", files);
     if (!files || files.length === 0) {
       return;
     }
@@ -87,11 +87,10 @@ const RackInfo: React.FC = () => {
     }
 
     const imgFile = files[0];
-    console.log("imgFile", imgFile);
 
     if (imgFile) {
-      setRackImage(imgFile.name);
-      const updatedRack = { ...rack, mainImage: rackImage };
+      const updatedRack = { ...rack, imgFile: imgFile };
+      console.log("updatedRack", updatedRack);
       try {
         await dispatch(updateMainImage(updatedRack));
         dispatch(getAllRacks());
@@ -129,7 +128,7 @@ const RackInfo: React.FC = () => {
             <ImageWrapper>
               <PhotoTitle>Загальне фото:</PhotoTitle>
               <img
-                src={mainImage === "" ? defaultImage : mainImage}
+                src={!mainImage || mainImage === "-" ? defaultImage : mainImage}
                 alt="rack view"
                 width={300}
               ></img>
@@ -148,7 +147,11 @@ const RackInfo: React.FC = () => {
             <ImageWrapper>
               <PhotoTitle>Центральне положення:</PhotoTitle>
               <img
-                src={mainImageCenter === "" ? defaultImage : mainImageCenter}
+                src={
+                  !mainImageCenter || mainImageCenter === "-"
+                    ? defaultImage
+                    : mainImageCenter
+                }
                 alt="rack view"
                 width={300}
               ></img>
@@ -271,6 +274,11 @@ const RackInfo: React.FC = () => {
                     mimeTypes="image/jpeg, image/png, image/jpg, image/webp"
                     label="Виберіть новий файл"
                   />
+                  <input
+                    type="file"
+                    name="mainImage"
+                    onChange={handleFileChange}
+                  ></input>
                   <p>*максимум 50kB</p>
                 </ImagesWrapper>
               )}
