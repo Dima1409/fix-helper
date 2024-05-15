@@ -69,6 +69,9 @@ const EditPhoto = styled(MoreButton)`
   position: absolute;
   right: 0;
   bottom: 0;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledTable = styled.table`
