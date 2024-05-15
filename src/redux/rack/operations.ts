@@ -84,7 +84,6 @@ const updateRack = createAsyncThunk(
 const updateMainImage = createAsyncThunk(
   "/rack/mainPhoto",
   async (credentials: Rack, thunkAPI) => {
-    console.log("credentials", credentials);
     const { imgFile } = credentials;
     try {
       const config = {
@@ -98,7 +97,6 @@ const updateMainImage = createAsyncThunk(
         { mainImage: imgFile },
         config
       );
-      console.log(response.data);
       return response.data;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error);

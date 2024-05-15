@@ -492,7 +492,7 @@ const AddForm: React.FC = () => {
           ></InputMore>
         </WrapperProperty>
         {isLoading ? (
-          <Spinner></Spinner>
+          <Spinner />
         ) : (
           <ButtonSubmit
             disabled={

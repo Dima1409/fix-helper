@@ -29,6 +29,7 @@ import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import Avatar from "react-avatar-edit";
 import useAuth from "hooks/useAuth";
+import Spinner from "components/Spinner";
 
 const RackInfo: React.FC = () => {
   const { isOpen, open, close, toggle } = useToggle();
@@ -73,7 +74,6 @@ const RackInfo: React.FC = () => {
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    console.log("files", files);
     if (!files || files.length === 0) {
       return;
     }
@@ -90,7 +90,6 @@ const RackInfo: React.FC = () => {
 
     if (imgFile) {
       const updatedRack = { ...rack, imgFile: imgFile };
-      console.log("updatedRack", updatedRack);
       try {
         await dispatch(updateMainImage(updatedRack));
         dispatch(getAllRacks());
@@ -127,11 +126,18 @@ const RackInfo: React.FC = () => {
           <ImagesWrapper>
             <ImageWrapper>
               <PhotoTitle>Загальне фото:</PhotoTitle>
-              <img
-                src={!mainImage || mainImage === "-" ? defaultImage : mainImage}
-                alt="rack view"
-                width={300}
-              ></img>
+              {mainImage ? (
+                <img
+                  src={
+                    !mainImage || mainImage === "-" ? defaultImage : mainImage
+                  }
+                  alt="rack view"
+                  width={300}
+                ></img>
+              ) : (
+                <Spinner />
+              )}
+
               {user.role === "admin" && (
                 <EditPhoto
                   type="button"
@@ -146,15 +152,20 @@ const RackInfo: React.FC = () => {
             </ImageWrapper>
             <ImageWrapper>
               <PhotoTitle>Центральне положення:</PhotoTitle>
-              <img
-                src={
-                  !mainImageCenter || mainImageCenter === "-"
-                    ? defaultImage
-                    : mainImageCenter
-                }
-                alt="rack view"
-                width={300}
-              ></img>
+              {mainImageCenter !=="-" ? (
+                <img
+                  src={
+                    !mainImageCenter || mainImageCenter === "-"
+                      ? defaultImage
+                      : mainImageCenter
+                  }
+                  alt="rack view center"
+                  width={300}
+                ></img>
+              ) : (
+                <Spinner />
+              )}
+
               {user.role === "admin" && (
                 <EditPhoto
                   type="button"
@@ -274,11 +285,6 @@ const RackInfo: React.FC = () => {
                     mimeTypes="image/jpeg, image/png, image/jpg, image/webp"
                     label="Виберіть новий файл"
                   />
-                  <input
-                    type="file"
-                    name="mainImage"
-                    onChange={handleFileChange}
-                  ></input>
                   <p>*максимум 50kB</p>
                 </ImagesWrapper>
               )}

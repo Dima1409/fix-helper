@@ -67,8 +67,8 @@ const EditButton = styled(MoreButton)`
 
 const EditPhoto = styled(MoreButton)`
   position: absolute;
-  right: 10px;
-  top: 40px;
+  right: 0;
+  bottom: 0;
 `;
 
 const StyledTable = styled.table`

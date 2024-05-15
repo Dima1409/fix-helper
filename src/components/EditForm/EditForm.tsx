@@ -32,6 +32,8 @@ import {
 } from "utils/patterns";
 import Notification from "components/Notify";
 import { PropertiesForm, PropertiesFormSpec } from "utils/addFormHelper";
+import useRack from "hooks/useRack";
+import Spinner from "components/Spinner";
 
 interface EditFormProps {
   data: Rack;
@@ -42,6 +44,7 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [result, setResult] = useState<string>("");
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+  const { isLoading } = useRack();
 
   useEffect(() => {
     const updatedKitName = data.name.toUpperCase() + "KIT";
@@ -154,7 +157,6 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = dispatch(updateRack(formData)).then();
-    console.log(res);
     await dispatch(updateRack(formData)).then((res) => {
       if (res.payload._id) {
         setResult("success");
@@ -175,29 +177,6 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
       }
     });
   };
-
-  // const isFormChanged = () => {
-  //   if (
-  //     formData.oem === data.oem &&
-  //     formData.application === data.application &&
-  //     formData.type === data.type &&
-  //     formData.kit.property.every(
-  //       (item, index) =>
-  //         item.art === data.kit.property[index].art &&
-  //         item.quantity === data.kit.property[index].quantity &&
-  //         item.description === data.kit.property[index].description
-  //     ) &&
-  //     formData.more.property.every(
-  //       (item, index) =>
-  //         item.art === data.more.property[index].art &&
-  //         item.quantity === data.more.property[index].quantity &&
-  //         item.description === data.more.property[index].description
-  //     )
-  //   ) {
-  //     return false;
-  //   }
-  //   return true;
-  // };
 
   return (
     <Form onSubmit={handleSubmit} autoComplete="off">
@@ -517,46 +496,50 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
           onChange={handleChange}
         ></InputMore>
       </WrapperProperty>
-      <ButtonSubmit
-        disabled={
-          !steeringRackPattern.test(formData.name) ||
-          formData.name === "" ||
-          formData.kit.property.length === 0 ||
-          formData.more.property.length === 0 ||
-          formData.oem === "" ||
-          formData.application === "" ||
-          formData.type === "" ||
-          formData.application.length < 8 ||
-          formData.application.length > 800 ||
-          formData.oem.length < 8 ||
-          formData.oem.length > 1400 ||
-          formData.kit.property.every(
-            (item) =>
-              item.art.length < 3 ||
-              item.art.length > 25 ||
-              item.art === "" ||
-              item.quantity.length > 3 ||
-              item.quantity === "" ||
-              item.description.length < 8 ||
-              item.description.length > 90 ||
-              item.description === ""
-          ) ||
-          formData.more.property.every(
-            (item) =>
-              item.art.length < 3 ||
-              item.art.length > 25 ||
-              item.art === "" ||
-              item.quantity.length > 3 ||
-              item.quantity === "" ||
-              item.description.length < 8 ||
-              item.description.length > 90 ||
-              item.description === ""
-          )
-        }
-        type="submit"
-      >
-        Зберегти
-      </ButtonSubmit>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <ButtonSubmit
+          disabled={
+            !steeringRackPattern.test(formData.name) ||
+            formData.name === "" ||
+            formData.kit.property.length === 0 ||
+            formData.more.property.length === 0 ||
+            formData.oem === "" ||
+            formData.application === "" ||
+            formData.type === "" ||
+            formData.application.length < 8 ||
+            formData.application.length > 800 ||
+            formData.oem.length < 8 ||
+            formData.oem.length > 1400 ||
+            formData.kit.property.every(
+              (item) =>
+                item.art.length < 3 ||
+                item.art.length > 25 ||
+                item.art === "" ||
+                item.quantity.length > 3 ||
+                item.quantity === "" ||
+                item.description.length < 8 ||
+                item.description.length > 90 ||
+                item.description === ""
+            ) ||
+            formData.more.property.every(
+              (item) =>
+                item.art.length < 3 ||
+                item.art.length > 25 ||
+                item.art === "" ||
+                item.quantity.length > 3 ||
+                item.quantity === "" ||
+                item.description.length < 8 ||
+                item.description.length > 90 ||
+                item.description === ""
+            )
+          }
+          type="submit"
+        >
+          Зберегти
+        </ButtonSubmit>
+      )}
     </Form>
   );
 };
