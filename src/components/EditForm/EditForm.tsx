@@ -156,7 +156,6 @@ const EditForm: React.FC<EditFormProps> = ({ data }) => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = dispatch(updateRack(formData)).then();
     await dispatch(updateRack(formData)).then((res) => {
       if (res.payload._id) {
         setResult("success");
