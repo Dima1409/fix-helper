@@ -9,7 +9,6 @@ export const PropertiesForm = [
   "Кільце гумове на верхню втулку",
   "Кільце гумове під кришку",
   "Кільце гумове на трубки",
-  "Кільце гумове",
 ];
 
 export const PropertiesFormSpec = [
@@ -24,4 +23,5 @@ export const PropertiesFormSpec = [
   "Пильник рейки",
   "Кермові тяги",
   "Накінечники тяг",
+  "Сайлентблок"
 ];
