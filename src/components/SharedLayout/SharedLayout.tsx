@@ -3,7 +3,6 @@ import useAuth from "hooks/useAuth";
 import {
   HomeIcon,
   SteeringIcon,
-  TurbineIcon,
   SigInIcon,
   LoginIcon,
 } from "components/Icons/Icons";
@@ -56,12 +55,12 @@ const SharedLayout: React.FC = () => {
                 Кермові рейки
               </Link>
             </NavListItem>
-            <NavListItem>
+            {/* <NavListItem>
               <Link to="/turbine">
                 <TurbineIcon color={theme.colors.light} />
                 Турбіни
               </Link>
-            </NavListItem>
+            </NavListItem> */}
           </>
         )}
       </NavList>

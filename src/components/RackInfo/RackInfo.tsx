@@ -19,12 +19,18 @@ import {
   ImagesWrapper,
   ImageWrapper,
   PhotoTitle,
+  AvatarWrapper,
+  ButtonEditAvatar,
+  ShowCenterButton,
 } from "./RackInfo.styled";
 import { EditIcon, PlusIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
 import defaultImage from "../../images/defaultPhoto.jpg";
 import EditForm from "components/EditForm";
-import { getAllRacks, updateMainImage } from "../../redux/rack/operations";
+import {
+  getAllRacks,
+  updateMainImage,
+} from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import Avatar from "react-avatar-edit";
@@ -39,6 +45,11 @@ const RackInfo: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [showKit, setShowKit] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [showCenterPhoto, setShowCenterPhoto] = useState(false);
+  const [selectedMainFile, setSelectedMainFile] = useState<File | null>(null);
+  // const [selectedCenterFile, setSelectedCenterFile] = useState<File | null>(
+  //   null
+  // );
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     application,
@@ -72,31 +83,33 @@ const RackInfo: React.FC = () => {
     }
   };
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) {
-      return;
-    }
+  const toggleCenterPhoto = () => {
+    setShowCenterPhoto(!showCenterPhoto);
+  };
 
-    const splitToFindExtension = e.target.value.split(".");
+  const handleFileChange = async (file: File) => {
+    const splitToFindExtension = file.name.split(".");
     const fileExtension = splitToFindExtension[splitToFindExtension.length - 1];
 
     if (!imageExtensions.includes(fileExtension)) {
       window.alert("Avatar should be an image: png, jpg, jpeg, webp");
       return;
     }
+    setSelectedMainFile(file);
+  };
 
-    const imgFile = files[0];
+  const handleFileUpload = async () => {
+    if (!selectedMainFile) {
+      return;
+    }
 
-    if (imgFile) {
-      const updatedRack = { ...rack, imgFile: imgFile };
-      try {
-        await dispatch(updateMainImage(updatedRack));
-        dispatch(getAllRacks());
-        close();
-      } catch (error) {
-        console.error("Error updating main image:", error);
-      }
+    const updatedRack = { ...rack, imgFile: selectedMainFile };
+    try {
+      await dispatch(updateMainImage(updatedRack));
+      dispatch(getAllRacks());
+      close();
+    } catch (error) {
+      console.error("Error updating main image:", error);
     }
   };
 
@@ -126,17 +139,11 @@ const RackInfo: React.FC = () => {
           <ImagesWrapper>
             <ImageWrapper>
               <PhotoTitle>Загальне фото:</PhotoTitle>
-              {mainImage ? (
-                <img
-                  src={
-                    !mainImage || mainImage === "-" ? defaultImage : mainImage
-                  }
-                  alt="rack view"
-                  width={300}
-                ></img>
-              ) : (
-                <Spinner />
-              )}
+              <img
+                src={!mainImage || mainImage === "-" ? defaultImage : mainImage}
+                alt="rack view"
+                sizes="(max-width: 767px) 300px, 500px"
+              ></img>
 
               {user.role === "admin" && (
                 <EditPhoto
@@ -150,34 +157,41 @@ const RackInfo: React.FC = () => {
                 </EditPhoto>
               )}
             </ImageWrapper>
-            <ImageWrapper>
-              <PhotoTitle>Центральне положення:</PhotoTitle>
-              {mainImageCenter !=="-" ? (
-                <img
-                  src={
-                    !mainImageCenter || mainImageCenter === "-"
-                      ? defaultImage
-                      : mainImageCenter
-                  }
-                  alt="rack view center"
-                  width={300}
-                ></img>
-              ) : (
-                <Spinner />
-              )}
+            <ShowCenterButton onClick={() => toggleCenterPhoto()}>
+              {showCenterPhoto
+                ? "Приховати центральне положення"
+                : "Показати центральне положення"}
+            </ShowCenterButton>
+            {showCenterPhoto && (
+              <ImageWrapper>
+                <PhotoTitle>Центральне положення:</PhotoTitle>
+                {mainImageCenter !== "-" ? (
+                  <img
+                    src={
+                      !mainImageCenter || mainImageCenter === "-"
+                        ? defaultImage
+                        : mainImageCenter
+                    }
+                    alt="rack view center"
+                    sizes="(max-width: 767px) 300px, 500px"
+                  ></img>
+                ) : (
+                  <Spinner />
+                )}
 
-              {user.role === "admin" && (
-                <EditPhoto
-                  type="button"
-                  onClick={() => {
-                    setShowAvatarInfo(true);
-                    toggle();
-                  }}
-                >
-                  <EditIcon color={theme.colors.transfers} />
-                </EditPhoto>
-              )}
-            </ImageWrapper>
+                {user.role === "admin" && (
+                  <EditPhoto
+                    type="button"
+                    onClick={() => {
+                      setShowAvatarInfo(true);
+                      toggle();
+                    }}
+                  >
+                    <EditIcon color={theme.colors.transfers} />
+                  </EditPhoto>
+                )}
+              </ImageWrapper>
+            )}
           </ImagesWrapper>
 
           <NameOfProperty>
@@ -276,7 +290,7 @@ const RackInfo: React.FC = () => {
                 </>
               )}
               {showAvatarInfo && (
-                <ImagesWrapper onChange={handleFileChange}>
+                <AvatarWrapper>
                   <Avatar
                     width={240}
                     height={180}
@@ -284,9 +298,23 @@ const RackInfo: React.FC = () => {
                     onBeforeFileLoad={onBeforeFileLoad}
                     mimeTypes="image/jpeg, image/png, image/jpg, image/webp"
                     label="Виберіть новий файл"
+                    onFileLoad={(
+                      file: File | ChangeEvent<HTMLInputElement>
+                    ) => {
+                      if (file instanceof File) {
+                        handleFileChange(file);
+                      }
+                    }}
                   />
                   <p>*максимум 50kB</p>
-                </ImagesWrapper>
+                  <p>*найкращий формат зображення 580х250</p>
+                  <ButtonEditAvatar
+                    disabled={!selectedMainFile}
+                    onClick={handleFileUpload}
+                  >
+                    ok
+                  </ButtonEditAvatar>
+                </AvatarWrapper>
               )}
               {showForm && <EditForm data={rack} />}
             </Modal>

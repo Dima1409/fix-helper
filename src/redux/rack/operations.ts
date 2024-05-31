@@ -104,6 +104,29 @@ const updateMainImage = createAsyncThunk(
   }
 );
 
+const updateCenterImage = createAsyncThunk(
+  "/rack/centerPhoto",
+  async (credentials: Rack, thunkAPI) => {
+    const { imgFile } = credentials;
+    try {
+      const config = {
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const response = await API.patch(
+        `/rack/centerPhoto/${credentials._id}`,
+        { mainImage: imgFile },
+        config
+      );
+      return response.data;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const deleteRack = createAsyncThunk(
   "/rack/delete",
   async (credentials: string, thunkAPI) => {
@@ -124,4 +147,5 @@ export {
   updateRack,
   deleteRack,
   updateMainImage,
+  updateCenterImage,
 };

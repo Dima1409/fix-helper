@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   width: 260px;
   ${theme.mq.tablet} {
-    width: 760px;
+    width: 700px;
   }
 `;
 
@@ -23,6 +23,34 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const ButtonEditAvatar = styled.button`
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  background-color: ${theme.colors.accentActive};
+  border-radius: ${theme.radii.small};
+  color: ${theme.colors.light};
+  min-width: 90px;
+  justify-content: center;
+  padding: 8px;
+  transition: ${theme.transitions.durations.default};
+  &:disabled {
+    background-color: ${theme.colors.disabled};
+  }
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    cursor: pointer;
+    box-shadow: 0 0 5px ${theme.colors.accentActive};
+  }
+`;
+
+const ShowCenterButton = styled(ButtonEditAvatar)`
+  max-width: 300px;
+  margin: 5px auto;
+  background-color: ${theme.colors.accent};
 `;
 
 const NameOfProperty = styled.div`
@@ -67,8 +95,8 @@ const EditButton = styled(MoreButton)`
 
 const EditPhoto = styled(MoreButton)`
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 10px;
+  top: 40px;
   &:hover {
     cursor: pointer;
   }
@@ -115,24 +143,31 @@ const PhotoTitle = styled.h3`
 
 const ImagesWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-direction: column;
-  ${theme.mq.tablet} {
-    flex-direction: row;
+  max-width: 500px;
+  margin: 0 auto;
+`;
+
+const AvatarWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  & > p {
+    width: 100%;
+    padding-left: 20px;
   }
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
-  border: ${theme.borders.normal} ${theme.colors.accent};
-  border-radius: ${theme.radii.normal};
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
   display: flex;
+  border: ${theme.borders.normal} ${theme.colors.accent};
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 20px;
 `;
 
 export {
@@ -151,4 +186,7 @@ export {
   ImagesWrapper,
   ImageWrapper,
   PhotoTitle,
+  AvatarWrapper,
+  ButtonEditAvatar,
+  ShowCenterButton,
 };
