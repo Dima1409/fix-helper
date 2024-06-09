@@ -30,6 +30,7 @@ import EditForm from "components/EditForm";
 import {
   getAllRacks,
   updateMainImage,
+  updateCenterImage,
 } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
@@ -47,9 +48,11 @@ const RackInfo: React.FC = () => {
   const [showMore, setShowMore] = useState(false);
   const [showCenterPhoto, setShowCenterPhoto] = useState(false);
   const [selectedMainFile, setSelectedMainFile] = useState<File | null>(null);
-  // const [selectedCenterFile, setSelectedCenterFile] = useState<File | null>(
-  //   null
-  // );
+  const [selectedCenterFile, setSelectedCenterFile] = useState<File | null>(
+    null
+  );
+  const [editCenterImage, setEditCenterImage] = useState(false);
+
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     application,
@@ -59,7 +62,7 @@ const RackInfo: React.FC = () => {
     oem,
     type,
     mainImage,
-    mainImageCenter,
+    mainCenterImage,
   } = rack;
   const [showAvatarInfo, setShowAvatarInfo] = useState(false);
   if (!application || !name) {
@@ -87,7 +90,7 @@ const RackInfo: React.FC = () => {
     setShowCenterPhoto(!showCenterPhoto);
   };
 
-  const handleFileChange = async (file: File) => {
+  const handleFileChange = async (file: File, type: "main" | "center") => {
     const splitToFindExtension = file.name.split(".");
     const fileExtension = splitToFindExtension[splitToFindExtension.length - 1];
 
@@ -95,21 +98,30 @@ const RackInfo: React.FC = () => {
       window.alert("Avatar should be an image: png, jpg, jpeg, webp");
       return;
     }
-    setSelectedMainFile(file);
+    if (type === "main") {
+      setSelectedMainFile(file);
+    } else {
+      setSelectedCenterFile(file);
+    }
   };
 
-  const handleFileUpload = async () => {
-    if (!selectedMainFile) {
+  const handleFileUpload = async (type: "main" | "center") => {
+    const file = type === "main" ? selectedMainFile : selectedCenterFile;
+    if (!file) {
       return;
     }
 
-    const updatedRack = { ...rack, imgFile: selectedMainFile };
+    const updatedRack = { ...rack, imgFile: file };
     try {
-      await dispatch(updateMainImage(updatedRack));
+      if (type === "main") {
+        await dispatch(updateMainImage(updatedRack));
+      } else {
+        await dispatch(updateCenterImage(updatedRack));
+      }
       dispatch(getAllRacks());
       close();
     } catch (error) {
-      console.error("Error updating main image:", error);
+      console.error(`Error updating ${type} image:`, error);
     }
   };
 
@@ -139,6 +151,7 @@ const RackInfo: React.FC = () => {
           <ImagesWrapper>
             <ImageWrapper>
               <PhotoTitle>Загальне фото:</PhotoTitle>
+
               <img
                 src={!mainImage || mainImage === "-" ? defaultImage : mainImage}
                 alt="rack view"
@@ -150,6 +163,7 @@ const RackInfo: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setShowAvatarInfo(true);
+                    setEditCenterImage(false);
                     toggle();
                   }}
                 >
@@ -165,12 +179,12 @@ const RackInfo: React.FC = () => {
             {showCenterPhoto && (
               <ImageWrapper>
                 <PhotoTitle>Центральне положення:</PhotoTitle>
-                {mainImageCenter !== "-" ? (
+                {mainCenterImage !== "-" ? (
                   <img
                     src={
-                      !mainImageCenter || mainImageCenter === "-"
+                      !mainCenterImage || mainCenterImage === "-"
                         ? defaultImage
-                        : mainImageCenter
+                        : mainCenterImage
                     }
                     alt="rack view center"
                     sizes="(max-width: 767px) 300px, 500px"
@@ -184,6 +198,7 @@ const RackInfo: React.FC = () => {
                     type="button"
                     onClick={() => {
                       setShowAvatarInfo(true);
+                      setEditCenterImage(true);
                       toggle();
                     }}
                   >
@@ -235,6 +250,7 @@ const RackInfo: React.FC = () => {
             <Modal
               onClick={() => {
                 setShowAvatarInfo(false);
+                setEditCenterImage(false);
                 setShowForm(false);
                 setShowKit(false);
                 setShowMore(false);
@@ -302,15 +318,20 @@ const RackInfo: React.FC = () => {
                       file: File | ChangeEvent<HTMLInputElement>
                     ) => {
                       if (file instanceof File) {
-                        handleFileChange(file);
+                        handleFileChange(
+                          file,
+                          editCenterImage ? "center" : "main"
+                        );
                       }
                     }}
                   />
                   <p>*максимум 50kB</p>
                   <p>*найкращий формат зображення 580х250</p>
                   <ButtonEditAvatar
-                    disabled={!selectedMainFile}
-                    onClick={handleFileUpload}
+                    disabled={false}
+                    onClick={() =>
+                      handleFileUpload(editCenterImage ? "center" : "main")
+                    }
                   >
                     ok
                   </ButtonEditAvatar>

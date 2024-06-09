@@ -97,6 +97,7 @@ const updateMainImage = createAsyncThunk(
         { mainImage: imgFile },
         config
       );
+      console.log("main", response.data);
       return response.data;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error);
@@ -117,9 +118,10 @@ const updateCenterImage = createAsyncThunk(
       };
       const response = await API.patch(
         `/rack/centerPhoto/${credentials._id}`,
-        { mainImage: imgFile },
+        { mainCenterImage: imgFile },
         config
       );
+      console.log("center", response.data);
       return response.data;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error);

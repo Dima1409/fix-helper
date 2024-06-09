@@ -21,8 +21,8 @@ export interface Rack {
   oem: string;
   mainImage?: string;
   mainImageId?: string;
-  mainImageCenter?: string;
-  mainImageCenterId?: string;
+  mainCenterImage?: string;
+  mainCenterImageId?: string;
   imgFile: File;
   createdAt?: string;
   updatedAt?: string;
@@ -42,8 +42,8 @@ export const initialState: Rack = {
   application: "",
   oem: "",
   mainImage: "-",
-  mainImageCenter: "-",
+  mainCenterImage: "-",
   mainImageId: "-",
-  mainImageCenterId: "-",
+  mainCenterImageId: "-",
   imgFile: new File([], "placeholder"),
 };

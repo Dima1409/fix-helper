@@ -7,6 +7,7 @@ import {
   AddNewButton,
   ButtonsWrapper,
   HeaderNames,
+  StyledList,
   NamesList,
   ButtonDelete,
 } from "./SearchForm.styled";
@@ -180,7 +181,7 @@ const SearchForm: React.FC = () => {
       {Object.keys(organizedRacks).map((letter: string) => (
         <div key={letter}>
           <HeaderNames>{letter}</HeaderNames>
-          <ul>
+          <StyledList>
             {organizedRacks[letter].map((rack) => (
               <NamesList>
                 <span onClick={() => getByNameMore(rack)} key={rack._id}>
@@ -197,7 +198,7 @@ const SearchForm: React.FC = () => {
                 )}
               </NamesList>
             ))}
-          </ul>
+          </StyledList>
         </div>
       ))}
 

@@ -7,6 +7,7 @@ import {
   updateRack,
   deleteRack,
   updateMainImage,
+  updateCenterImage
 } from "./operations";
 import { Rack } from "types/data";
 
@@ -43,6 +44,7 @@ const RackSlice = createSlice({
       .addCase(deleteRack.pending, handlePending)
       .addCase(getById.pending, handlePending)
       .addCase(updateMainImage.pending, handlePending)
+      .addCase(updateCenterImage.pending, handlePending)
       .addCase(getAllRacks.rejected, handleRejected)
       .addCase(getByName.rejected, handleRejected)
       .addCase(getById.rejected, handleRejected)
@@ -50,6 +52,7 @@ const RackSlice = createSlice({
       .addCase(updateRack.rejected, handleRejected)
       .addCase(deleteRack.rejected, handleRejected)
       .addCase(updateMainImage.rejected, handleRejected)
+      .addCase(updateCenterImage.rejected, handleRejected)
       .addCase(
         getAllRacks.fulfilled,
         (state: RackState, action: PayloadAction<Rack[]>) => {
@@ -83,6 +86,10 @@ const RackSlice = createSlice({
         state.error = null;
       })
       .addCase(updateMainImage.fulfilled, (state: RackState) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateCenterImage.fulfilled, (state: RackState) => {
         state.isLoading = false;
         state.error = null;
       })

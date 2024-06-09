@@ -105,12 +105,29 @@ const HeaderNames = styled.h2`
   color: ${theme.colors.accentActive};
 `;
 
+const StyledList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border: 1px dotted ${theme.colors.accent};
+  border-radius: ${theme.radii.small};
+  padding: 10px 0;
+  margin-bottom: 10px;
+  ${theme.mq.tablet} {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  ${theme.mq.desktop} {
+    grid-template-columns: repeat(10, 1fr);
+  }
+`;
+
 const NamesList = styled.li`
   position: relative;
+  justify-self: center;
+  align-self: center;
   color: ${theme.colors.accent};
   text-align: center;
   margin: 1px;
-  width: 60%;
+  width: 45%;
   padding: 5px 0;
   border: ${theme.borders.normal} ${theme.colors.accent};
   border-radius: ${theme.radii.small};
@@ -127,7 +144,7 @@ const NamesList = styled.li`
 
 const ButtonDelete = styled.button`
   position: absolute;
-  left: 110%;
+  left: 104%;
   top: 0;
   width: 28px;
   height: 28px;
@@ -143,6 +160,9 @@ const ButtonDelete = styled.button`
     cursor: pointer;
     box-shadow: 0 0 4px ${theme.colors.accentActive};
   }
+  ${theme.mq.tablet} {
+    left: 110%;
+  }
 `;
 
 export {
@@ -154,6 +174,7 @@ export {
   AddNewButton,
   ButtonsWrapper,
   HeaderNames,
+  StyledList,
   NamesList,
   ButtonDelete,
 };
