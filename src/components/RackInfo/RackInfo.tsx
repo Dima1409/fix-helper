@@ -28,9 +28,9 @@ import { theme } from "theme/theme";
 import defaultImage from "../../images/defaultPhoto.jpg";
 import EditForm from "components/EditForm";
 import {
-  getAllRacks,
   updateMainImage,
   updateCenterImage,
+  getByName,
 } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
@@ -118,7 +118,11 @@ const RackInfo: React.FC = () => {
       } else {
         await dispatch(updateCenterImage(updatedRack));
       }
-      dispatch(getAllRacks());
+      const isNumeric = rack.name.length > 5;
+      const queryParams = {
+        [isNumeric ? "oem" : "name"]: rack.name,
+      };
+      await dispatch(getByName(queryParams));
       close();
     } catch (error) {
       console.error(`Error updating ${type} image:`, error);

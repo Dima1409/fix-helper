@@ -164,7 +164,6 @@ const AvatarWrapper = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   display: flex;
-  border: ${theme.borders.normal} ${theme.colors.accent};
   justify-content: center;
   align-items: center;
   flex-direction: column;
