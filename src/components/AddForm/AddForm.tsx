@@ -36,7 +36,11 @@ import { initialState } from "types/data";
 import useRack from "hooks/useRack";
 import Spinner from "components/Spinner";
 
-const AddForm: React.FC = () => {
+interface AddFormProps {
+  closeModal?: () => void
+}
+
+const AddForm: React.FC<AddFormProps> = ({closeModal}) => {
   const { isLoading } = useRack();
   const [formData, setFormData] = useState<Rack>(initialState);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -151,6 +155,11 @@ const AddForm: React.FC = () => {
       if (res.payload._id) {
         setResult("success");
         setFormSubmitted(true);
+        setTimeout(() => {
+          if (closeModal) {
+            closeModal();
+          }
+        }, 2000);
         return;
       }
       if (

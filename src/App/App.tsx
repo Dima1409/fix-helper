@@ -1,4 +1,4 @@
-import { lazy, Suspense, ReactNode, useEffect } from "react";
+import React, { lazy, Suspense, ReactNode, useEffect } from "react";
 import Container from "components/Container";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { refreshUser } from "../redux/auth/operations";

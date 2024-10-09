@@ -341,7 +341,7 @@ const RackInfo: React.FC = () => {
                   </ButtonEditAvatar>
                 </AvatarWrapper>
               )}
-              {showForm && <EditForm data={rack} />}
+              {showForm && <EditForm data={rack} closeModal={close}/>}
             </Modal>
           )}
         </>

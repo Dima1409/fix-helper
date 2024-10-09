@@ -174,7 +174,7 @@ const SearchForm: React.FC = () => {
             close();
           }}
         >
-          {showForm && <AddForm />}
+          {showForm && <AddForm closeModal={close}/>}
         </Modal>
       )}
       {isLoading && <Spinner />}
