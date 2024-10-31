@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "services/AxiosConfig";
-import { Rack } from "types/data";
+import { Rack } from "types/racks";
 
 interface GetByNamePayload {
   name?: string;
@@ -97,7 +97,6 @@ const updateMainImage = createAsyncThunk(
         { mainImage: imgFile },
         config
       );
-      console.log("main", response.data);
       return response.data;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error);
@@ -121,7 +120,6 @@ const updateCenterImage = createAsyncThunk(
         { mainCenterImage: imgFile },
         config
       );
-      console.log("center", response.data);
       return response.data;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue(error);

@@ -3,7 +3,7 @@ import { FormEvent, ChangeEvent } from "react";
 import { createNewRack } from "../../redux/rack/operations";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { Rack, Property } from "types/data";
+import { Rack, Property } from "types/racks";
 import { ToastContainer } from "react-toastify";
 import {
   Form,
@@ -21,7 +21,7 @@ import {
   InputSpec,
   InputMore,
   ElemOfProperty,
-} from "./AddForm.styled";
+} from "./AddRackForm.styled";
 import {
   steeringRackPattern,
   rackKitPattern,
@@ -29,10 +29,10 @@ import {
   artPattern,
   quantityPattern,
   commentPattern,
-} from "utils/patterns";
+} from "utils/RackPatterns";
 import Notification from "components/Notify";
-import { PropertiesForm, PropertiesFormSpec } from "utils/addFormHelper";
-import { initialState } from "types/data";
+import { PropertiesForm, PropertiesFormSpec } from "utils/addRackFormHelper";
+import { initialState } from "types/racks";
 import useRack from "hooks/useRack";
 import Spinner from "components/Spinner";
 
@@ -40,7 +40,7 @@ interface AddFormProps {
   closeModal?: () => void
 }
 
-const AddForm: React.FC<AddFormProps> = ({closeModal}) => {
+const AddRackForm: React.FC<AddFormProps> = ({closeModal}) => {
   const { isLoading } = useRack();
   const [formData, setFormData] = useState<Rack>(initialState);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -549,4 +549,4 @@ const AddForm: React.FC<AddFormProps> = ({closeModal}) => {
   );
 };
 
-export default AddForm;
+export default AddRackForm;

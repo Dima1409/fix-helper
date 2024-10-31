@@ -9,7 +9,7 @@ import {
   updateMainImage,
   updateCenterImage
 } from "./operations";
-import { Rack } from "types/data";
+import { Rack } from "types/racks";
 
 interface RackState {
   rack: Rack[];

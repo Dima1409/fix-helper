@@ -53,7 +53,7 @@ const authSlice = createSlice({
         state.isPending = false;
         state.error = null;
       })
-      .addCase(refreshUser.fulfilled, (state, action) => {
+      .addCase(refreshUser.fulfilled, (state: typeof initialState, action) => {
         state.user.name = action.payload.name;
         state.user.role = action.payload.role;
         state.token = action.payload.token;

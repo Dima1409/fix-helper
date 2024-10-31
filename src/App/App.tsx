@@ -65,19 +65,20 @@ const App: React.FC = () => {
               ></Routs.RestrictedRoute>
             }
           ></Route>
-          <Route
-            path="steering"
-            element={
-              <Routs.PrivateRoute
-                component={() => (
-                  <LazyPage>
-                    <SteeringPage />
-                  </LazyPage>
-                )}
-                redirectTo="/"
-              />
-            }
-          ></Route>
+            <Route
+                path="steering/*"
+                element={
+                    <Routs.PrivateRoute
+                        component={() => (
+                            <LazyPage>
+                                <SteeringPage />
+                            </LazyPage>
+                        )}
+                        redirectTo="/"
+                    />
+                }
+            >
+            </Route>
           <Route
             path="turbine"
             element={

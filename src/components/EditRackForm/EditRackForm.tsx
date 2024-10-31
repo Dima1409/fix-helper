@@ -4,7 +4,7 @@ import {updateRack} from "../../redux/rack/operations";
 import RackInfo from "../RackInfo";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "@reduxjs/toolkit";
-import {Rack, Property} from "types/data";
+import {Rack, Property} from "types/racks";
 import {ToastContainer} from "react-toastify";
 import {
     Form,
@@ -22,7 +22,7 @@ import {
     InputSpec,
     InputMore,
     ElemOfProperty,
-} from "../AddForm/AddForm.styled";
+} from "../AddRackForm/AddRackForm.styled";
 import {
     steeringRackPattern,
     rackKitPattern,
@@ -30,9 +30,9 @@ import {
     artPattern,
     quantityPattern,
     commentPattern,
-} from "utils/patterns";
+} from "utils/RackPatterns";
 import Notification from "components/Notify";
-import {PropertiesForm, PropertiesFormSpec} from "utils/addFormHelper";
+import {PropertiesForm, PropertiesFormSpec} from "utils/addRackFormHelper";
 import useRack from "hooks/useRack";
 import Spinner from "components/Spinner";
 
@@ -41,7 +41,7 @@ interface EditFormProps {
     closeModal?: () => void
 }
 
-const EditForm: React.FC<EditFormProps> = ({data, closeModal}) => {
+const EditRackForm: React.FC<EditFormProps> = ({data, closeModal}) => {
     const [formData, setFormData] = useState(data);
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const [result, setResult] = useState<string>("");
@@ -556,4 +556,4 @@ const EditForm: React.FC<EditFormProps> = ({data, closeModal}) => {
     );
 };
 
-export default EditForm;
+export default EditRackForm;

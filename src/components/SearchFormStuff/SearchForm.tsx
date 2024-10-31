@@ -1,0 +1,217 @@
+import {
+    Form,
+    Label,
+    Input,
+    ButtonSearch,
+    ShowAll,
+    AddNewButton,
+    ButtonsWrapper,
+    HeaderNames,
+    StyledList,
+    NamesList,
+    ButtonDelete,
+} from "./SearchForm.styled";
+import {ChangeEvent, FormEvent, useState} from "react";
+import {useDispatch} from "react-redux";
+import useAuth from "hooks/useAuth";
+import {ThunkDispatch} from "@reduxjs/toolkit";
+import useToggle from "hooks/useToggle";
+import StuffInfo from "../StuffInfo";
+import {
+    getAllStuff,
+    deleteStuff,
+    getByName,
+} from "../../redux/stuff/operations";
+import {Stuff} from "types/stuffing-boxes";
+import Modal from "components/Modal";
+import {DeleteIcon} from "components/Icons/Icons";
+import {theme} from "theme/theme";
+import {ToastContainer} from "react-toastify";
+import Notification from "components/Notify/Notify";
+import useStuff from "hooks/useStuff";
+import Spinner from "components/Spinner";
+import AddStuffForm from "../AddStuffForm";
+
+const SearchForm: React.FC = () => {
+    const {user} = useAuth();
+    const {isLoading} = useStuff();
+    const {stuff}: { stuff: Stuff } = useStuff();
+    const [showForm, setShowForm] = useState(false);
+    const {isOpen, close, toggle} = useToggle();
+    const [deleteStatus, setDeleteStatus] = useState<string>("");
+    const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
+    const initialValues = {
+        searchValue: "",
+    };
+    const [searchData, setSearchData] = useState(initialValues);
+    const [allStuff, setAllStuff] = useState<Stuff[]>([]);
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
+        setSearchData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            setSearchData(initialValues);
+            const searchValue = searchData.searchValue.trim().toUpperCase();
+            const isNumeric = searchValue.length > 8;
+
+            const queryParams = {
+                [isNumeric ? "oem" : "name"]: searchValue,
+            };
+
+            dispatchTyped(getByName(queryParams));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const organizeStuffByAlphabet = (): { [key: string]: Stuff[] } => {
+        const alphabetizedRacks: { [key: string]: Stuff[] } = {};
+
+        allStuff.forEach((stuff: Stuff) => {
+            const firstLetter = stuff.name.charAt(0).toUpperCase();
+            if (!alphabetizedRacks[firstLetter]) {
+                alphabetizedRacks[firstLetter] = [];
+            }
+            alphabetizedRacks[firstLetter].push(stuff);
+        });
+
+        return alphabetizedRacks;
+    };
+
+    const organizedStuff: { [key: string]: Stuff[] } = organizeStuffByAlphabet();
+
+    const getAll = async () => {
+        let res;
+        res = dispatchTyped(getAllStuff());
+        setAllStuff((await res).payload);
+    };
+
+    const getByNameMore = async (elem: Stuff) => {
+        setAllStuff([]);
+        dispatchTyped(getByName({name: elem.name}));
+    };
+
+    const deleteStuffById = async (id: string | undefined) => {
+        if (id) {
+            const confirmed = window.confirm("Видалити запис?");
+            if (confirmed) {
+                await dispatchTyped(deleteStuff(id)).then((res) => {
+                    if (res.meta.requestStatus === "fulfilled") {
+                        setDeleteStatus("success");
+                        return;
+                    }
+                    setDeleteStatus("error");
+                });
+                await getAll();
+            } else {
+                return;
+            }
+        } else {
+            setDeleteStatus("error");
+        }
+    };
+
+    return (
+        <>
+            {deleteStatus === "success" && (
+                <Notification type="success" message={`Успішно видалено`}/>
+            )}
+            {deleteStatus === "error" && (
+                <Notification type="error" message={`Помилка видалення`}/>
+            )}
+            <ToastContainer position="top-right"/>
+            <Form onSubmit={handleSubmit}>
+                <Label htmlFor="searchInput">
+                    <Input
+                        id="searchInput"
+                        name="searchValue"
+                        onChange={handleInputChange}
+                        value={searchData.searchValue}
+                        type="text"
+                        placeholder="Номер сальника"
+                    ></Input>
+                </Label>
+                <ButtonSearch type="submit" disabled={searchData.searchValue === ""}>
+                    пошук
+                </ButtonSearch>
+            </Form>
+            <ButtonsWrapper>
+                {allStuff.length === 0 && (
+                    <ShowAll onClick={() => getAll()}>Показати всі</ShowAll>
+                )}
+                {allStuff.length > 0 && (
+                    <ShowAll onClick={() => setAllStuff([])}>Сховати всі</ShowAll>
+                )}
+                {user.role === "admin" && (
+                    <AddNewButton
+                        onClick={() => {
+                            setShowForm(true);
+                            toggle();
+                        }}
+                    >
+                        Додати
+                    </AddNewButton>
+                )}
+            </ButtonsWrapper>
+            {allStuff.length > 0 && (
+                <HeaderNames
+                    style={{textAlign: "center", color: `${theme.colors.accent}`}}
+                >
+                    Знайдено сальників: {allStuff.length}
+                </HeaderNames>
+            )}
+
+            {isOpen && (
+                <Modal
+                    onClick={() => {
+                        setShowForm(false);
+                        close();
+                    }}
+                >
+                    {showForm && <AddStuffForm closeModal={close}/>}
+                </Modal>
+            )}
+            {isLoading && <Spinner/>}
+            {Object.keys(organizedStuff).map((letter: string) => (
+                <div key={letter}>
+                    <HeaderNames>{letter}</HeaderNames>
+                    <StyledList>
+                        {organizedStuff[letter].map((stuff) => (
+                            <NamesList>
+                <span onClick={() => getByNameMore(stuff)} key={stuff._id}>
+                  {stuff.name}
+                </span>
+                                {user.role === "admin" && (
+                                    <ButtonDelete
+                                        onClick={() => {
+                                            deleteStuffById(stuff._id);
+                                        }}
+                                    >
+                                        <DeleteIcon color={theme.colors.darkRed}/>
+                                    </ButtonDelete>
+                                )}
+                            </NamesList>
+                        ))}
+                    </StyledList>
+                </div>
+            ))}
+
+            {stuff._id && <StuffInfo/>}
+        </>
+    );
+};
+
+export default SearchForm;
+
+
+
+
+
+

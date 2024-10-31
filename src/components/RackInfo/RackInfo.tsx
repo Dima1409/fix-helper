@@ -1,5 +1,5 @@
 import useRack from "hooks/useRack";
-import { Rack } from "types/data";
+import { Rack } from "types/racks";
 import React, { useState, ChangeEvent } from "react";
 import useToggle from "hooks/useToggle";
 import Modal from "components/Modal";
@@ -26,7 +26,7 @@ import {
 import { EditIcon, PlusIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
 import defaultImage from "../../images/defaultPhoto.jpg";
-import EditForm from "components/EditForm";
+import EditRackForm from "components/EditRackForm";
 import {
   updateMainImage,
   updateCenterImage,
@@ -341,7 +341,7 @@ const RackInfo: React.FC = () => {
                   </ButtonEditAvatar>
                 </AvatarWrapper>
               )}
-              {showForm && <EditForm data={rack} closeModal={close}/>}
+              {showForm && <EditRackForm data={rack} closeModal={close}/>}
             </Modal>
           )}
         </>

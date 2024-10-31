@@ -20,7 +20,10 @@ const register = createAsyncThunk(
   async (credentials: RegisterCredentials, thunkAPI) => {
     try {
       const response = await API.post("/auth/register", credentials);
-      setAuthHeader(response.data.data.user.userToken);
+
+      const token = response.data.data.user.userToken;
+      setAuthHeader(token);
+
       return response.data.data;
     } catch (error: any) {
       console.log(error);
@@ -38,7 +41,9 @@ const login = createAsyncThunk(
   async (credentials: LoginCredentials, thunkAPI) => {
     try {
       const response = await API.post("/auth/login", credentials);
-      setAuthHeader(response.data.data.user.userToken);
+      const token = response.data.data.user.userToken;
+      setAuthHeader(token);
+
       return response.data.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -50,6 +55,9 @@ const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await API.get("/auth/logout");
     clearAuthHeader();
+
+    localStorage.removeItem("token");
+
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -59,7 +67,7 @@ const refreshUser = createAsyncThunk("/auth/current", async (_, thunkAPI) => {
   const state: any = thunkAPI.getState();
   const persistedToken = state.auth.token;
 
-  if (persistedToken === null) {
+  if (!persistedToken) {
     return thunkAPI.rejectWithValue("Unable to fetch user");
   }
   try {

@@ -22,9 +22,9 @@ import {
   deleteRack,
   getByName,
 } from "../../redux/rack/operations";
-import { Rack } from "types/data";
+import { Rack } from "types/racks";
 import Modal from "components/Modal";
-import AddForm from "components/AddForm";
+import AddRackForm from "components/AddRackForm";
 import { DeleteIcon } from "components/Icons/Icons";
 import { theme } from "theme/theme";
 import { ToastContainer } from "react-toastify";
@@ -174,7 +174,7 @@ const SearchForm: React.FC = () => {
             close();
           }}
         >
-          {showForm && <AddForm closeModal={close}/>}
+          {showForm && <AddRackForm closeModal={close}/>}
         </Modal>
       )}
       {isLoading && <Spinner />}
@@ -208,3 +208,9 @@ const SearchForm: React.FC = () => {
 };
 
 export default SearchForm;
+
+
+
+
+
+

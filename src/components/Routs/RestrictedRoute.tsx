@@ -1,21 +1,40 @@
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import useAuth from "hooks/useAuth";
-import React, { ComponentType } from "react";
+import React, {ComponentType} from "react";
 
 interface RestrictedRoutesProps {
-  redirectTo: string;
-  component: ComponentType;
+    redirectTo: string;
+    component: ComponentType;
 }
 
 const RestrictedRoute: React.FC<RestrictedRoutesProps> = ({
-  redirectTo,
-  component: Component,
-}) => {
-  const { isLoggedIn, isRefreshing } = useAuth();
-  if (isRefreshing) {
-    return null;
-  }
-  return isLoggedIn ? <Navigate to={redirectTo} /> : <Component />;
+                                                              redirectTo,
+                                                              component: Component,
+                                                          }) => {
+    const {isToken: token} = useAuth();
+
+    return token ? <Navigate to={redirectTo}/> : <Component/>;
 };
 
 export default RestrictedRoute;
+// import { Navigate } from "react-router-dom";
+// import useAuth from "hooks/useAuth";
+// import React, { ComponentType } from "react";
+//
+// interface RestrictedRoutesProps {
+//     redirectTo: string;
+//     component: ComponentType;
+// }
+//
+// const RestrictedRoute: React.FC<RestrictedRoutesProps> = ({
+//                                                               redirectTo,
+//                                                               component: Component,
+//                                                           }) => {
+//     const { isLoggedIn, isRefreshing } = useAuth();
+//     if (isRefreshing) {
+//         return null;
+//     }
+//     return isLoggedIn ? <Navigate to={redirectTo} /> : <Component />;
+// };
+//
+// export default RestrictedRoute;

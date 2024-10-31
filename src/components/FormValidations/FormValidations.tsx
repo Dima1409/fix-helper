@@ -13,7 +13,7 @@ import {
   commentPattern,
   applicationPattern,
   oemPattern,
-} from "utils/patterns";
+} from "utils/RackPatterns";
 
 const validationLogin = yup.object().shape({
   name: yup
