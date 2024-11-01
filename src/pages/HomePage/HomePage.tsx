@@ -12,12 +12,12 @@ const HomePage: React.FC = () => {
     <>
       {isDataLoaded ? (
         isLoggedIn && user ? (
-          <>
-            <UserMenu />
-          </>
+            <>
+              <UserMenu/>
+            </>
         ) : (
-          <>
-            <HeaderWelcome>
+            <>
+              <HeaderWelcome>
               Зручний підбір комплектуючих від Genstar
             </HeaderWelcome>
             <Description>
@@ -52,7 +52,7 @@ const HomePage: React.FC = () => {
           </>
         )
       ) : (
-        <Spinner />
+            <Spinner />
       )}
     </>
   );

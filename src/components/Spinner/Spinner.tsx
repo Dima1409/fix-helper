@@ -11,15 +11,24 @@ const override: CSSProperties = {
 
 const Spinner: React.FC = () => {
   return (
-    <PulseLoader
-      color={theme.colors.spinner}
-      margin={5}
-      loading={true}
-      cssOverride={override}
-      size={15}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    />
+      <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+      >
+        <PulseLoader
+            color={theme.colors.spinner}
+            margin={5}
+            loading={true}
+            cssOverride={override}
+            size={15}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+        />
+      </div>
   );
 };
 

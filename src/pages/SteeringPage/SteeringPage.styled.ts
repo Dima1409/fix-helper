@@ -23,7 +23,7 @@ const Tab = styled.div<{ isActive: boolean }>`
 `
 
 const TabContent = styled.div`
-    padding: 20px;
+    padding: 20px 0;
     border-top: 1px solid #ccc;
     border-radius: 0 5px 5px 5px;
     margin-top: 4px;

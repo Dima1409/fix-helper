@@ -126,6 +126,7 @@ const SearchForm: React.FC = () => {
         <Notification type="error" message={`Помилка видалення`} />
       )}
       <ToastContainer position="top-right" />
+      <HeaderNames style={{textAlign: 'center'}}>Пошук рейки за ОЕМ номером або артикулом</HeaderNames>
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="searchInput">
           <Input

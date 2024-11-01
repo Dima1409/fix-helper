@@ -10,7 +10,7 @@ import {
     StyledList,
     NamesList,
     ButtonDelete,
-} from "./SearchForm.styled";
+} from "./SearchFormStuff.styled";
 import {ChangeEvent, FormEvent, useState} from "react";
 import {useDispatch} from "react-redux";
 import useAuth from "hooks/useAuth";
@@ -32,7 +32,7 @@ import useStuff from "hooks/useStuff";
 import Spinner from "components/Spinner";
 import AddStuffForm from "../AddStuffForm";
 
-const SearchForm: React.FC = () => {
+const SearchFormStuff: React.FC = () => {
     const {user} = useAuth();
     const {isLoading} = useStuff();
     const {stuff}: { stuff: Stuff } = useStuff();
@@ -127,6 +127,7 @@ const SearchForm: React.FC = () => {
                 <Notification type="error" message={`Помилка видалення`}/>
             )}
             <ToastContainer position="top-right"/>
+            <HeaderNames style={{textAlign: 'center'}}>Пошук сальників по артикулу</HeaderNames>
             <Form onSubmit={handleSubmit}>
                 <Label htmlFor="searchInput">
                     <Input
@@ -208,7 +209,7 @@ const SearchForm: React.FC = () => {
     );
 };
 
-export default SearchForm;
+export default SearchFormStuff;
 
 
 
