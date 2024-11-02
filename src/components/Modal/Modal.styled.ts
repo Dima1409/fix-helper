@@ -31,7 +31,7 @@ const Modal = styled.div`
     margin: 40px;
   }
 `;
-const ButtonClose = styled.button`
+const ButtonClose = styled.div`
   position: absolute;
   border: none;
   border-radius: ${theme.radii.small};

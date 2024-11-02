@@ -141,8 +141,8 @@ const ButtonDelete = styled.div`
   position: absolute;
   left: 104%;
   top: 0;
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
