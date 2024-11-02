@@ -16,8 +16,7 @@ interface CustomIconProps {
   color?: string;
 }
 
-const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-const defaultSize = isiOS ? "50px" : window.devicePixelRatio > 1 ? "40px" : "30px";
+const defaultSize = window.devicePixelRatio > 1 ? "40px" : "30px";
 const defaultColor = theme.colors.accent;
 
 const CustomIcon: React.FC<CustomIconProps> = ({ icon: Icon, size, color }) => {
