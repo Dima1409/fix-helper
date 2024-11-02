@@ -91,7 +91,7 @@ const SelectForm = styled.select`
     border: ${theme.borders.normal} transparent;
     outline: none;
     border-radius: ${theme.radii.small};
-    max-width: 145px;
+    max-width: 130px;
 
     ${theme.mq.tablet} {
         max-width: 200px;
@@ -124,7 +124,7 @@ const WrapperMore = styled.div`
 const InputMore = styled.textarea`
     border: ${theme.borders.normal} transparent;
     margin: 5px;
-    width: 80%;
+    width: 90%;
     min-height: 70px;
     outline: none;
     border-radius: ${theme.radii.small};
@@ -146,7 +146,6 @@ const InputMore = styled.textarea`
 
     ${theme.mq.tablet} {
         width: 450px;
-        min-height: 80px;
     }
 `;
 
