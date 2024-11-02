@@ -189,7 +189,7 @@ const SearchForm: React.FC = () => {
                   {rack.name}
                 </span>
                 {user.role === "admin" && (
-                  <ButtonDelete
+                  <ButtonDelete role={"button"} tabIndex={0}
                     onClick={() => {
                       deleteRackById(rack._id);
                     }}
