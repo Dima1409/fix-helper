@@ -147,7 +147,10 @@ const ButtonDelete = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
+  background: transparent; /* Сброс фона */
+  padding: 0; /* Убрать внутренние отступы */
   outline: none;
+  -webkit-appearance: none; /* Отключить стилизацию button на iOS */
   border-radius: ${theme.radii.small};
   margin-left: auto;
   transition: ${theme.transitions.durations.default};
@@ -159,6 +162,30 @@ const ButtonDelete = styled.button`
     left: 110%;
   }
 `;
+
+
+// const ButtonDelete = styled.button`
+//   position: absolute;
+//   left: 104%;
+//   top: 0;
+//   width: 28px;
+//   height: 28px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border: none;
+//   outline: none;
+//   border-radius: ${theme.radii.small};
+//   margin-left: auto;
+//   transition: ${theme.transitions.durations.default};
+//   &:hover {
+//     cursor: pointer;
+//     box-shadow: 0 0 4px ${theme.colors.accentActive};
+//   }
+//   ${theme.mq.tablet} {
+//     left: 110%;
+//   }
+// `;
 
 export {
   Form,
