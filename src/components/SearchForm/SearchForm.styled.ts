@@ -137,7 +137,7 @@ const NamesList = styled.li`
   }
 `;
 
-const ButtonDelete = styled.button`
+const ButtonDelete = styled.div`
   position: absolute;
   left: 104%;
   top: 0;
