@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { theme } from "theme/theme";
 
 const Form = styled.form`
-  padding: 20px 0px;
+  padding: 20px 0;
 `;
 
 const WrapperForm = styled.div`
@@ -84,8 +84,11 @@ const SelectForm = styled.select`
   border: ${theme.borders.normal} transparent;
   outline: none;
   border-radius: ${theme.radii.small};
-  max-width: 200px;
+  max-width: 145px;
   margin-right: 30px;
+  ${theme.mq.tablet} {
+    max-width: 200px;
+  }
   &:valid {
     border-color: ${theme.colors.valid};
   }

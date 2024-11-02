@@ -37,8 +37,8 @@ const ButtonClose = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  //width: 20px;
+  //height: 20px;
   top: 15px;
   right: 15px;
   transition: 0.3s;
