@@ -46,8 +46,8 @@ const ButtonClose = styled.button`
   z-index: 1300;
   ${theme.mq.tablet} {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     top: 12px;
     right: 12px;
   }

@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ onClick, children }) => {
       <ModalStyled>
         {children}
         <ButtonClose onClick={onClick}>
-          <CloseIcon color={theme.colors.invalid} />
+          <CloseIcon size={'40px'} color={theme.colors.invalid} />
         </ButtonClose>
       </ModalStyled>
     </Overlay>,
