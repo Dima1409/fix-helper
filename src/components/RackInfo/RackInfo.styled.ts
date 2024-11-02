@@ -69,7 +69,7 @@ const InfoOfProperty = styled.span`
   }
 `;
 
-const MoreButton = styled.div`
+const MoreButton = styled.button`
   width: 30px;
   height: 30px;
   background-color: none;
