@@ -16,6 +16,7 @@ const Overlay = styled.div`
 `;
 
 const Modal = styled.div`
+  position: relative;
   background-color: ${theme.colors.accent};
   padding: 50px 30px;
   border-radius: ${theme.radii.small};
@@ -31,14 +32,14 @@ const Modal = styled.div`
   }
 `;
 const ButtonClose = styled.button`
-  position: fixed;
+  position: absolute;
   border: none;
   border-radius: ${theme.radii.small};
   display: flex;
   justify-content: center;
   align-items: center;
-  //width: 20px;
-  //height: 20px;
+  width: 30px;
+  height: 30px;
   top: 15px;
   right: 15px;
   transition: 0.3s;

@@ -16,7 +16,7 @@ const UserWrapper = styled.div`
 
 const User = styled.span`
   color: ${theme.colors.accent};
-  font-size: ${theme.fontSizes.extraSmall};
+  font-size: ${theme.fontSizes.normal};
   font-family: ${theme.fonts.merriweather};
   font-weight: ${theme.fontWeight.bold};
   margin-top: 10px;
@@ -30,7 +30,7 @@ const User = styled.span`
 
 const Role = styled.span`
   color: ${theme.colors.accent};
-  font-size: ${theme.fontSizes.extraSmall};
+  font-size: ${theme.fontSizes.normal};
   font-family: ${theme.fonts.merriweather};
   font-weight: ${theme.fontWeight.bold};
   margin-bottom: 10px;

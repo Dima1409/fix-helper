@@ -76,6 +76,7 @@ const WrapperProperty = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 15px 5px;
 `;
 
 const SelectForm = styled.select`
@@ -85,7 +86,6 @@ const SelectForm = styled.select`
   outline: none;
   border-radius: ${theme.radii.small};
   max-width: 145px;
-  margin-right: 30px;
   ${theme.mq.tablet} {
     max-width: 200px;
   }
@@ -153,8 +153,8 @@ const AddButton = styled.button`
 const DeleteButton = styled(AddButton)`
   position: absolute;
   background-color: ${theme.colors.darkRed};
-  top: 15px;
-  right: 0;
+  top: 4px;
+  right: 4px;
   ${theme.mq.tablet} {
     right: 0;
     top: 0;
