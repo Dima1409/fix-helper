@@ -70,8 +70,7 @@ const InfoOfProperty = styled.span`
 `;
 
 const MoreButton = styled.button`
-  width: 30px;
-  height: 30px;
+  min-height: 30px;
   background-color: none;
   margin-left: 10px;
   border-radius: ${theme.radii.small};

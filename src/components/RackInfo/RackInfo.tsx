@@ -227,7 +227,7 @@ const RackInfo: React.FC = () => {
                   toggle();
                 }}
               >
-                <PlusIcon size={'40px'} color={theme.colors.light} />
+                <PlusIcon color={theme.colors.light} />
               </MoreButton>
             </ButtonWrapper>
           </NameOfProperty>
