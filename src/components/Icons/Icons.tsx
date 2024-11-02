@@ -16,7 +16,7 @@ interface CustomIconProps {
   color?: string;
 }
 
-const defaultSize = window.devicePixelRatio > 1 ? "40px" : "30px";
+const defaultSize = window.devicePixelRatio > 1 ? "30px" : "25px";
 const defaultColor = theme.colors.accent;
 
 const CustomIcon: React.FC<CustomIconProps> = ({ icon: Icon, size, color }) => {

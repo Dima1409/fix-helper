@@ -164,7 +164,7 @@ const RackInfo: React.FC = () => {
 
               {user.role === "admin" && (
                 <EditPhoto
-                  type="button"
+                    role={"button"} tabIndex={0}
                   onClick={() => {
                     setShowAvatarInfo(true);
                     setEditCenterImage(false);
@@ -199,7 +199,7 @@ const RackInfo: React.FC = () => {
 
                 {user.role === "admin" && (
                   <EditPhoto
-                    type="button"
+                      role={"button"} tabIndex={0}
                     onClick={() => {
                       setShowAvatarInfo(true);
                       setEditCenterImage(true);

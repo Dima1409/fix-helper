@@ -36,8 +36,8 @@ const Modal: React.FC<ModalProps> = ({ onClick, children }) => {
     <Overlay onClick={handleBackdrop}>
       <ModalStyled>
         {children}
-        <ButtonClose onClick={onClick}>
-          <CloseIcon size={'40px'} color={theme.colors.invalid} />
+        <ButtonClose role={"button"} tabIndex={0} onClick={onClick}>
+          <CloseIcon color={theme.colors.invalid} />
         </ButtonClose>
       </ModalStyled>
     </Overlay>,

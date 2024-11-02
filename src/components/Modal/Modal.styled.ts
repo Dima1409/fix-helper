@@ -33,7 +33,7 @@ const Modal = styled.div`
 `;
 const ButtonClose = styled.div`
   position: absolute;
-  border: none;
+  border: 1px solid ${theme.colors.background};
   border-radius: ${theme.radii.small};
   display: flex;
   justify-content: center;
@@ -46,8 +46,8 @@ const ButtonClose = styled.div`
   z-index: 1300;
   ${theme.mq.tablet} {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     top: 12px;
     right: 12px;
   }
