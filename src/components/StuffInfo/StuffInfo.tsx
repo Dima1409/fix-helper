@@ -14,12 +14,13 @@ import {
     EditButton,
     ImagesWrapper,
     ImageWrapper,
-    PhotoTitle,
+    PhotoTitle, HeadOfProperty,
 } from "./StuffInfo.styled";
 import {EditIcon} from "components/Icons/Icons";
 import {theme} from "theme/theme";
 import useAuth from "hooks/useAuth";
-import {type_7V1} from "./types";
+import typeS from "./types";
+import {TypeKeys} from "./types";
 import EditStuffForm from "../EditStuffForm";
 
 const RackInfo: React.FC = () => {
@@ -43,6 +44,33 @@ const RackInfo: React.FC = () => {
         H,
     } = stuff;
 
+    const selectedImageSrc = typeS[`type_${type.slice(0, 1)}` as TypeKeys];
+
+    const stuffPosition = (posStuff: string) => {
+        let elem;
+        switch (posStuff) {
+            case 'CRE':
+                elem = "Сальник силовий гідроциліндра";
+                break;
+            case 'DIS':
+                elem = "Сальник розподільника";
+                break;
+            case 'PIS':
+                elem = "Сальник поршня редуктора"
+                break;
+            case 'SCA':
+                elem = "Сальник корпусу редуктора";
+                break;
+            case 'POM':
+                elem = "Сальник насосу ГПК"
+                break;
+            default:
+                elem = ''
+        }
+        return elem;
+    }
+
+
     return (
         <Wrapper>
             {isError ? (
@@ -63,67 +91,72 @@ const RackInfo: React.FC = () => {
                                     <EditIcon color={theme.colors.light}/>
                                 </EditButton>
                             )}
-                            <InfoOfProperty>{name}</InfoOfProperty>
+                            <HeadOfProperty>{name}</HeadOfProperty>
                         </ButtonWrapper>
                     </NameOfProperty>
 
                     <Wrapper>
-                        <PropertyWrapper>
-                            <PhotoTitle>Характеристики</PhotoTitle>
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Тип: <InfoOfProperty>{type}</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Застосування: <InfoOfProperty>{position}</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Діаметр "d1": <InfoOfProperty>{formatSize(d1)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            {d2 ? <NameOfProperty>
-                                <ButtonWrapper>
-                                    Діаметр "d2": <InfoOfProperty>{formatSize(d2)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty> : null}
-
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Діаметр "D": <InfoOfProperty>{formatSize(D)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            {h1 ? <NameOfProperty>
-                                <ButtonWrapper>
-                                    Висота "h1": <InfoOfProperty>{formatSize(h1)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty> : null}
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Висота "H": <InfoOfProperty>{formatSize(H)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                        </PropertyWrapper>
-
-                        <PropertyWrapper>
-                            <PhotoTitle>Аналоги</PhotoTitle>
-                        </PropertyWrapper>
-
                         <ImagesWrapper>
                             <ImageWrapper>
                                 <PhotoTitle>Схема:</PhotoTitle>
 
                                 <img
-                                    src={type_7V1}
-                                    alt="rack view"
+                                    src={selectedImageSrc}
+                                    alt="stuffing-box view"
                                     sizes="(max-width: 767px) 300px, 500px"
                                 ></img>
 
                             </ImageWrapper>
                         </ImagesWrapper>
+                        <PropertyWrapper>
+                            <PhotoTitle>Характеристики:</PhotoTitle>
+                            <NameOfProperty>
+                                <ButtonWrapper>
+                                    Тип сальника (конструктив): <InfoOfProperty>{type}</InfoOfProperty>
+                                </ButtonWrapper>
+                            </NameOfProperty>
+                            <NameOfProperty>
+                                <ButtonWrapper>
+                                    Застосування (місце
+                                    встановлення): <InfoOfProperty>({stuffPosition(position)}) {position}</InfoOfProperty>
+                                </ButtonWrapper>
+                            </NameOfProperty>
+                            <NameOfProperty>
+                                <ButtonWrapper>
+                                    Діаметр "d1" (діаметр
+                                    внутрішній): <InfoOfProperty>{formatSize(d1)} мм</InfoOfProperty>
+                                </ButtonWrapper>
+                            </NameOfProperty>
+                            {d2 ? <NameOfProperty>
+                                <ButtonWrapper>
+                                    Діаметр "d2" (діаметр зовнішній
+                                    малий): <InfoOfProperty>{formatSize(d2)} мм</InfoOfProperty>
+                                </ButtonWrapper>
+                            </NameOfProperty> : null}
+
+                            <NameOfProperty>
+                                <ButtonWrapper>
+                                    Діаметр "D" (діаметр зовнішній): <InfoOfProperty>{formatSize(D)} мм</InfoOfProperty>
+                                </ButtonWrapper>
+                            </NameOfProperty>
+                            {h1 ? <NameOfProperty>
+                                <ButtonWrapper>
+                                    Висота "h1" (висота зовнішньої
+                                    кромки): <InfoOfProperty>{formatSize(h1)} мм</InfoOfProperty>
+                                </ButtonWrapper>
+                            </NameOfProperty> : null}
+                            <NameOfProperty>
+                                <ButtonWrapper>
+                                    Висота "H" (висота сальника
+                                    повна): <InfoOfProperty>{formatSize(H)} мм</InfoOfProperty>
+                                </ButtonWrapper>
+                            </NameOfProperty>
+                        </PropertyWrapper>
+
+                        <PropertyWrapper>
+                            <PhotoTitle>Аналоги:</PhotoTitle>
+
+                        </PropertyWrapper>
 
                     </Wrapper>
                     {isOpen && (

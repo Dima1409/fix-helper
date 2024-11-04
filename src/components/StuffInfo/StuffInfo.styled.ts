@@ -3,7 +3,6 @@ import {theme} from "theme/theme";
 
 const Wrapper = styled.div`
     margin: 0 auto;
-    width: 260px;
 
     ${theme.mq.tablet} {
         width: 700px;
@@ -35,19 +34,32 @@ const ButtonWrapper = styled.div`
 
 const NameOfProperty = styled.div`
     color: ${theme.colors.dark};
-    font-size: ${theme.fontSizes.normal};
     word-wrap: break-word;
     margin-bottom: 18px;
+    font-size: ${theme.fontSizes.small};
+    border: 1px dotted ${theme.colors.transfers};
+    border-radius: ${theme.radii.small};
+    padding: 4px 2px;
+    ${theme.mq.tablet} {
+        font-size: ${theme.fontSizes.normal};
+        padding: 10px 8px;
+    }
 `;
 
-const InfoOfProperty = styled.span`
+const HeadOfProperty = styled.span`
     color: ${theme.colors.accentActive};
-    font-weight: 400;
-    font-size: ${theme.fontSizes.small};
+    font-weight: 800;
+    font-size: ${theme.fontSizes.bold};
+    text-align: right;
 
     ${theme.mq.tablet} {
         margin-left: auto;
     }
+`;
+
+const InfoOfProperty = styled(HeadOfProperty)`
+    font-size: ${theme.fontSizes.small};
+    font-weight: 400;
 `;
 
 const MoreButton = styled.button`
@@ -77,6 +89,8 @@ const EditButton = styled(MoreButton)`
 const PhotoTitle = styled.h3`
     margin-bottom: 10px;
     text-align: center;
+    padding: 10px;
+    color: ${theme.colors.valid};
 `;
 
 const ImagesWrapper = styled.div`
@@ -101,6 +115,7 @@ export {
     WrapperHeaderError,
     PropertyWrapper,
     NameOfProperty,
+    HeadOfProperty,
     InfoOfProperty,
     ButtonWrapper,
     MoreButton,
