@@ -7,20 +7,20 @@ const TabsContainer = styled.div`
     margin-top: 20px;
 `
 
-const Tab = styled.div<{ isActive: boolean }>`
+const Tab = styled.div<{ isactive: boolean }>`
     padding: 10px 20px;
     cursor: pointer;
     color: ${theme.colors.light};
-    background-color: ${({isActive}) => (isActive ? `${theme.colors.accentActive}` : `${theme.colors.spinner}`)};
+    background-color: ${({ isactive }) =>
+            isactive ? `${theme.colors.accentActive}` : `${theme.colors.spinner}`};
     margin: 0 5px;
     border-radius: 5px;
     transition: ${theme.transitions.durations.default};
-
-    &:hover {
-        cursor: pointer;
+    &[data-isactive='true'] {
         box-shadow: 0 0 5px ${theme.colors.accentActive};
     }
-`
+`;
+
 
 const TabContent = styled.div`
     padding: 20px 0;

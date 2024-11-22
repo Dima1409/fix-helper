@@ -32,10 +32,10 @@ const SteeringPage: React.FC = () => {
     return (
         <div>
             <TabsContainer>
-                <Tab isActive={activeTab === 0} onClick={() => handleTabClick(0, "racks")}>
+                <Tab isactive={activeTab === 0} onClick={() => handleTabClick(0, "racks")}>
                     Рейки
                 </Tab>
-                <Tab isActive={activeTab === 1} onClick={() => handleTabClick(1, "stuffing-box")}>
+                <Tab isactive={activeTab === 1} onClick={() => handleTabClick(1, "stuffing-box")}>
                     Сальники
                 </Tab>
             </TabsContainer>
