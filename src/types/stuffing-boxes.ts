@@ -5,6 +5,11 @@ export interface Property {
     description: string;
 }
 
+export interface Analog {
+    name: string;
+    type: string;
+}
+
 export interface Stuff {
     _id?: string;
     name: string;
@@ -15,6 +20,7 @@ export interface Stuff {
     D: string;
     h1?: string;
     H: string;
+    analogs?: Analog[];
     createdAt?: string;
     updatedAt?: string;
 }
@@ -28,4 +34,5 @@ export const initialState: Stuff = {
     D: "",
     h1: "",
     H: "",
+    analogs: []
 };

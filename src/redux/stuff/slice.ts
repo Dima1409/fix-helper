@@ -5,7 +5,7 @@ import {
     getByName,
     createNewStuff,
     updateStuff,
-    deleteStuff
+    deleteStuff,
 } from "./operations"
 import {Stuff} from "../../types/stuffing-boxes";
 
@@ -91,7 +91,7 @@ const StuffSlice = createSlice({
                     );
                     state.stuff.splice(index, 1);
                 }
-            );
+            )
     },
 });
 

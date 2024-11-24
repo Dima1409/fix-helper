@@ -22,8 +22,12 @@ import useAuth from "hooks/useAuth";
 import typeS from "./types";
 import {TypeKeys} from "./types";
 import EditStuffForm from "../EditStuffForm";
+import {getByName} from "../../redux/stuff/operations";
+import {useDispatch} from "react-redux";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
 const RackInfo: React.FC = () => {
+    const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
     const {isOpen, open, close} = useToggle();
     const {stuff}: { stuff: Stuff } = useStuff();
     const {isError} = useStuff();
@@ -42,6 +46,7 @@ const RackInfo: React.FC = () => {
         D,
         h1,
         H,
+        analogs
     } = stuff;
 
     const selectedImageSrc = typeS[`type_${type.slice(0, 1)}` as TypeKeys];
@@ -69,7 +74,6 @@ const RackInfo: React.FC = () => {
         }
         return elem;
     }
-
 
     return (
         <Wrapper>
@@ -155,6 +159,30 @@ const RackInfo: React.FC = () => {
 
                         <PropertyWrapper>
                             <PhotoTitle>Аналоги:</PhotoTitle>
+                            {analogs && analogs?.length > 0 ? (
+                                <ul>
+                                    {analogs?.map((analog, index) => (
+                                        <li
+                                            style={{
+                                                textAlign: 'center',
+                                                padding: '8px 0',
+                                                margin: '0 auto 8px',
+                                                maxWidth: '320px',
+                                                borderBottom: '1px solid green'
+                                            }}
+                                            key={index}
+                                        >
+                <span onClick={()=>dispatchTyped(getByName({name}))}>
+                    Артикул: <span style={{color: 'blue', fontWeight: '500'}}>{analog.name}</span>
+                </span>
+                                            , Тип сальника: ({analog.type})
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p style={{textAlign: 'center', color: 'red', marginBottom: '8px'}}>Аналогів не знайдено</p>
+                            )}
+
 
                         </PropertyWrapper>
 
