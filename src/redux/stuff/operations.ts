@@ -2,10 +2,6 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import API from "services/AxiosConfig";
 import {Stuff} from "../../types/stuffing-boxes";
 
-interface GetByNamePayload {
-    name?: string;
-}
-
 const getAllStuff = createAsyncThunk("stuff/getAll", async (_, thunkAPI) => {
     try {
         const response = await API.get("/stuff/getAll");
@@ -17,21 +13,18 @@ const getAllStuff = createAsyncThunk("stuff/getAll", async (_, thunkAPI) => {
 
 const getByName = createAsyncThunk(
     "stuff/getByName",
-    async (payload: GetByNamePayload, thunkAPI) => {
+    async (name: string, thunkAPI) => {
         try {
-            const params: { name?: string; } = {};
-            if (payload.name) {
-                params.name = payload.name;
-            }
             const response = await API.get("/stuff/getByName", {
-                params: params,
+                params: { name },
             });
             return response.data.data.result;
         } catch (error: any) {
-            throw thunkAPI.rejectWithValue(error.message);
+            return thunkAPI.rejectWithValue(error.message);
         }
     }
 );
+
 
 const getById = createAsyncThunk(
     "stuff/getById",

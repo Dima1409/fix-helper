@@ -59,13 +59,8 @@ const SearchFormStuff: React.FC = () => {
         try {
             setSearchData(initialValues);
             const searchValue = searchData.searchValue.trim().toUpperCase();
-            const isNumeric = searchValue.length > 8;
 
-            const queryParams = {
-                [isNumeric ? "oem" : "name"]: searchValue,
-            };
-
-            dispatchTyped(getByName(queryParams));
+            dispatchTyped(getByName(searchValue));
         } catch (error) {
             console.log(error);
         }
@@ -95,7 +90,7 @@ const SearchFormStuff: React.FC = () => {
 
     const getByNameMore = async (elem: Stuff) => {
         setAllStuff([]);
-        dispatchTyped(getByName({name: elem.name}));
+        dispatchTyped(getByName(elem.name));
     };
 
     const deleteStuffById = async (id: string | undefined) => {

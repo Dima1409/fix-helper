@@ -168,19 +168,165 @@ const RackInfo: React.FC = () => {
                                                 padding: '8px 0',
                                                 margin: '0 auto 8px',
                                                 maxWidth: '320px',
-                                                borderBottom: '1px solid green'
                                             }}
                                             key={index}
                                         >
-                <span onClick={()=>dispatchTyped(getByName({name}))}>
-                    Артикул: <span style={{color: 'blue', fontWeight: '500'}}>{analog.name}</span>
-                </span>
-                                            , Тип сальника: ({analog.type})
+                                            <div
+                                                style={{
+                                                    display: 'table',
+                                                    width: '100%',
+                                                    marginTop: '8px',
+                                                    cursor: 'pointer',
+                                                    border: '1px solid',
+                                                    padding: '6px'
+                                                }}
+                                                onClick={() => dispatchTyped(getByName(analog.name))}
+                                            >
+                                                <div
+                                                    style={{
+                                                        display: 'table-row',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'table-cell',
+                                                            padding: '4px 8px',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        Артикул:
+                                                    </div>
+                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                        <span style={{
+                                                            color: 'blue',
+                                                            fontWeight: '500'
+                                                        }}>{analog.name}</span>
+                                                    </div>
+
+                                                </div>
+
+                                                <div
+                                                    style={{
+                                                        display: 'table-row',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'table-cell',
+                                                            padding: '4px 8px',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        Тип сальника:
+                                                    </div>
+                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                        {analog.type}
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    style={{
+                                                        display: 'table-row',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'table-cell',
+                                                            padding: '4px 8px',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        d1:
+                                                    </div>
+                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                        {formatSize(analog.d1)} мм
+                                                    </div>
+                                                </div>
+                                                {analog.d2 && (
+                                                    <div
+                                                        style={{
+                                                            display: 'table-row',
+                                                        }}
+                                                    >
+                                                        <div
+                                                            style={{
+                                                                display: 'table-cell',
+                                                                padding: '4px 8px',
+                                                                fontWeight: 'bold',
+                                                            }}
+                                                        >
+                                                            d2:
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                display: 'table-cell',
+                                                                padding: '4px 8px',
+                                                            }}
+                                                        >
+                                                            {formatSize(analog.d2)} мм
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <div
+                                                    style={{
+                                                        display: 'table-row',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'table-cell',
+                                                            padding: '4px 8px',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        D:
+                                                    </div>
+                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                        {formatSize(analog.D)} мм
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    style={{
+                                                        display: 'table-row',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'table-cell',
+                                                            padding: '4px 8px',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        h1:
+                                                    </div>
+                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                        {h1 !== undefined ? formatSize(h1) : formatSize(analog.h1 ?? '')} мм
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    style={{
+                                                        display: 'table-row',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            display: 'table-cell',
+                                                            padding: '4px 8px',
+                                                            fontWeight: 'bold',
+                                                        }}
+                                                    >
+                                                        H:
+                                                    </div>
+                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                        {formatSize(analog.H)} мм
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
                             ) : (
-                                <p style={{textAlign: 'center', color: 'red', marginBottom: '8px'}}>Аналогів не знайдено</p>
+                                <p style={{textAlign: 'center', color: 'red', marginBottom: '8px'}}>Аналогів не
+                                    знайдено</p>
                             )}
 
 

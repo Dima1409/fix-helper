@@ -8,6 +8,11 @@ export interface Property {
 export interface Analog {
     name: string;
     type: string;
+    d1: string;
+    d2?: string;
+    D: string;
+    h1?: string;
+    H: string;
 }
 
 export interface Stuff {
