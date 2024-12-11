@@ -6,7 +6,6 @@ import Modal from "components/Modal";
 import {
     Wrapper,
     WrapperHeader,
-    WrapperHeaderError,
     PropertyWrapper,
     NameOfProperty,
     InfoOfProperty,
@@ -30,7 +29,6 @@ const RackInfo: React.FC = () => {
     const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
     const {isOpen, open, close} = useToggle();
     const {stuff}: { stuff: Stuff } = useStuff();
-    const {isError} = useStuff();
     const {user} = useAuth();
     const [showForm, setShowForm] = useState(false);
     const formatSize = (number: string) => {
@@ -77,273 +75,266 @@ const RackInfo: React.FC = () => {
 
     return (
         <Wrapper>
-            {isError ? (
-                <WrapperHeaderError>Нічого не знайдено</WrapperHeaderError>
-            ) : (
-                <>
-                    <WrapperHeader>Результат пошуку:</WrapperHeader>
+            <WrapperHeader>Результат пошуку:</WrapperHeader>
+            <NameOfProperty>
+                <ButtonWrapper>
+                    Артикул:{" "}
+                    {user.role === "admin" && (
+                        <EditButton
+                            onClick={() => {
+                                setShowForm(true);
+                                open();
+                            }}
+                        >
+                            <EditIcon color={theme.colors.light}/>
+                        </EditButton>
+                    )}
+                    <HeadOfProperty>{name}</HeadOfProperty>
+                </ButtonWrapper>
+            </NameOfProperty>
+
+            <Wrapper>
+                <ImagesWrapper>
+                    <ImageWrapper>
+                        <PhotoTitle>Схема:</PhotoTitle>
+
+                        <img
+                            src={selectedImageSrc}
+                            alt="stuffing-box view"
+                            sizes="(max-width: 767px) 300px, 500px"
+                        ></img>
+
+                    </ImageWrapper>
+                </ImagesWrapper>
+                <PropertyWrapper>
+                    <PhotoTitle>Характеристики:</PhotoTitle>
                     <NameOfProperty>
                         <ButtonWrapper>
-                            Артикул:{" "}
-                            {user.role === "admin" && (
-                                <EditButton
-                                    onClick={() => {
-                                        setShowForm(true);
-                                        open();
-                                    }}
-                                >
-                                    <EditIcon color={theme.colors.light}/>
-                                </EditButton>
-                            )}
-                            <HeadOfProperty>{name}</HeadOfProperty>
+                            Тип сальника (конструктив): <InfoOfProperty>{type}</InfoOfProperty>
                         </ButtonWrapper>
                     </NameOfProperty>
+                    <NameOfProperty>
+                        <ButtonWrapper>
+                            Застосування (місце
+                            встановлення): <InfoOfProperty>({stuffPosition(position)}) {position}</InfoOfProperty>
+                        </ButtonWrapper>
+                    </NameOfProperty>
+                    <NameOfProperty>
+                        <ButtonWrapper>
+                            Діаметр "d1" (діаметр
+                            внутрішній): <InfoOfProperty>{formatSize(d1)} мм</InfoOfProperty>
+                        </ButtonWrapper>
+                    </NameOfProperty>
+                    {d2 ? <NameOfProperty>
+                        <ButtonWrapper>
+                            Діаметр "d2" (діаметр зовнішній
+                            малий): <InfoOfProperty>{formatSize(d2)} мм</InfoOfProperty>
+                        </ButtonWrapper>
+                    </NameOfProperty> : null}
 
-                    <Wrapper>
-                        <ImagesWrapper>
-                            <ImageWrapper>
-                                <PhotoTitle>Схема:</PhotoTitle>
+                    <NameOfProperty>
+                        <ButtonWrapper>
+                            Діаметр "D" (діаметр зовнішній): <InfoOfProperty>{formatSize(D)} мм</InfoOfProperty>
+                        </ButtonWrapper>
+                    </NameOfProperty>
+                    {h1 ? <NameOfProperty>
+                        <ButtonWrapper>
+                            Висота "h1" (висота зовнішньої
+                            кромки): <InfoOfProperty>{formatSize(h1)} мм</InfoOfProperty>
+                        </ButtonWrapper>
+                    </NameOfProperty> : null}
+                    <NameOfProperty>
+                        <ButtonWrapper>
+                            Висота "H" (висота сальника
+                            повна): <InfoOfProperty>{formatSize(H)} мм</InfoOfProperty>
+                        </ButtonWrapper>
+                    </NameOfProperty>
+                </PropertyWrapper>
 
-                                <img
-                                    src={selectedImageSrc}
-                                    alt="stuffing-box view"
-                                    sizes="(max-width: 767px) 300px, 500px"
-                                ></img>
-
-                            </ImageWrapper>
-                        </ImagesWrapper>
-                        <PropertyWrapper>
-                            <PhotoTitle>Характеристики:</PhotoTitle>
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Тип сальника (конструктив): <InfoOfProperty>{type}</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Застосування (місце
-                                    встановлення): <InfoOfProperty>({stuffPosition(position)}) {position}</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Діаметр "d1" (діаметр
-                                    внутрішній): <InfoOfProperty>{formatSize(d1)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            {d2 ? <NameOfProperty>
-                                <ButtonWrapper>
-                                    Діаметр "d2" (діаметр зовнішній
-                                    малий): <InfoOfProperty>{formatSize(d2)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty> : null}
-
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Діаметр "D" (діаметр зовнішній): <InfoOfProperty>{formatSize(D)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                            {h1 ? <NameOfProperty>
-                                <ButtonWrapper>
-                                    Висота "h1" (висота зовнішньої
-                                    кромки): <InfoOfProperty>{formatSize(h1)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty> : null}
-                            <NameOfProperty>
-                                <ButtonWrapper>
-                                    Висота "H" (висота сальника
-                                    повна): <InfoOfProperty>{formatSize(H)} мм</InfoOfProperty>
-                                </ButtonWrapper>
-                            </NameOfProperty>
-                        </PropertyWrapper>
-
-                        <PropertyWrapper>
-                            <PhotoTitle>Аналоги:</PhotoTitle>
-                            {analogs && analogs?.length > 0 ? (
-                                <ul>
-                                    {analogs?.map((analog, index) => (
-                                        <li
+                <PropertyWrapper>
+                    <PhotoTitle>Аналоги:</PhotoTitle>
+                    {analogs && analogs?.length > 0 ? (
+                        <ul>
+                            {analogs?.map((analog, index) => (
+                                <li
+                                    style={{
+                                        textAlign: 'center',
+                                        padding: '8px 0',
+                                        margin: '0 auto 8px',
+                                        maxWidth: '300px',
+                                    }}
+                                    key={index}
+                                >
+                                    <div
+                                        style={{
+                                            display: 'table',
+                                            width: '100%',
+                                            marginTop: '8px',
+                                            cursor: 'pointer',
+                                            border: '1px solid',
+                                        }}
+                                        onClick={() => dispatchTyped(getByName(analog.name))}
+                                    >
+                                        <div
                                             style={{
-                                                textAlign: 'center',
-                                                padding: '8px 0',
-                                                margin: '0 auto 8px',
-                                                maxWidth: '320px',
+                                                display: 'table-row',
                                             }}
-                                            key={index}
                                         >
                                             <div
                                                 style={{
-                                                    display: 'table',
-                                                    width: '100%',
-                                                    marginTop: '8px',
-                                                    cursor: 'pointer',
-                                                    border: '1px solid',
-                                                    padding: '6px'
+                                                    display: 'table-cell',
+                                                    padding: '4px 8px',
+                                                    fontWeight: 'bold',
                                                 }}
-                                                onClick={() => dispatchTyped(getByName(analog.name))}
                                             >
-                                                <div
-                                                    style={{
-                                                        display: 'table-row',
-                                                    }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            display: 'table-cell',
-                                                            padding: '4px 8px',
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        Артикул:
-                                                    </div>
-                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                Артикул:
+                                            </div>
+                                            <div style={{display: 'table-cell', padding: '4px 8px'}}>
                                                         <span style={{
                                                             color: 'blue',
                                                             fontWeight: '500'
                                                         }}>{analog.name}</span>
-                                                    </div>
+                                            </div>
 
-                                                </div>
+                                        </div>
 
+                                        <div
+                                            style={{
+                                                display: 'table-row',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: 'table-cell',
+                                                    padding: '4px 8px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                            >
+                                                Тип сальника:
+                                            </div>
+                                            <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                {analog.type}
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: 'table-row',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: 'table-cell',
+                                                    padding: '4px 8px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                            >
+                                                d1:
+                                            </div>
+                                            <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                {formatSize(analog.d1)} мм
+                                            </div>
+                                        </div>
+                                        {analog.d2 && (
+                                            <div
+                                                style={{
+                                                    display: 'table-row',
+                                                }}
+                                            >
                                                 <div
                                                     style={{
-                                                        display: 'table-row',
+                                                        display: 'table-cell',
+                                                        padding: '4px 8px',
+                                                        fontWeight: 'bold',
                                                     }}
                                                 >
-                                                    <div
-                                                        style={{
-                                                            display: 'table-cell',
-                                                            padding: '4px 8px',
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        Тип сальника:
-                                                    </div>
-                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
-                                                        {analog.type}
-                                                    </div>
+                                                    d2:
                                                 </div>
                                                 <div
                                                     style={{
-                                                        display: 'table-row',
+                                                        display: 'table-cell',
+                                                        padding: '4px 8px',
                                                     }}
                                                 >
-                                                    <div
-                                                        style={{
-                                                            display: 'table-cell',
-                                                            padding: '4px 8px',
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        d1:
-                                                    </div>
-                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
-                                                        {formatSize(analog.d1)} мм
-                                                    </div>
-                                                </div>
-                                                {analog.d2 && (
-                                                    <div
-                                                        style={{
-                                                            display: 'table-row',
-                                                        }}
-                                                    >
-                                                        <div
-                                                            style={{
-                                                                display: 'table-cell',
-                                                                padding: '4px 8px',
-                                                                fontWeight: 'bold',
-                                                            }}
-                                                        >
-                                                            d2:
-                                                        </div>
-                                                        <div
-                                                            style={{
-                                                                display: 'table-cell',
-                                                                padding: '4px 8px',
-                                                            }}
-                                                        >
-                                                            {formatSize(analog.d2)} мм
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                <div
-                                                    style={{
-                                                        display: 'table-row',
-                                                    }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            display: 'table-cell',
-                                                            padding: '4px 8px',
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        D:
-                                                    </div>
-                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
-                                                        {formatSize(analog.D)} мм
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        display: 'table-row',
-                                                    }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            display: 'table-cell',
-                                                            padding: '4px 8px',
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        h1:
-                                                    </div>
-                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
-                                                        {h1 !== undefined ? formatSize(h1) : formatSize(analog.h1 ?? '')} мм
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        display: 'table-row',
-                                                    }}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            display: 'table-cell',
-                                                            padding: '4px 8px',
-                                                            fontWeight: 'bold',
-                                                        }}
-                                                    >
-                                                        H:
-                                                    </div>
-                                                    <div style={{display: 'table-cell', padding: '4px 8px'}}>
-                                                        {formatSize(analog.H)} мм
-                                                    </div>
+                                                    {formatSize(analog.d2)} мм
                                                 </div>
                                             </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p style={{textAlign: 'center', color: 'red', marginBottom: '8px'}}>Аналогів не
-                                    знайдено</p>
-                            )}
-
-
-                        </PropertyWrapper>
-
-                    </Wrapper>
-                    {isOpen && (
-                        <Modal
-                            onClick={() => {
-                                setShowForm(false);
-                                close();
-                            }}
-                        >
-                            {showForm && <EditStuffForm data={stuff} closeModal={close}/>}
-                        </Modal>
+                                        )}
+                                        <div
+                                            style={{
+                                                display: 'table-row',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: 'table-cell',
+                                                    padding: '4px 8px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                            >
+                                                D:
+                                            </div>
+                                            <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                {formatSize(analog.D)} мм
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: 'table-row',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: 'table-cell',
+                                                    padding: '4px 8px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                            >
+                                                h1:
+                                            </div>
+                                            <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                {h1 !== undefined ? formatSize(h1) : formatSize(analog.h1 ?? '')} мм
+                                            </div>
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: 'table-row',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: 'table-cell',
+                                                    padding: '4px 8px',
+                                                    fontWeight: 'bold',
+                                                }}
+                                            >
+                                                H:
+                                            </div>
+                                            <div style={{display: 'table-cell', padding: '4px 8px'}}>
+                                                {formatSize(analog.H)} мм
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p style={{textAlign: 'center', color: 'red', marginBottom: '8px'}}>Аналогів не
+                            знайдено</p>
                     )}
-                </>
+
+
+                </PropertyWrapper>
+
+            </Wrapper>
+            {isOpen && (
+                <Modal
+                    onClick={() => {
+                        setShowForm(false);
+                        close();
+                    }}
+                >
+                    {showForm && <EditStuffForm data={stuff} closeModal={close}/>}
+                </Modal>
             )}
         </Wrapper>
     );

@@ -11,7 +11,7 @@ import {
   NamesList,
   ButtonDelete,
 } from "./SearchForm.styled";
-import { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import useAuth from "hooks/useAuth";
 import { ThunkDispatch } from "@reduxjs/toolkit";
@@ -31,10 +31,11 @@ import { ToastContainer } from "react-toastify";
 import Notification from "components/Notify/Notify";
 import useRack from "hooks/useRack";
 import Spinner from "components/Spinner";
+import {WrapperHeaderError} from "../RackInfo/RackInfo.styled";
 
 const SearchForm: React.FC = () => {
   const { user } = useAuth();
-  const { isLoading } = useRack();
+  const { isLoading, isError } = useRack();
   const [showForm, setShowForm] = useState(false);
   const { isOpen, close, toggle } = useToggle();
   const [deleteStatus, setDeleteStatus] = useState<string>("");
@@ -202,8 +203,8 @@ const SearchForm: React.FC = () => {
           </StyledList>
         </div>
       ))}
+      {isError ? <WrapperHeaderError>Нічого не знайдено</WrapperHeaderError> : <RackInfo />}
 
-      <RackInfo />
     </>
   );
 };

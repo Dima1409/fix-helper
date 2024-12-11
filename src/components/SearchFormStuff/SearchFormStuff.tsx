@@ -11,7 +11,7 @@ import {
     NamesList,
     ButtonDelete,
 } from "./SearchFormStuff.styled";
-import {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 import {useDispatch} from "react-redux";
 import useAuth from "hooks/useAuth";
 import {ThunkDispatch} from "@reduxjs/toolkit";
@@ -31,10 +31,11 @@ import Notification from "components/Notify/Notify";
 import useStuff from "hooks/useStuff";
 import Spinner from "components/Spinner";
 import AddStuffForm from "../AddStuffForm";
+import {WrapperHeaderError} from "../RackInfo/RackInfo.styled";
 
 const SearchFormStuff: React.FC = () => {
     const {user} = useAuth();
-    const {isLoading} = useStuff();
+    const {isLoading, isError} = useStuff();
     const {stuff}: { stuff: Stuff } = useStuff();
     const [showForm, setShowForm] = useState(false);
     const {isOpen, close, toggle} = useToggle();
@@ -198,8 +199,8 @@ const SearchFormStuff: React.FC = () => {
                     </StyledList>
                 </div>
             ))}
-
-            {stuff._id && <StuffInfo/>}
+            {isError ? <WrapperHeaderError>Нічого не знайдено</WrapperHeaderError> : stuff._id && <StuffInfo/>}
+            {/*{stuff._id && <StuffInfo/>}*/}
         </>
     );
 };

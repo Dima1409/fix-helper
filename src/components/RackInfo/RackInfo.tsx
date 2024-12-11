@@ -6,7 +6,6 @@ import Modal from "components/Modal";
 import {
     Wrapper,
     WrapperHeader,
-    WrapperHeaderError,
     NameOfProperty,
     InfoOfProperty,
     ButtonWrapper,
@@ -37,11 +36,12 @@ import {ThunkDispatch} from "@reduxjs/toolkit";
 import Avatar from "react-avatar-edit";
 import useAuth from "hooks/useAuth";
 import Spinner from "components/Spinner";
+import {getByName as stuffName} from "../../redux/stuff/operations";
 
 const RackInfo: React.FC = () => {
     const {isOpen, open, close} = useToggle();
     const {rack}: { rack: Rack } = useRack();
-    const {isError, isLoading} = useRack();
+    const {isLoading} = useRack();
     const {user} = useAuth();
     const [showForm, setShowForm] = useState(false);
     const [showKit, setShowKit] = useState(false);
@@ -65,9 +65,35 @@ const RackInfo: React.FC = () => {
         mainCenterImage,
     } = rack;
     const [showAvatarInfo, setShowAvatarInfo] = useState(false);
+    const [showAnalogs, setShowAnalogs] = useState(false);
+    const [selectedArt, setSelectedArt] = useState<string | null>(null);
+    const [analogs, setAnalogs] = useState<any[]>([]);
+
     if (!application || !name) {
         return null;
     }
+
+    const handleShowAnalogs = async (art: string) => {
+        setShowKit(false);
+        setShowMore(false);
+        setSelectedArt(art);
+        setShowAnalogs(true);
+
+        try {
+            const response = await dispatch(stuffName(art));
+            setAnalogs(response.payload.analogs || []);
+        } catch (error) {
+            console.error("Error fetching analogs:", error);
+            setAnalogs([]);
+        }
+    };
+
+
+    const handleHideAnalogs = () => {
+        setShowAnalogs(false)
+        setShowKit(true);
+    }
+
 
     const renderedApplication = application.split("\n").map((item, index) => (
         <React.Fragment key={index}>
@@ -134,223 +160,241 @@ const RackInfo: React.FC = () => {
 
     return (
         <Wrapper>
-            {isError ? (
-                <WrapperHeaderError>Нічого не знайдено</WrapperHeaderError>
-            ) : (
-                <>
-                    <WrapperHeader>Результат пошуку:</WrapperHeader>
-                    <NameOfProperty>
-                        <ButtonWrapper>
-                            Артикул:{" "}
-                            {user.role === "admin" && (
-                                <EditButton
-                                    onClick={() => {
-                                        setShowForm(true);
-                                        open();
-                                    }}
-                                >
-                                    <EditIcon color={theme.colors.light}/>
-                                </EditButton>
-                            )}
-                            <InfoOfProperty>{name}</InfoOfProperty>
-                        </ButtonWrapper>
-                    </NameOfProperty>
-                    <ImagesWrapper>
-                        <ImageWrapper>
-                            <PhotoTitle>Загальне фото:</PhotoTitle>
-
-                            <img
-                                src={!mainImage || mainImage === "-" ? defaultImage : mainImage}
-                                alt="rack view"
-                                sizes="(max-width: 767px) 300px, 500px"
-                            ></img>
-
-                            {user.role === "admin" && (
-                                <EditPhoto
-                                    role={"button"} tabIndex={0}
-                                    onClick={() => {
-                                        setShowAvatarInfo(true);
-                                        setEditCenterImage(false);
-                                        open();
-                                    }}
-                                >
-                                    <EditIcon color={theme.colors.transfers}/>
-                                </EditPhoto>
-                            )}
-                        </ImageWrapper>
-                        <ShowCenterButton onClick={() => toggleCenterPhoto()}>
-                            {showCenterPhoto
-                                ? "Приховати центральне положення"
-                                : "Показати центральне положення"}
-                        </ShowCenterButton>
-                        {showCenterPhoto && (
-                            <ImageWrapper>
-                                <PhotoTitle>Центральне положення:</PhotoTitle>
-                                {mainCenterImage !== "-" ? (
-                                    <img
-                                        src={
-                                            !mainCenterImage || mainCenterImage === "-"
-                                                ? defaultImage
-                                                : mainCenterImage
-                                        }
-                                        alt="rack view center"
-                                        sizes="(max-width: 767px) 300px, 500px"
-                                    ></img>
-                                ) : (
-                                    <Spinner/>
-                                )}
-
-                                {user.role === "admin" && (
-                                    <EditPhoto
-                                        role={"button"} tabIndex={0}
-                                        onClick={() => {
-                                            setShowAvatarInfo(true);
-                                            setEditCenterImage(true);
-                                            open();
-                                        }}
-                                    >
-                                        <EditIcon color={theme.colors.transfers}/>
-                                    </EditPhoto>
-                                )}
-                            </ImageWrapper>
-                        )}
-                    </ImagesWrapper>
-
-                    <NameOfProperty>
-                        <ButtonWrapper>
-                            Тип: <InfoOfProperty>Агрегат з {type}</InfoOfProperty>
-                        </ButtonWrapper>
-                    </NameOfProperty>
-                    <NameOfProperty>
-                        <ButtonWrapper>
-                            Базовий РМК: <InfoOfProperty>{kit.name}</InfoOfProperty>
-                            <MoreButton
-                                onClick={() => {
-                                    setShowKit(true);
-                                    open();
-                                }}
-                            >
-                                <PlusIcon color={theme.colors.light}/>
-                            </MoreButton>
-                        </ButtonWrapper>
-                    </NameOfProperty>
-                    <NameOfProperty>
-                        <ButtonWrapper>
-                            Додатково: <InfoOfProperty>{more.name}</InfoOfProperty>{" "}
-                            <MoreButton
-                                onClick={() => {
-                                    setShowMore(true);
-                                    open();
-                                }}
-                            >
-                                <PlusIcon color={theme.colors.light}/>
-                            </MoreButton>
-                        </ButtonWrapper>
-                    </NameOfProperty>
-                    <NameOfProperty>
-                        Застосування: <InfoOfProperty>{renderedApplication}</InfoOfProperty>
-                    </NameOfProperty>
-                    <NameOfProperty>
-                        Оригінальні номери: <InfoOfProperty>{oem}</InfoOfProperty>
-                    </NameOfProperty>
-                    {isOpen && (
-                        <Modal
+            <WrapperHeader>Результат пошуку:</WrapperHeader>
+            <NameOfProperty>
+                <ButtonWrapper>
+                    Артикул:{" "}
+                    {user.role === "admin" && (
+                        <EditButton
                             onClick={() => {
-                                setShowAvatarInfo(false);
-                                setEditCenterImage(false);
-                                setShowForm(false);
-                                setShowKit(false);
-                                setShowMore(false);
-                                close();
+                                setShowForm(true);
+                                open();
                             }}
                         >
-                            {showKit && (
-                                <>
-                                    <StyledTable>
-                                        <thead>
-                                        <tr>
-                                            <StyledTh>Артикул</StyledTh>
-                                            <StyledTh>Шт</StyledTh>
-                                            <StyledTh>Опис</StyledTh>
+                            <EditIcon color={theme.colors.light}/>
+                        </EditButton>
+                    )}
+                    <InfoOfProperty>{name}</InfoOfProperty>
+                </ButtonWrapper>
+            </NameOfProperty>
+            <ImagesWrapper>
+                <ImageWrapper>
+                    <PhotoTitle>Загальне фото:</PhotoTitle>
+
+                    <img
+                        src={!mainImage || mainImage === "-" ? defaultImage : mainImage}
+                        alt="rack view"
+                        sizes="(max-width: 767px) 300px, 500px"
+                    ></img>
+
+                    {user.role === "admin" && (
+                        <EditPhoto
+                            role={"button"} tabIndex={0}
+                            onClick={() => {
+                                setShowAvatarInfo(true);
+                                setEditCenterImage(false);
+                                open();
+                            }}
+                        >
+                            <EditIcon color={theme.colors.transfers}/>
+                        </EditPhoto>
+                    )}
+                </ImageWrapper>
+                <ShowCenterButton onClick={() => toggleCenterPhoto()}>
+                    {showCenterPhoto
+                        ? "Приховати центральне положення"
+                        : "Показати центральне положення"}
+                </ShowCenterButton>
+                {showCenterPhoto && (
+                    <ImageWrapper>
+                        <PhotoTitle>Центральне положення:</PhotoTitle>
+                        {mainCenterImage !== "-" ? (
+                            <img
+                                src={
+                                    !mainCenterImage || mainCenterImage === "-"
+                                        ? defaultImage
+                                        : mainCenterImage
+                                }
+                                alt="rack view center"
+                                sizes="(max-width: 767px) 300px, 500px"
+                            ></img>
+                        ) : (
+                            <Spinner/>
+                        )}
+
+                        {user.role === "admin" && (
+                            <EditPhoto
+                                role={"button"} tabIndex={0}
+                                onClick={() => {
+                                    setShowAvatarInfo(true);
+                                    setEditCenterImage(true);
+                                    open();
+                                }}
+                            >
+                                <EditIcon color={theme.colors.transfers}/>
+                            </EditPhoto>
+                        )}
+                    </ImageWrapper>
+                )}
+            </ImagesWrapper>
+
+            <NameOfProperty>
+                <ButtonWrapper>
+                    Тип: <InfoOfProperty>Агрегат з {type}</InfoOfProperty>
+                </ButtonWrapper>
+            </NameOfProperty>
+            <NameOfProperty>
+                <ButtonWrapper>
+                    Базовий РМК: <InfoOfProperty>{kit.name}</InfoOfProperty>
+                    <MoreButton
+                        onClick={() => {
+                            setShowKit(true);
+                            setShowAnalogs(false)
+                            open();
+                        }}
+                    >
+                        <PlusIcon color={theme.colors.light}/>
+                    </MoreButton>
+                </ButtonWrapper>
+            </NameOfProperty>
+            <NameOfProperty>
+                <ButtonWrapper>
+                    Додатково: <InfoOfProperty>{more.name}</InfoOfProperty>{" "}
+                    <MoreButton
+                        onClick={() => {
+                            setShowMore(true);
+                            open();
+                        }}
+                    >
+                        <PlusIcon color={theme.colors.light}/>
+                    </MoreButton>
+                </ButtonWrapper>
+            </NameOfProperty>
+            <NameOfProperty>
+                Застосування: <InfoOfProperty>{renderedApplication}</InfoOfProperty>
+            </NameOfProperty>
+            <NameOfProperty>
+                Оригінальні номери: <InfoOfProperty>{oem}</InfoOfProperty>
+            </NameOfProperty>
+            {isOpen && (
+                <Modal
+                    onClick={() => {
+                        setShowAvatarInfo(false);
+                        setEditCenterImage(false);
+                        setShowForm(false);
+                        setShowKit(false);
+                        setShowMore(false);
+                        setShowAnalogs(false);
+                        close();
+                    }}
+                >
+                    {showKit && (
+                        <>
+                            <StyledTable>
+                                <thead>
+                                <tr>
+                                    <StyledTh>Артикул</StyledTh>
+                                    <StyledTh>Шт</StyledTh>
+                                    <StyledTh>Опис</StyledTh>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {kit.property.map(
+                                    ({_id, art, quantity, description}) => (
+                                        <tr key={_id}>
+                                            <StyledTd
+                                                onClick={() => {
+                                                    handleShowAnalogs(art);
+                                                }}
+                                            >
+                                                {art}
+                                            </StyledTd>
+                                            <StyledTd>{quantity}</StyledTd>
+                                            <StyledTd>{description}</StyledTd>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        {kit.property.map(
-                                            ({_id, art, quantity, description}) => (
-                                                <tr key={_id}>
-                                                    <StyledTd>{art}</StyledTd>
-                                                    <StyledTd>{quantity}</StyledTd>
-                                                    <StyledTd>{description}</StyledTd>
-                                                </tr>
-                                            )
-                                        )}
-                                        </tbody>
-                                    </StyledTable>
-                                </>
-                            )}
-                            {showMore && (
-                                <>
-                                    <StyledTable>
-                                        <thead>
-                                        <tr>
-                                            <StyledTh>Артикул</StyledTh>
-                                            <StyledTh>Шт</StyledTh>
-                                            <StyledTh>Опис</StyledTh>
+                                    )
+                                )}
+                                </tbody>
+                            </StyledTable>
+                        </>
+                    )}
+                    {showMore && (
+                        <>
+                            <StyledTable>
+                                <thead>
+                                <tr>
+                                    <StyledTh>Артикул</StyledTh>
+                                    <StyledTh>Шт</StyledTh>
+                                    <StyledTh>Опис</StyledTh>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {more.property.map(
+                                    ({_id, art, quantity, description}) => (
+                                        <tr key={_id}>
+                                            <StyledTd>{art}</StyledTd>
+                                            <StyledTd>{quantity}</StyledTd>
+                                            <StyledTd>{description}</StyledTd>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        {more.property.map(
-                                            ({_id, art, quantity, description}) => (
-                                                <tr key={_id}>
-                                                    <StyledTd>{art}</StyledTd>
-                                                    <StyledTd>{quantity}</StyledTd>
-                                                    <StyledTd>{description}</StyledTd>
-                                                </tr>
-                                            )
-                                        )}
-                                        </tbody>
-                                    </StyledTable>
-                                </>
-                            )}
-                            {showAvatarInfo && (
-                                <AvatarWrapper>
-                                    <Avatar
-                                        width={240}
-                                        height={180}
-                                        exportSize={10}
-                                        onBeforeFileLoad={onBeforeFileLoad}
-                                        mimeTypes="image/jpeg, image/png, image/jpg, image/webp"
-                                        label="Виберіть новий файл"
-                                        onFileLoad={(
-                                            file: File | ChangeEvent<HTMLInputElement>
-                                        ) => {
-                                            if (file instanceof File) {
-                                                handleFileChange(
-                                                    file,
-                                                    editCenterImage ? "center" : "main"
-                                                );
-                                            }
-                                        }}
-                                    />
-                                    <p>*максимум 50kB</p>
-                                    <p>*найкращий формат зображення 580х250</p>
-                                    <ButtonEditAvatar
-                                        disabled={false}
-                                        onClick={() =>
-                                            handleFileUpload(editCenterImage ? "center" : "main")
-                                        }
-                                    >
-                                        {isLoading ? <Spinner/> : 'зберегти'}
-                                    </ButtonEditAvatar>
-                                </AvatarWrapper>
-                            )}
-                            {showForm && <EditRackForm data={rack} closeModal={close}/>}
+                                    )
+                                )}
+                                </tbody>
+                            </StyledTable>
+                        </>
+                    )}
+                    {showAnalogs && (
+                        <Modal onClick={() => handleHideAnalogs()}>
+                            <div>
+                                <h3 style={{textAlign: 'center', marginBottom: '60px'}}>Аналоги для <span style={{color: 'green'}}>{selectedArt}</span>:</h3>
+                                {isLoading ? (
+                                    <Spinner/>
+                                ) : analogs.length > 0 ? (
+                                    analogs.map((item) => (
+                                        <p key={item.id} style={{textAlign: 'center', color: "blue", marginBottom: "10px"}}>{item.name}</p>
+                                    ))
+                                ) : (
+                                    <p>Аналогів не знайдено.</p>
+                                )}
+                            </div>
                         </Modal>
                     )}
-                </>
+                    {showAvatarInfo && (
+                        <AvatarWrapper>
+                            <Avatar
+                                width={240}
+                                height={180}
+                                exportSize={10}
+                                onBeforeFileLoad={onBeforeFileLoad}
+                                mimeTypes="image/jpeg, image/png, image/jpg, image/webp"
+                                label="Виберіть новий файл"
+                                onFileLoad={(
+                                    file: File | ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    if (file instanceof File) {
+                                        handleFileChange(
+                                            file,
+                                            editCenterImage ? "center" : "main"
+                                        );
+                                    }
+                                }}
+                            />
+                            <p>*максимум 50kB</p>
+                            <p>*найкращий формат зображення 580х250</p>
+                            <ButtonEditAvatar
+                                disabled={false}
+                                onClick={() =>
+                                    handleFileUpload(editCenterImage ? "center" : "main")
+                                }
+                            >
+                                {isLoading ? <Spinner/> : 'зберегти'}
+                            </ButtonEditAvatar>
+                        </AvatarWrapper>
+                    )}
+                    {showForm && <EditRackForm data={rack} closeModal={close}/>}
+                </Modal>
             )}
         </Wrapper>
-    );
+    )
 };
 
 export default RackInfo;

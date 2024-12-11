@@ -103,7 +103,6 @@ const EditPhoto = styled(MoreButton)`
 
 const StyledTable = styled.table`
   border-collapse: collapse;
-  position: 0;
   margin: 0 auto;
   width: auto;
   font-size: ${theme.fontSizes.smallest};
@@ -115,7 +114,7 @@ const StyledTable = styled.table`
 
 const StyledTh = styled.th`
   border: 1px solid ${theme.colors.light};
-  padding: 2px;
+  padding: 10px 4px;
   text-align: center;
   color: ${theme.colors.accentActive};
   white-space: nowrap;
@@ -123,11 +122,12 @@ const StyledTh = styled.th`
 
 const StyledTd = styled.td`
   border: 1px solid ${theme.colors.light};
-  padding: 2px;
+  padding: 10px 2px;
   color: ${theme.colors.dark};
   text-align: center;
   font-size: ${theme.fontSizes.smallest};
   white-space: nowrap;
+  cursor: pointer;
   &:last-child {
     text-align: start;
   }
