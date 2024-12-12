@@ -1,4 +1,5 @@
 import useRack from "hooks/useRack";
+import useStuff from "../../hooks/useStuff";
 import {Rack} from "types/racks";
 import React, {useState, ChangeEvent} from "react";
 import useToggle from "hooks/useToggle";
@@ -37,11 +38,13 @@ import Avatar from "react-avatar-edit";
 import useAuth from "hooks/useAuth";
 import Spinner from "components/Spinner";
 import {getByName as stuffName} from "../../redux/stuff/operations";
+import {stuffPosition} from "../StuffInfo/position";
 
 const RackInfo: React.FC = () => {
     const {isOpen, open, close} = useToggle();
     const {rack}: { rack: Rack } = useRack();
     const {isLoading} = useRack();
+    const {isLoading: stuffLoading} = useStuff();
     const {user} = useAuth();
     const [showForm, setShowForm] = useState(false);
     const [showKit, setShowKit] = useState(false);
@@ -345,13 +348,56 @@ const RackInfo: React.FC = () => {
                     {showAnalogs && (
                         <Modal onClick={() => handleHideAnalogs()}>
                             <div>
-                                <h3 style={{textAlign: 'center', marginBottom: '60px'}}>Аналоги для <span style={{color: 'green'}}>{selectedArt}</span>:</h3>
-                                {isLoading ? (
-                                    <Spinner/>
+                                <h3 style={{textAlign: 'center', marginBottom: '60px', color: 'white'}}>Аналоги для <span
+                                    style={{color: 'green'}}>{selectedArt}</span></h3>
+                                {stuffLoading ? (
+                                    <Spinner color={"white"} size={10}/>
                                 ) : analogs.length > 0 ? (
-                                    analogs.map((item) => (
-                                        <p key={item.id} style={{textAlign: 'center', color: "blue", marginBottom: "10px"}}>{item.name}</p>
-                                    ))
+                                    <table style={{margin: '0 auto', borderCollapse: 'collapse', width: '100%'}}>
+                                        <thead>
+                                        <tr>
+                                            <th style={{
+                                                border: '1px solid black',
+                                                padding: '10px',
+                                                backgroundColor: '#f0f0f0'
+                                            }}>Артикул
+                                            </th>
+                                            <th style={{
+                                                border: '1px solid black',
+                                                padding: '10px',
+                                                backgroundColor: '#f0f0f0'
+                                            }}>Тип
+                                            </th>
+                                            <th style={{
+                                                border: '1px solid black',
+                                                padding: '10px',
+                                                backgroundColor: '#f0f0f0'
+                                            }}>Конструктив
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {analogs.map((item) => (
+                                            <tr key={item.id}>
+                                                <td style={{
+                                                    border: '1px solid black',
+                                                    padding: '5px',
+                                                    textAlign: 'center'
+                                                }}>{item.name}</td>
+                                                <td style={{
+                                                    border: '1px solid black',
+                                                    padding: '5px',
+                                                    textAlign: 'center'
+                                                }}>{item.type}</td>
+                                                <td style={{
+                                                    border: '1px solid black',
+                                                    padding: '5px',
+                                                    textAlign: 'center'
+                                                }}>({stuffPosition(item.position)}) {item.position}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
                                 ) : (
                                     <p>Аналогів не знайдено.</p>
                                 )}

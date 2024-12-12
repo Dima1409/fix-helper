@@ -24,6 +24,7 @@ import EditStuffForm from "../EditStuffForm";
 import {getByName} from "../../redux/stuff/operations";
 import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "@reduxjs/toolkit";
+import {stuffPosition} from "./position";
 
 const RackInfo: React.FC = () => {
     const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
@@ -48,30 +49,6 @@ const RackInfo: React.FC = () => {
     } = stuff;
 
     const selectedImageSrc = typeS[`type_${type.slice(0, 1)}` as TypeKeys];
-
-    const stuffPosition = (posStuff: string) => {
-        let elem;
-        switch (posStuff) {
-            case 'CRE':
-                elem = "Сальник силовий гідроциліндра";
-                break;
-            case 'DIS':
-                elem = "Сальник розподільника";
-                break;
-            case 'PIS':
-                elem = "Сальник поршня редуктора"
-                break;
-            case 'SCA':
-                elem = "Сальник корпусу редуктора";
-                break;
-            case 'POM':
-                elem = "Сальник насосу ГПК"
-                break;
-            default:
-                elem = ''
-        }
-        return elem;
-    }
 
     return (
         <Wrapper>
