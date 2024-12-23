@@ -127,7 +127,12 @@ const StyledTd = styled.td`
   text-align: center;
   font-size: ${theme.fontSizes.smallest};
   white-space: nowrap;
-  cursor: pointer;
+  
+  &.stuff-analog {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 16px 10px;
+  }
   &:last-child {
     text-align: start;
   }

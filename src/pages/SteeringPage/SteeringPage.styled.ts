@@ -12,7 +12,7 @@ const Tab = styled.div<{ isactive: boolean }>`
     cursor: pointer;
     color: ${theme.colors.light};
     background-color: ${({ isactive }) =>
-            isactive ? `${theme.colors.accentActive}` : `${theme.colors.spinner}`};
+            isactive ? `${theme.colors.accentActive}` : `${theme.colors.accent}`};
     margin: 0 5px;
     border-radius: 5px;
     transition: ${theme.transitions.durations.default};

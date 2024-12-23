@@ -3,10 +3,12 @@ import SearchForm from "components/SearchForm";
 import SearchFormStuff from "components/SearchFormStuff";
 import {Route, Routes, useNavigate, useLocation} from "react-router-dom";
 import {TabsContainer, Tab, TabContent} from "./SteeringPage.styled";
+import useAuth from "../../hooks/useAuth";
 
 const SteeringPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const {isLoggedIn} = useAuth();
 
     const getInitialTab = (pathname: string) => {
         if (pathname.includes("stuffing-box")) {
@@ -21,6 +23,12 @@ const SteeringPage: React.FC = () => {
         setActiveTab(index);
         navigate(path);
     };
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate("/");
+        }
+    }, [isLoggedIn, navigate]);
 
     useEffect(() => {
         if (location.pathname === "/steering") {

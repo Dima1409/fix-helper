@@ -70,7 +70,9 @@ const ShowAll = styled(ButtonSearch)`
   width: 170px;
   padding: 8px 10px;
   font-size: ${theme.fontSizes.small};
-  &:hover {
+  &:hover,
+  &:focus,
+  &:active {
     box-shadow: 0 0 5px ${theme.colors.accentActive};
     color: ${theme.colors.light};
   }

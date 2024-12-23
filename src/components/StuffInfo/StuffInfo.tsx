@@ -26,7 +26,7 @@ import {useDispatch} from "react-redux";
 import {ThunkDispatch} from "@reduxjs/toolkit";
 import {stuffPosition} from "./position";
 
-const RackInfo: React.FC = () => {
+const StuffInfo: React.FC = () => {
     const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
     const {isOpen, open, close} = useToggle();
     const {stuff}: { stuff: Stuff } = useStuff();
@@ -317,4 +317,4 @@ const RackInfo: React.FC = () => {
     );
 };
 
-export default RackInfo;
+export default StuffInfo;

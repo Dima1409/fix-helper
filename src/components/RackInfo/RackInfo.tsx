@@ -306,6 +306,7 @@ const RackInfo: React.FC = () => {
                                     ({_id, art, quantity, description}) => (
                                         <tr key={_id}>
                                             <StyledTd
+                                                className={'stuff-analog'}
                                                 onClick={() => {
                                                     handleShowAnalogs(art);
                                                 }}

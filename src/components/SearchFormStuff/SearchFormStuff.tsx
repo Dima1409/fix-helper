@@ -32,6 +32,7 @@ import useStuff from "hooks/useStuff";
 import Spinner from "components/Spinner";
 import AddStuffForm from "../AddStuffForm";
 import {WrapperHeaderError} from "../RackInfo/RackInfo.styled";
+import StuffParameters from "../StuffParametres";
 
 const SearchFormStuff: React.FC = () => {
     const {user} = useAuth();
@@ -46,6 +47,13 @@ const SearchFormStuff: React.FC = () => {
     };
     const [searchData, setSearchData] = useState(initialValues);
     const [allStuff, setAllStuff] = useState<Stuff[]>([]);
+
+    const [showParameters, setShowParameters] = useState(false);
+
+    const handleToggleParameters = () => {
+        setShowParameters(!showParameters);
+        setAllStuff([])
+    };
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -84,6 +92,7 @@ const SearchFormStuff: React.FC = () => {
     const organizedStuff: { [key: string]: Stuff[] } = organizeStuffByAlphabet();
 
     const getAll = async () => {
+        setShowParameters(false);
         let res;
         res = dispatchTyped(getAllStuff());
         setAllStuff((await res).payload);
@@ -141,11 +150,14 @@ const SearchFormStuff: React.FC = () => {
             </Form>
             <ButtonsWrapper>
                 {allStuff.length === 0 && (
-                    <ShowAll onClick={() => getAll()}>Показати всі</ShowAll>
+                    <ShowAll type='button' onClick={() => getAll()}>Показати всі</ShowAll>
                 )}
                 {allStuff.length > 0 && (
-                    <ShowAll onClick={() => setAllStuff([])}>Сховати всі</ShowAll>
+                    <ShowAll type='button' onClick={() => setAllStuff([])}>Сховати всі</ShowAll>
                 )}
+                <ShowAll type="button" onClick={handleToggleParameters}>
+                    За розміром
+                </ShowAll>
                 {user.role === "admin" && (
                     <AddNewButton
                         onClick={() => {
@@ -157,6 +169,7 @@ const SearchFormStuff: React.FC = () => {
                     </AddNewButton>
                 )}
             </ButtonsWrapper>
+            {showParameters && <StuffParameters/>}
             {allStuff.length > 0 && (
                 <HeaderNames
                     style={{textAlign: "center", color: `${theme.colors.accent}`}}
@@ -178,7 +191,6 @@ const SearchFormStuff: React.FC = () => {
             {isLoading && <Spinner/>}
             {Object.keys(organizedStuff).map((letter: string) => (
                 <div key={letter}>
-                    <HeaderNames>{letter}</HeaderNames>
                     <StyledList>
                         {organizedStuff[letter].map((stuff) => (
                             <NamesList>
@@ -200,7 +212,6 @@ const SearchFormStuff: React.FC = () => {
                 </div>
             ))}
             {isError ? <WrapperHeaderError>Нічого не знайдено</WrapperHeaderError> : stuff._id && <StuffInfo/>}
-            {/*{stuff._id && <StuffInfo/>}*/}
         </>
     );
 };
