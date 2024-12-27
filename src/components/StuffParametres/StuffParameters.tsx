@@ -1,8 +1,27 @@
 import React, {useState} from "react";
+import {useDispatch} from "react-redux";
 import {Form, Label, Input, SelectForm, InputWrapper, NumberInput, Button, BtnSubmit} from "./StuffParameters.styled";
 import {typeP} from "../../utils/StuffPatterns";
+import {getByParameters} from "../../redux/stuff/operations";
+import {ThunkDispatch} from "@reduxjs/toolkit";
+
+interface FormData {
+    d1: string;
+    d1_range: string;
+    d2: string;
+    d2_range: string;
+    D: string;
+    D_range: string;
+    h1: string;
+    h1_range: string;
+    H: string;
+    H_range: string;
+    type: string;
+}
 
 const StuffParameters: React.FC = () => {
+
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const handleStepChange = (e: React.MouseEvent<HTMLButtonElement>, step: number, inputId: string) => {
         const input = document.getElementById(inputId) as HTMLInputElement;
@@ -39,6 +58,15 @@ const StuffParameters: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        const params: Record<string, any> = {};
+        for (const key in formData) {
+            if (formData[key as keyof FormData] !== "") {
+                params[key] = key.includes("range") ? parseFloat(formData[key as keyof FormData]) : formData[key as keyof FormData];
+            }
+        }
+
+        dispatch(getByParameters(params));
         console.log("Form values:", formData);
     };
 

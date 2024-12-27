@@ -24,6 +24,7 @@ import Notification from "components/Notify";
 import {initialState} from "types/stuffing-boxes";
 import useStuff from "hooks/useStuff";
 import Spinner from "components/Spinner";
+import {stuffPosition} from "../StuffInfo/position";
 
 interface AddFormProps {
     closeModal?: () => void
@@ -143,7 +144,7 @@ const AddStuffForm: React.FC<AddFormProps> = ({closeModal}) => {
                             Застосування
                         </option>
                         {positionP.map((pos) => (
-                            <option key={pos} value={pos}>{pos}</option>
+                            <option key={pos} value={pos}>({stuffPosition(pos)}) {pos}</option>
                         ))}
                     </SelectForm>
                 </WrapperForm>

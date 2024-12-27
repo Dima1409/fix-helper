@@ -6,6 +6,7 @@ import {
     createNewStuff,
     updateStuff,
     deleteStuff,
+    getByParameters
 } from "./operations"
 import {Stuff} from "../../types/stuffing-boxes";
 
@@ -41,6 +42,7 @@ const StuffSlice = createSlice({
             .addCase(updateStuff.pending, handlePending)
             .addCase(deleteStuff.pending, handlePending)
             .addCase(getById.pending, handlePending)
+            .addCase(getByParameters.pending, handlePending)
 
             .addCase(getAllStuff.rejected, handleRejected)
             .addCase(getByName.rejected, handleRejected)
@@ -48,6 +50,7 @@ const StuffSlice = createSlice({
             .addCase(createNewStuff.rejected, handleRejected)
             .addCase(updateStuff.rejected, handleRejected)
             .addCase(deleteStuff.rejected, handleRejected)
+            .addCase(getByParameters.rejected, handleRejected)
 
             .addCase(
                 getAllStuff.fulfilled,
@@ -73,6 +76,11 @@ const StuffSlice = createSlice({
                     state.stuff = [action.payload];
                 }
             )
+            .addCase(getByParameters.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = null;
+                state.stuff = action.payload
+            })
             .addCase(createNewStuff.fulfilled, (state: StuffState) => {
                 state.isLoading = false;
                 state.error = null;

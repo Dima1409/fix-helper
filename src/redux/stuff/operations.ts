@@ -16,8 +16,21 @@ const getByName = createAsyncThunk(
     async (name: string, thunkAPI) => {
         try {
             const response = await API.get("/stuff/getByName", {
-                params: { name },
+                params: {name},
             });
+            return response.data.data.result;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+const getByParameters = createAsyncThunk(
+    "stuff/getByParameters",
+    async (params: Record<string, any>, thunkAPI) => {
+        try {
+            const response = await API.get("/stuff/getByParameters",
+                {params});
             return response.data.data.result;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -91,4 +104,5 @@ export {
     createNewStuff,
     updateStuff,
     deleteStuff,
+    getByParameters
 };
