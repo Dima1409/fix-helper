@@ -39,6 +39,7 @@ import useAuth from "hooks/useAuth";
 import Spinner from "components/Spinner";
 import {getByName as stuffName} from "../../redux/stuff/operations";
 import {stuffPosition} from "../StuffInfo/position";
+import {Stuff} from "../../types/stuffing-boxes";
 
 const RackInfo: React.FC = () => {
     const {isOpen, open, close} = useToggle();
@@ -55,6 +56,7 @@ const RackInfo: React.FC = () => {
         null
     );
     const [editCenterImage, setEditCenterImage] = useState(false);
+    const [sizes, setSizes] = useState<Stuff>();
 
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
     const {
@@ -82,8 +84,9 @@ const RackInfo: React.FC = () => {
         setSelectedArt(art);
         setShowAnalogs(true);
 
+        const response = await dispatch(stuffName(art));
+           setSizes(response.payload);
         try {
-            const response = await dispatch(stuffName(art));
             setAnalogs(response.payload.analogs || []);
         } catch (error) {
             console.error("Error fetching analogs:", error);
@@ -349,8 +352,85 @@ const RackInfo: React.FC = () => {
                     {showAnalogs && (
                         <Modal onClick={() => handleHideAnalogs()}>
                             <div>
-                                <h3 style={{textAlign: 'center', marginBottom: '60px', color: 'white'}}>Аналоги для <span
-                                    style={{color: 'green'}}>{selectedArt}</span></h3>
+                                <h3 style={{textAlign: 'center', marginBottom: '10px', color: 'white'}}>Розміри <span
+                                        style={{color: 'green'}}>{selectedArt}</span></h3>
+                                <table style={{margin: '0 auto', borderCollapse: 'collapse', width: '100%', marginBottom: '10px'}}>
+                                    <thead>
+                                    <tr>
+                                        <th style={{
+                                            border: '1px solid black',
+                                            padding: '10px',
+                                            backgroundColor: '#f0f0f0'
+                                        }}>d1
+                                        </th>
+                                        <th style={{
+                                            border: '1px solid black',
+                                            padding: '10px',
+                                            backgroundColor: '#f0f0f0'
+                                        }}>d2
+                                        </th>
+                                        <th style={{
+                                            border: '1px solid black',
+                                            padding: '10px',
+                                            backgroundColor: '#f0f0f0'
+                                        }}>D
+                                        </th>
+                                        <th style={{
+                                            border: '1px solid black',
+                                            padding: '10px',
+                                            backgroundColor: '#f0f0f0'
+                                        }}>h1
+                                        </th>
+                                        <th style={{
+                                            border: '1px solid black',
+                                            padding: '10px',
+                                            backgroundColor: '#f0f0f0'
+                                        }}>H
+                                        </th>
+                                        <th style={{
+                                            border: '1px solid black',
+                                            padding: '10px',
+                                            backgroundColor: '#f0f0f0'
+                                        }}>Тип
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr key={sizes?._id}>
+                                        <td style={{
+                                            border: '1px solid black',
+                                            padding: '5px',
+                                            textAlign: 'center'
+                                        }}>{sizes?.d1}</td>
+                                        <td style={{
+                                            border: '1px solid black',
+                                            padding: '5px',
+                                            textAlign: 'center'
+                                        }}>{sizes?.d2 ? sizes.d2 : "-"}</td>
+                                        <td style={{
+                                            border: '1px solid black',
+                                            padding: '5px',
+                                            textAlign: 'center'
+                                        }}>{sizes?.D}</td>
+                                        <td style={{
+                                            border: '1px solid black',
+                                            padding: '5px',
+                                            textAlign: 'center'
+                                        }}>{sizes?.h1 ? sizes.h1 : "-"}</td>
+                                        <td style={{
+                                            border: '1px solid black',
+                                            padding: '5px',
+                                            textAlign: 'center'
+                                        }}>{sizes?.H}</td>
+                                        <td style={{
+                                            border: '1px solid black',
+                                            padding: '5px',
+                                            textAlign: 'center'
+                                        }}>{sizes?.type}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <h3 style={{textAlign: 'center', marginBottom: '20px', color: 'white'}}>Аналоги:</h3>
                                 {stuffLoading ? (
                                     <Spinner color={"white"} size={10}/>
                                 ) : analogs.length > 0 ? (
