@@ -5,6 +5,7 @@ import type_3 from "../../images/types/3.png"
 import type_4 from "../../images/types/4.png"
 import type_6 from "../../images/types/6.png"
 import type_7 from "../../images/types/7.png"
+import type_8 from "../../images/types/8.png"
 import type_9 from "../../images/types/9.png"
 import type_10 from "../../images/types/10.png"
 import type_11 from "../../images/types/11.png"
@@ -19,6 +20,7 @@ const typeS = {
     type_4,
     type_6,
     type_7,
+    type_8,
     type_9,
     type_10,
     type_11,

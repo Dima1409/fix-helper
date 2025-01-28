@@ -48,7 +48,9 @@ const StuffInfo: React.FC = () => {
         analogs
     } = stuff;
 
-    const selectedImageSrc = typeS[`type_${type.slice(0, 1)}` as TypeKeys];
+    const selectedImageSrc = (type === "12" || type === "15")
+        ? typeS[`type_${type}` as TypeKeys]
+        : typeS[`type_${type.slice(0, 1)}` as TypeKeys];
 
     return (
         <Wrapper>
