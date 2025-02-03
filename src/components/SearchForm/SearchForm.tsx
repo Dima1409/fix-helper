@@ -11,7 +11,7 @@ import {
   NamesList,
   ButtonDelete,
 } from "./SearchForm.styled";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import useAuth from "hooks/useAuth";
 import { ThunkDispatch } from "@reduxjs/toolkit";
@@ -23,6 +23,7 @@ import {
   getByName,
 } from "../../redux/rack/operations";
 import { Rack } from "types/racks";
+import { useParams, useNavigate } from "react-router-dom";
 import Modal from "components/Modal";
 import AddRackForm from "components/AddRackForm";
 import { DeleteIcon } from "components/Icons/Icons";
@@ -36,7 +37,10 @@ import {WrapperHeaderError} from "../RackInfo/RackInfo.styled";
 const SearchForm: React.FC = () => {
   const { user } = useAuth();
   const { isLoading, isError } = useRack();
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { isOpen, close, toggle } = useToggle();
   const [deleteStatus, setDeleteStatus] = useState<string>("");
   const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
@@ -45,6 +49,13 @@ const SearchForm: React.FC = () => {
   };
   const [searchData, setSearchData] = useState(initialValues);
   const [allRacks, setAllRacks] = useState<Rack[]>([]);
+
+  useEffect(() => {
+    if (id) {
+      dispatchTyped(getByName({ name: id.toUpperCase() }));
+    }
+  }, [id, dispatchTyped]);
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -57,17 +68,26 @@ const SearchForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
       setSearchData(initialValues);
+
       const searchValue = searchData.searchValue.trim().toUpperCase();
-      const isNumeric = searchValue.length > 5;
+      if (!searchValue) return;
 
-      const queryParams = {
-        [isNumeric ? "oem" : "name"]: searchValue,
-      };
+      const queryKey = searchValue.length > 5 ? "oem" : "name";
+      const queryParams = { [queryKey]: searchValue };
 
-      dispatchTyped(getByName(queryParams));
+      const { payload } = await dispatchTyped(getByName(queryParams));
+
+      if (payload?.name) {
+        navigate(`/steering/racks/${payload.name}`);
+      } else {
+        console.warn("No result found");
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,7 +115,7 @@ const SearchForm: React.FC = () => {
 
   const getByNameMore = async (elem: Rack) => {
     setAllRacks([]);
-    dispatchTyped(getByName({ name: elem.name }));
+    navigate(`/steering/racks/${elem.name}`);
   };
 
   const deleteRackById = async (id: string | undefined) => {
@@ -150,6 +170,7 @@ const SearchForm: React.FC = () => {
         {allRacks.length > 0 && (
           <ShowAll onClick={() => setAllRacks([])}>Сховати всі</ShowAll>
         )}
+        {/*<ShowAll>Пошук по авто</ShowAll>*/}
         {user.role === "admin" && (
           <AddNewButton
             onClick={() => {
@@ -179,7 +200,7 @@ const SearchForm: React.FC = () => {
           {showForm && <AddRackForm closeModal={close}/>}
         </Modal>
       )}
-      {isLoading && <Spinner />}
+      {(isLoading || loading) && <Spinner />}
       {Object.keys(organizedRacks).map((letter: string) => (
         <div key={letter}>
           <HeaderNames>{letter}</HeaderNames>

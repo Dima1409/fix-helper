@@ -21,17 +21,15 @@ import useAuth from "hooks/useAuth";
 import typeS from "./types";
 import {TypeKeys} from "./types";
 import EditStuffForm from "../EditStuffForm";
-import {getByName} from "../../redux/stuff/operations";
-import {useDispatch} from "react-redux";
-import {ThunkDispatch} from "@reduxjs/toolkit";
+import {useNavigate} from "react-router-dom";
 import {stuffPosition} from "./position";
 
 const StuffInfo: React.FC = () => {
-    const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
     const {isOpen, open, close} = useToggle();
     const {stuff}: { stuff: Stuff } = useStuff();
     const {user} = useAuth();
     const [showForm, setShowForm] = useState(false);
+    const navigate = useNavigate()
     const formatSize = (number: string) => {
         return Number(number).toFixed(2);
     };
@@ -152,7 +150,7 @@ const StuffInfo: React.FC = () => {
                                             cursor: 'pointer',
                                             border: '1px solid',
                                         }}
-                                        onClick={() => dispatchTyped(getByName(analog.name))}
+                                        onClick={() => navigate(`/steering/stuffing-box/${analog.name}`)}
                                     >
                                         <div
                                             style={{

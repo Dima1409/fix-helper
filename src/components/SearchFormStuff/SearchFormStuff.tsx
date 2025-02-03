@@ -11,7 +11,7 @@ import {
     NamesList,
     ButtonDelete,
 } from "./SearchFormStuff.styled";
-import React, {ChangeEvent, FormEvent, useState} from "react";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import useAuth from "hooks/useAuth";
 import {ThunkDispatch} from "@reduxjs/toolkit";
@@ -23,6 +23,7 @@ import {
     getByName,
 } from "../../redux/stuff/operations";
 import {Stuff} from "types/stuffing-boxes";
+import { useParams, useNavigate } from "react-router-dom";
 import Modal from "components/Modal";
 import {DeleteIcon} from "components/Icons/Icons";
 import {theme} from "theme/theme";
@@ -37,8 +38,11 @@ import StuffParameters from "../StuffParametres";
 const SearchFormStuff: React.FC = () => {
     const {user} = useAuth();
     const {isLoading, isError} = useStuff();
+    const { id } = useParams();
+    const navigate = useNavigate();
     const {stuff}: { stuff: Stuff } = useStuff();
     const [showForm, setShowForm] = useState(false);
+    const [loading, setLoading] = useState(false);
     const {isOpen, close, toggle} = useToggle();
     const [deleteStatus, setDeleteStatus] = useState<string>("");
     const dispatchTyped = useDispatch<ThunkDispatch<any, any, any>>();
@@ -50,10 +54,17 @@ const SearchFormStuff: React.FC = () => {
 
     const [showParameters, setShowParameters] = useState(false);
 
+    useEffect(() => {
+        if (id) {
+            dispatchTyped(getByName(id.toUpperCase()));
+        }
+    }, [id, dispatchTyped]);
+
     const handleToggleParameters = () => {
         setShowParameters(!showParameters);
         setAllStuff([])
     };
+
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -66,12 +77,21 @@ const SearchFormStuff: React.FC = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            setLoading(true);
             setSearchData(initialValues);
             const searchValue = searchData.searchValue.trim().toUpperCase();
 
-            dispatchTyped(getByName(searchValue));
+            const { payload } = await dispatchTyped(getByName(searchValue));
+
+            if (payload?.name) {
+                navigate(`/steering/stuffing-box/${payload.name}`);
+            } else {
+                console.warn("No result found");
+            }
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -100,7 +120,7 @@ const SearchFormStuff: React.FC = () => {
 
     const getByNameMore = async (elem: Stuff) => {
         setAllStuff([]);
-        dispatchTyped(getByName(elem.name));
+        navigate(`/steering/stuffing-box/${elem.name}`);
     };
 
     const deleteStuffById = async (id: string | undefined) => {
@@ -188,7 +208,7 @@ const SearchFormStuff: React.FC = () => {
                     {showForm && <AddStuffForm closeModal={close}/>}
                 </Modal>
             )}
-            {isLoading && <Spinner/>}
+            {(isLoading || loading) && <Spinner/>}
             {Object.keys(organizedStuff).map((letter: string) => (
                 <div key={letter}>
                     <StyledList>

@@ -10,14 +10,7 @@ const SteeringPage: React.FC = () => {
     const location = useLocation();
     const {isLoggedIn} = useAuth();
 
-    const getInitialTab = (pathname: string) => {
-        if (pathname.includes("stuffing-box")) {
-            return 1;
-        }
-        return 0;
-    };
-
-    const [activeTab, setActiveTab] = useState(getInitialTab(location.pathname));
+    const [activeTab, setActiveTab] = useState(0);
 
     const handleTabClick = (index: number, path: string) => {
         setActiveTab(index);
@@ -36,6 +29,10 @@ const SteeringPage: React.FC = () => {
         }
     }, [location.pathname, navigate]);
 
+    useEffect(() => {
+        setActiveTab(location.pathname.includes("stuffing-box") ? 1 : 0);
+    }, [location.pathname]);
+
 
     return (
         <div>
@@ -51,7 +48,9 @@ const SteeringPage: React.FC = () => {
             <TabContent>
                 <Routes>
                     <Route path="racks" element={<SearchForm/>}/>
+                    <Route path="racks/:id" element={<SearchForm/>}/>
                     <Route path="stuffing-box" element={<SearchFormStuff/>}/>
+                    <Route path="stuffing-box/:id" element={<SearchFormStuff/>}/>
                 </Routes>
             </TabContent>
         </div>
