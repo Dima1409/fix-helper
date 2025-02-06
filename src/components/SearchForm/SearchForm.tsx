@@ -80,7 +80,7 @@ const SearchForm: React.FC = () => {
       const { payload } = await dispatchTyped(getByName(queryParams));
 
       if (payload?.name) {
-        navigate(`/steering/racks/${payload.name}`);
+        navigate(`/steering/racks-by-number/${payload.name}`);
       } else {
         console.warn("No result found");
       }
@@ -115,7 +115,7 @@ const SearchForm: React.FC = () => {
 
   const getByNameMore = async (elem: Rack) => {
     setAllRacks([]);
-    navigate(`/steering/racks/${elem.name}`);
+    navigate(`/steering/racks-by-number/${elem.name}`);
   };
 
   const deleteRackById = async (id: string | undefined) => {

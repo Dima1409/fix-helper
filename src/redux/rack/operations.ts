@@ -49,6 +49,18 @@ const getById = createAsyncThunk(
     }
 );
 
+const getByApplication = createAsyncThunk(
+    "rack/getByApplication",
+    async (credentials: string, thunkAPI) => {
+        try {
+            const response = await API.get(`/rack/getByApplication?application=${credentials}`);
+            return response.data.data;
+        } catch (error: any) {
+            throw thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
 const createNewRack = createAsyncThunk(
     "/rack/new",
     async (credentials: Rack, thunkAPI) => {
@@ -161,5 +173,6 @@ export {
     deleteRack,
     updateMainImage,
     updateCenterImage,
-    deletePhoto
+    deletePhoto,
+    getByApplication
 };
