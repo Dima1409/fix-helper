@@ -4,6 +4,7 @@ import {Form, Label, Input, SelectForm, InputWrapper, NumberInput, Button, BtnSu
 import {typeP} from "../../utils/StuffPatterns";
 import {getByParameters} from "../../redux/stuff/operations";
 import {ThunkDispatch} from "@reduxjs/toolkit";
+import {useNavigate} from "react-router-dom";
 
 interface FormData {
     d1: string;
@@ -19,23 +20,12 @@ interface FormData {
     type: string;
 }
 
-// interface SearchResult {
-//     _id: string;
-//     name: string;
-//     type: string;
-//     position: string;
-//     d1: string;
-//     d2: string;
-//     h1: string;
-//     H: string;
-//     D: string;
-// }
-
 const StuffParameters: React.FC = () => {
 
     const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const [results, setResults] = useState<any[]>([]);
+    const navigate = useNavigate();
 
     const handleStepChange = (step: number, inputName: keyof FormData) => {
         setFormData((prevData) => {
@@ -54,15 +44,15 @@ const StuffParameters: React.FC = () => {
 
     const [formData, setFormData] = useState({
         d1: "",
-        range_d1: "",
+        range_d1: "0.3",
         d2: "",
-        range_d2: "",
+        range_d2: "0.3",
         D: "",
-        range_D: "",
+        range_D: "0.3",
         h1: "",
-        range_h1: "",
+        range_h1: "0.3",
         H: "",
-        range_H: "",
+        range_H: "0.3",
         type: ""
     });
 
@@ -96,6 +86,11 @@ const StuffParameters: React.FC = () => {
         } catch (err) {
             console.error("Ошибка при поиске:", err);
         }
+    };
+
+    const getByNameMore = async (name: string) => {
+        setResults([])
+        navigate(`/steering/stuffing-box/${name}`);
     };
 
     return (
@@ -206,9 +201,9 @@ const StuffParameters: React.FC = () => {
                 <BtnSubmit>Пошук</BtnSubmit>
             </Form>
             {results.length > 0 && (
-                <ul>
+                <ul style={{display: 'grid', gridTemplateColumns: '1fr 1fr', alignContent: 'center'}}>
                     {results.map((item) => (
-                        <li key={item._id} style={{border: "1px solid gray", margin: "10px", padding: "10px"}}>
+                        <li onClick={() => getByNameMore(item.name)} key={item._id} style={{cursor: 'pointer', border: "1px solid gray", margin: "5px", padding: "5px"}}>
                             <strong>Арт:</strong> {item.name} <br/>
                             <strong>Тип:</strong> {item.type} <br/>
                             <strong>Застосування:</strong> {item.position} <br/>

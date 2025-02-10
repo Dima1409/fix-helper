@@ -170,7 +170,6 @@ const SearchForm: React.FC = () => {
         {allRacks.length > 0 && (
           <ShowAll onClick={() => setAllRacks([])}>Сховати всі</ShowAll>
         )}
-        {/*<ShowAll>Пошук по авто</ShowAll>*/}
         {user.role === "admin" && (
           <AddNewButton
             onClick={() => {
